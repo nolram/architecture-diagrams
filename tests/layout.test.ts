@@ -118,4 +118,57 @@ edges:
     assert.ok(right.width > right.height, "direction right deveria produzir um canvas mais largo que alto");
     assert.ok(down.height > down.width, "direction down deveria produzir um canvas mais alto que largo");
   });
+
+  test("labels de edges em leque (mesmo source, vários targets) não se sobrepõem", async () => {
+    // Reproduz o caso real que colidia visualmente: um node com 3 edges de
+    // saída pra nodes irmãos, cada uma com label. Regressão para a correção
+    // que passou a informar largura/altura de label ao ELK (build-graph.ts).
+    const spec = parseOrThrow(`
+version: '1'
+direction: down
+nodes:
+  - id: gateway
+    label: API Gateway
+  - id: orders
+    label: Orders
+  - id: payments
+    label: Payments
+  - id: redis
+    label: Redis
+edges:
+  - from: gateway
+    to: orders
+    label: REST
+  - from: gateway
+    to: payments
+    label: REST
+  - from: gateway
+    to: redis
+    label: sessão R/W
+`);
+    const layout = await layoutSpec(spec);
+    const boxes = [...layout.edges.values()]
+      .filter((route) => route.labelPosition && route.labelSize)
+      .map((route) => ({ ...route.labelPosition!, ...route.labelSize! }));
+
+    assert.equal(boxes.length, 3);
+    for (const box of boxes) {
+      // se isso for 0, o ELK não recebeu dimensão de label nenhuma e não reservou
+      // espaço pra ele — é exatamente essa regressão que a checagem de overlap
+      // abaixo, sozinha, não pega (um box de área zero nunca "sobrepõe" nada).
+      assert.ok(box.width > 0, "label deveria ter largura reservada > 0");
+      assert.ok(box.height > 0, "label deveria ter altura reservada > 0");
+    }
+
+    const overlaps = (
+      a: { x: number; y: number; width: number; height: number },
+      b: { x: number; y: number; width: number; height: number },
+    ) => a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        assert.ok(!overlaps(boxes[i], boxes[j]), `labels ${i} e ${j} se sobrepõem: ${JSON.stringify(boxes[i])} / ${JSON.stringify(boxes[j])}`);
+      }
+    }
+  });
 });

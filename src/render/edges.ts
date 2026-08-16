@@ -3,10 +3,6 @@ import type { EdgeRoute } from "../layout/run-layout.js";
 import type { Theme } from "./theme.js";
 import { escapeXml } from "./svg-utils.js";
 
-const CHAR_WIDTH = 6.4;
-const LABEL_HEIGHT = 20;
-const LABEL_PAD_X = 8;
-
 export function renderArrowMarkerDefs(theme: Theme): string {
   return `<marker id="arrow-${theme.name}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
     <path d="M0,0 L10,5 L0,10 z" fill="${theme.edgeColor}"/>
@@ -22,13 +18,17 @@ export function renderEdge(edge: DiagramEdge, route: EdgeRoute, theme: Theme): s
 
   const path = `<path d="${d}" fill="none" stroke="${theme.edgeColor}" stroke-width="2"${dash}${markerEnd}${markerStart}/>`;
 
-  if (!edge.label || !route.labelPosition) return path;
+  if (!edge.label || !route.labelPosition || !route.labelSize) return path;
 
-  const width = edge.label.length * CHAR_WIDTH + LABEL_PAD_X * 2;
+  // route.labelPosition é o canto superior-esquerdo do box que o próprio ELK
+  // reservou para este label (com base no mesmo tamanho estimado que foi
+  // informado a ele em build-graph.ts) — é isso que faz labels de edges
+  // paralelas não colidirem mais entre si.
   const { x, y } = route.labelPosition;
+  const { width, height } = route.labelSize;
   const label = `<g>
-    <rect x="${x - width / 2}" y="${y - LABEL_HEIGHT / 2}" width="${width}" height="${LABEL_HEIGHT}" rx="6" fill="${theme.edgeLabelBg}" stroke="${theme.cardBorder}" stroke-width="1"/>
-    <text x="${x}" y="${y + 4}" font-family='${theme.fontFamily}' font-size="11" font-weight="600" text-anchor="middle" fill="${theme.edgeLabelColor}">${escapeXml(edge.label)}</text>
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="6" fill="${theme.edgeLabelBg}" stroke="${theme.cardBorder}" stroke-width="1"/>
+    <text x="${x + width / 2}" y="${y + height / 2 + 4}" font-family='${theme.fontFamily}' font-size="11" font-weight="600" text-anchor="middle" fill="${theme.edgeLabelColor}">${escapeXml(edge.label)}</text>
   </g>`;
   return path + label;
 }

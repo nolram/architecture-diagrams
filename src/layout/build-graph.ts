@@ -1,6 +1,6 @@
 import type { ElkNode, ElkExtendedEdge } from "elkjs/lib/elk-api.js";
 import type { DiagramSpec, DiagramEdge } from "../spec/schema.js";
-import { GROUP_PADDING, estimateNodeSize } from "./geometry.js";
+import { GROUP_PADDING, estimateNodeSize, estimateEdgeLabelSize } from "./geometry.js";
 
 interface GroupNode {
   id: string;
@@ -65,12 +65,17 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
   });
 
   function toElkEdge({ edge, specIndex }: { edge: DiagramEdge; specIndex: number }): ElkExtendedEdge {
+    // dar largura/altura ao label é o que faz o ELK reservar espaço entre edges
+    // paralelas durante o roteamento — sem isso os pills desenhados na composição
+    // final colidem, porque o ELK não sabia que precisava afastar as edges.
+    const labelSize = edge.label ? estimateEdgeLabelSize(edge.label) : null;
     return {
       // id estável = índice do edge em spec.edges, usado para religar rotas calculadas de volta ao spec original na renderização
       id: `edge_${specIndex}`,
       sources: [edge.from],
       targets: [edge.to],
-      labels: edge.label ? [{ text: edge.label }] : undefined,
+      labels:
+        edge.label && labelSize ? [{ text: edge.label, width: labelSize.width, height: labelSize.height }] : undefined,
     };
   }
 
@@ -118,6 +123,7 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
       "elk.layered.spacing.nodeNodeBetweenLayers": "96",
       "elk.spacing.edgeNode": "32",
       "elk.layered.spacing.edgeNodeBetweenLayers": "32",
+      "elk.spacing.edgeLabel": "12",
       "elk.edgeRouting": "ORTHOGONAL",
       "elk.padding": "[top=24,left=24,bottom=24,right=24]",
     },

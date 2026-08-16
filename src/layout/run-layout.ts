@@ -19,7 +19,9 @@ export interface AbsoluteBox {
 export interface EdgeRoute {
   id: string;
   points: { x: number; y: number }[];
+  /** canto superior-esquerdo do box reservado pelo ELK para o label (não o centro) */
   labelPosition?: { x: number; y: number };
+  labelSize?: { width: number; height: number };
 }
 
 export interface LayoutResult {
@@ -80,7 +82,11 @@ export async function layoutSpec(spec: DiagramSpec): Promise<LayoutResult> {
       label && label.x !== undefined && label.y !== undefined
         ? { x: label.x + offset.x, y: label.y + offset.y }
         : undefined;
-    edges.set(edge.id, { id: edge.id, points, labelPosition });
+    const labelSize =
+      label && label.width !== undefined && label.height !== undefined
+        ? { width: label.width, height: label.height }
+        : undefined;
+    edges.set(edge.id, { id: edge.id, points, labelPosition, labelSize });
   }
 
   return {

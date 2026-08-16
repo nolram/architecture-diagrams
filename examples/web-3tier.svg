@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1460.4" height="548" viewBox="0 0 1460.4 548">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1591.6" height="548" viewBox="0 0 1591.6 548">
 <defs>
   <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
     <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
@@ -7,34 +7,34 @@
     <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
   </marker>
 </defs>
-<rect x="0" y="0" width="1460.4" height="548" fill="#f8fafc"/>
+<rect x="0" y="0" width="1591.6" height="548" fill="#f8fafc"/>
 <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Arquitetura Web 3 Camadas</text>
 <g transform="translate(32, 88)">
 <g>
-  <rect x="793" y="24" width="579.4" height="380" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
-  <rect x="809" y="11" width="43.8" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1"/>
-  <text x="830.9" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC</text>
+  <rect x="889" y="24" width="614.6" height="380" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+  <rect x="905" y="11" width="43.8" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1"/>
+  <text x="926.9" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC</text>
 </g>
 <g>
-  <rect x="1084.4" y="76" width="260" height="300" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-  <rect x="1100.4" y="63" width="116.39999999999999" height="26" rx="13" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
-  <text x="1158.6000000000001" y="80" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#1d4ed8">PRIVATE SUBNET</text>
+  <rect x="1215.6" y="76" width="260" height="300" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="1231.6" y="63" width="116.39999999999999" height="26" rx="13" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="1289.8" y="80" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#1d4ed8">PRIVATE SUBNET</text>
 </g>
-<path d="M214,194.66666666666669 L406,194.66666666666669" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
-    <rect x="286" y="187.66666666666669" width="48" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="310" y="201.66666666666669" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
+<path d="M214,194.66666666666669 L454,194.66666666666669" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
+    <rect x="310" y="207.66666666666669" width="48" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="334" y="221.66666666666669" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
   </g>
-<path d="M596,194.66666666666669 L821,194.66666666666669" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
-    <rect x="668" y="187.66666666666669" width="48" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="692" y="201.66666666666669" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
+<path d="M644,194.66666666666669 L917,194.66666666666669" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
+    <rect x="740" y="207.66666666666669" width="48" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="764" y="221.66666666666669" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
   </g>
-<path d="M1039.4,178 L1112.4,178" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
-    <rect x="1041.8000000000002" y="165" width="35.2" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="1059.4" y="179" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">TCP</text>
+<path d="M1135.4,178 L1243.6,178" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
+    <rect x="1155.4" y="155" width="35.2" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="1173" y="169" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">TCP</text>
   </g>
-<path d="M1039.4,211.33333333333331 L1069.4,211.33333333333331 L1069.4,298 L1112.4,298" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
-    <rect x="1041.8000000000002" y="204.33333333333331" width="35.2" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="1059.4" y="218.33333333333331" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">SQL</text>
+<path d="M1135.4,211.33333333333331 L1200.6,211.33333333333331 L1200.6,298 L1243.6,298" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
+    <rect x="1155.4" y="214.33333333333331" width="35.2" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="1173" y="228.33333333333331" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">SQL</text>
   </g>
 <g transform="translate(24, 155.66666666666669)">
   <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -43,7 +43,7 @@
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Usuário</text>
   
 </g>
-<g transform="translate(406, 144.66666666666669)">
+<g transform="translate(454, 144.66666666666669)">
   <rect x="0" y="0" width="190" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-cdn"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
@@ -62,7 +62,7 @@
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">CloudFront</text>
   <text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">CDN</text>
 </g>
-<g transform="translate(821, 144.66666666666669)">
+<g transform="translate(917, 144.66666666666669)">
   <rect x="0" y="0" width="218.4" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-web"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
@@ -81,7 +81,7 @@
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Web Server</text>
   <text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Node.js / Express</text>
 </g>
-<g transform="translate(1112.4, 128)">
+<g transform="translate(1243.6, 128)">
   <rect x="0" y="0" width="204" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-cache"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
@@ -102,7 +102,7 @@
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Redis</text>
   <text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Cache de sessão</text>
 </g>
-<g transform="translate(1112.4, 248)">
+<g transform="translate(1243.6, 248)">
   <rect x="0" y="0" width="204" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-db"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>

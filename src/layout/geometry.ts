@@ -19,3 +19,22 @@ export function estimateNodeSize(node: DiagramNode): NodeSize {
   const height = node.sublabel ? NODE_HEIGHT_WITH_SUBLABEL : NODE_HEIGHT_SIMPLE;
   return { width, height };
 }
+
+export const EDGE_LABEL_HEIGHT = 20;
+const EDGE_LABEL_CHAR_WIDTH = 6.4;
+const EDGE_LABEL_PAD_X = 16;
+
+export interface EdgeLabelSize {
+  width: number;
+  height: number;
+}
+
+/**
+ * Tamanho estimado do pill de um label de edge. Usado tanto para informar o
+ * ELK (que só reserva espaço entre edges paralelas se souber o tamanho do
+ * label — sem isso os pills desenhados depois colidem) quanto para desenhar
+ * o pill de verdade, garantindo que os dois usem exatamente o mesmo valor.
+ */
+export function estimateEdgeLabelSize(text: string): EdgeLabelSize {
+  return { width: text.length * EDGE_LABEL_CHAR_WIDTH + EDGE_LABEL_PAD_X, height: EDGE_LABEL_HEIGHT };
+}
