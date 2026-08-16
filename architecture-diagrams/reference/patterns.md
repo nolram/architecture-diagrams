@@ -203,8 +203,6 @@ edges:
     direction: none
 ```
 
-Nota: com duas caixas de AZ lado a lado de tamanhos diferentes, o roteador ortogonal do ELK às vezes passa uma linha rente ao chip de label de um group. Se isso acontecer no seu diagrama, uma forma simples de mitigar é dar labels mais curtos aos groups ou reduzir o número de edges cruzando a fronteira.
-
 ## Pipeline de dados (ingestão → storage → transformação → warehouse → dashboard)
 
 Bom para: fluxos lineares de dados. Mostra: `theme: midnight-dark`, ícone de job agendado (`generic:cron`), mistura AWS (S3) + GCP (BigQuery) no mesmo diagrama — perfeitamente normal quando a arquitetura real é multi-cloud.
@@ -247,4 +245,83 @@ edges:
   - from: warehouse
     to: dashboard
     label: query
+```
+
+## Backend com API Gateway fazendo fan-out (e-commerce)
+
+Bom para: um node central se conectando a vários serviços (aqui, um API Gateway falando com 3 serviços dentro de uma VPC). Mostra `direction: auto` escolhendo `down` sozinho por causa do fan-out do gateway (3 conexões de saída), e uma edge `bidirectional` + `dashed` pra representar publish/consume assíncrono num único traço em vez de duas edges separadas colidindo.
+
+```yaml
+version: '1'
+title: Arquitetura de Backend — E-commerce
+theme: clean-light
+nodes:
+  - id: client
+    label: Cliente Web
+    sublabel: Browser / SPA
+    icon: generic:browser
+    category: external
+  - id: gateway
+    label: API Gateway
+    sublabel: Roteamento, authN, rate limiting
+    icon: aws:api-gateway
+    category: network
+  - id: orders
+    label: Orders Service
+    sublabel: Gerenciamento de pedidos
+    icon: generic:service
+    category: compute
+    group: vpc
+  - id: payments
+    label: Payments Service
+    sublabel: Processamento de pagamentos
+    icon: generic:service
+    category: compute
+    group: vpc
+  - id: redis
+    label: Redis
+    sublabel: Cache de sessão
+    icon: brand:redis
+    category: database
+    group: vpc
+  - id: queue
+    label: Message Queue
+    sublabel: Pagamentos assíncronos
+    icon: generic:queue
+    category: messaging
+    group: vpc
+  - id: postgres
+    label: PostgreSQL
+    sublabel: Banco de dados principal
+    icon: brand:postgresql
+    category: database
+    group: vpc
+groups:
+  - id: vpc
+    label: VPC — Rede Privada
+    style: vpc
+edges:
+  - from: client
+    to: gateway
+    label: HTTPS / REST
+  - from: gateway
+    to: orders
+    label: REST
+  - from: gateway
+    to: payments
+    label: REST
+  - from: gateway
+    to: redis
+    label: sessão R/W
+  - from: orders
+    to: postgres
+    label: dados de pedidos
+  - from: payments
+    to: postgres
+    label: dados de pagamentos
+  - from: payments
+    to: queue
+    label: publish / consome (assíncrono)
+    style: dashed
+    direction: bidirectional
 ```

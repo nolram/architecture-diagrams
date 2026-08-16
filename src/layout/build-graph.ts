@@ -1,6 +1,7 @@
 import type { ElkNode, ElkExtendedEdge } from "elkjs/lib/elk-api.js";
 import type { DiagramSpec, DiagramEdge } from "../spec/schema.js";
 import { GROUP_PADDING, estimateNodeSize, estimateEdgeLabelSize } from "./geometry.js";
+import { resolveDirection } from "./direction.js";
 
 interface GroupNode {
   id: string;
@@ -49,9 +50,11 @@ function commonPrefixContainer(pathA: string[], pathB: string[]): string | undef
 
 export interface BuiltGraph {
   elkGraph: ElkNode;
+  direction: "right" | "down";
 }
 
 export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
+  const direction = resolveDirection(spec);
   const groupTree = buildGroupTree(spec);
   const containment = buildContainmentPaths(spec);
   const nodesById = new Map(spec.nodes.map((n) => [n.id, n]));
@@ -117,7 +120,7 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
     id: "root",
     layoutOptions: {
       "elk.algorithm": "layered",
-      "elk.direction": spec.direction === "down" ? "DOWN" : "RIGHT",
+      "elk.direction": direction === "down" ? "DOWN" : "RIGHT",
       "elk.hierarchyHandling": "INCLUDE_CHILDREN",
       "elk.spacing.nodeNode": "48",
       "elk.layered.spacing.nodeNodeBetweenLayers": "96",
@@ -131,5 +134,5 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
     edges: rootEdges.length > 0 ? rootEdges : undefined,
   };
 
-  return { elkGraph };
+  return { elkGraph, direction };
 }

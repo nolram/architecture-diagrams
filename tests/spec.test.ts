@@ -17,7 +17,7 @@ describe("spec validation", () => {
     assert.equal(result.ok, true);
     if (!result.ok) return;
     assert.equal(result.spec.theme, "clean-light");
-    assert.equal(result.spec.direction, "right");
+    assert.equal(result.spec.direction, "auto");
     assert.equal(result.spec.nodes[0].category, "generic");
     assert.equal(result.spec.nodes[0].shape, "card");
     assert.deepEqual(result.spec.groups, []);

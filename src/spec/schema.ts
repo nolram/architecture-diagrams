@@ -41,7 +41,7 @@ export const DiagramSpecSchema = z
     version: z.literal("1"),
     title: z.string().optional(),
     theme: z.enum(["clean-light", "midnight-dark"]).default("clean-light"),
-    direction: z.enum(["right", "down"]).default("right"),
+    direction: z.enum(["auto", "right", "down"]).default("auto"),
     nodes: z.array(NodeSchema).min(1, "o diagrama precisa de pelo menos um node"),
     groups: z.array(GroupSchema).default([]),
     edges: z.array(EdgeSchema).default([]),

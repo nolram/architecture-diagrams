@@ -8,7 +8,7 @@ A spec descreve o diagrama em texto estruturado; o renderer cuida de layout, íc
 version: '1'                 # obrigatório, sempre a string '1'
 title: Título do diagrama    # opcional
 theme: clean-light           # opcional: clean-light (padrão) | midnight-dark
-direction: right             # opcional: right (padrão, fluxo esquerda→direita) | down (topo→base)
+direction: auto               # opcional: auto (padrão) | right (esquerda→direita) | down (topo→base)
 nodes: [ ... ]                # obrigatório, pelo menos 1
 groups: [ ... ]                # opcional
 edges: [ ... ]                # opcional
@@ -64,9 +64,9 @@ edges:
 
 ## Dicas de layout (evita ter que renderizar várias vezes)
 
-- **Escolha `direction` pelo formato do grafo, não por padrão.** `right` funciona bem para fluxos lineares/estreitos (poucos nodes por "camada"). Quando um group tem 3+ nodes lado a lado recebendo várias edges de fora (ex: um API Gateway se conectando a vários serviços dentro de uma VPC), `direction: down` costuma dar um resultado mais limpo, porque empilha as camadas verticalmente em vez de forçar tudo numa faixa horizontal estreita.
+- **Deixe `direction` em `auto` (padrão) na maioria dos casos.** O renderer escolhe `right` ou `down` sozinho olhando o maior fan-out/fan-in do grafo (ex: um node que se conecta a 3+ outros nodes) — é exatamente o tipo de decisão que antes exigia tentativa e erro. Só defina `direction` explicitamente se quiser forçar uma orientação específica por preferência visual; nesse caso o valor explícito sempre prevalece sobre a heurística.
 - **Nunca modele duas edges separadas para o mesmo par de nodes** (ex: uma para "publish" e outra para "consome" entre o mesmo serviço e a mesma fila). Isso gera duas linhas quase sobrepostas com labels colidindo. Use uma única edge com `direction: bidirectional` e um label combinado (ex: `label: publish / consome`).
-- Depois de renderizar, sempre olhe o PNG antes de entregar — se algum label de edge estiver cortado ou muito perto de um card, normalmente é sinal de excesso de edges cruzando o mesmo group; simplifique a spec (menos edges redundantes, ou troque a direção) em vez de tentar corrigir no SVG manualmente.
+- Depois de renderizar, sempre olhe o PNG antes de entregar — se algum label de edge estiver cortado ou muito perto de um card, normalmente é sinal de excesso de edges redundantes cruzando o mesmo group; simplifique a spec em vez de tentar corrigir no SVG manualmente.
 
 ## Erros comuns e como o renderer reage
 
@@ -75,4 +75,4 @@ edges:
 
 ## Exemplo completo
 
-Ver `reference/patterns.md` para exemplos prontos (web 3 camadas, microsserviços com fila, VPC multi-AZ, pipeline de dados) que também servem de ponto de partida.
+Ver `reference/patterns.md` para exemplos prontos (web 3 camadas, microsserviços com fila, VPC multi-AZ, pipeline de dados, backend com fan-out) que também servem de ponto de partida.

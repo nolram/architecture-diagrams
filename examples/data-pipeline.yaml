@@ -1,7 +1,6 @@
 version: '1'
 title: Pipeline de Dados
 theme: midnight-dark
-direction: right
 nodes:
   - id: source
     label: App Events

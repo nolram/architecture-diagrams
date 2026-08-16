@@ -16,6 +16,10 @@ A motivação: diagramas gerados por IA hoje em dia costumam sair em Mermaid —
 |---|---|
 | ![Microsserviços](examples/microservices-queue.png) | ![Pipeline de dados](examples/data-pipeline.png) |
 
+| Backend com fan-out (`direction: auto` escolhendo `down` sozinho) |
+|---|
+| ![Backend e-commerce](examples/ecommerce-backend.png) |
+
 Specs completas desses exemplos em [`examples/`](examples/) e [`architecture-diagrams/reference/patterns.md`](architecture-diagrams/reference/patterns.md).
 
 ## Como funciona

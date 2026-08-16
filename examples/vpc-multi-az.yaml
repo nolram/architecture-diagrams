@@ -1,7 +1,6 @@
 version: '1'
 title: VPC Multi-AZ com Load Balancer
 theme: clean-light
-direction: right
 nodes:
   - id: user
     label: Usuário

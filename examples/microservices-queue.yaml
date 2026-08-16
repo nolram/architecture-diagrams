@@ -1,7 +1,6 @@
 version: '1'
 title: Microsserviços com Fila de Eventos
 theme: clean-light
-direction: right
 nodes:
   - id: client
     label: Cliente

@@ -27,6 +27,8 @@ export interface EdgeRoute {
 export interface LayoutResult {
   width: number;
   height: number;
+  /** direção efetivamente usada (já resolvida, mesmo quando a spec pediu "auto") */
+  direction: "right" | "down";
   nodes: Map<string, AbsoluteBox>;
   groups: Map<string, AbsoluteBox>;
   edges: Map<string, EdgeRoute>;
@@ -35,7 +37,7 @@ export interface LayoutResult {
 const elk = new ElkCtor();
 
 export async function layoutSpec(spec: DiagramSpec): Promise<LayoutResult> {
-  const { elkGraph } = buildElkGraph(spec);
+  const { elkGraph, direction } = buildElkGraph(spec);
   const laidOut = (await elk.layout(elkGraph)) as ElkNode;
 
   const nodes = new Map<string, AbsoluteBox>();
@@ -92,6 +94,7 @@ export async function layoutSpec(spec: DiagramSpec): Promise<LayoutResult> {
   return {
     width: laidOut.width ?? 0,
     height: laidOut.height ?? 0,
+    direction,
     nodes,
     groups,
     edges,

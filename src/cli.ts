@@ -37,6 +37,9 @@ program
     }
 
     const layout = await layoutSpec(result.spec);
+    if (result.spec.direction === "auto") {
+      console.error(`Direção do layout escolhida automaticamente: ${layout.direction}`);
+    }
     const { svg, warnings } = await composeDiagram(result.spec, layout);
 
     if (warnings.length > 0) {

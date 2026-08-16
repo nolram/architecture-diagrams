@@ -171,4 +171,99 @@ edges:
       }
     }
   });
+
+  describe("direction: auto", () => {
+    test("mantém 'right' quando nenhum node tem fan-out/fan-in >= 3", async () => {
+      const spec = parseOrThrow(`
+version: '1'
+nodes:
+  - id: web
+    label: Web
+  - id: cache
+    label: Cache
+  - id: db
+    label: DB
+edges:
+  - from: web
+    to: cache
+  - from: web
+    to: db
+`);
+      const layout = await layoutSpec(spec);
+      assert.equal(layout.direction, "right");
+    });
+
+    test("escolhe 'down' quando um node tem fan-out >= 3 (caso real: gateway -> 3 serviços)", async () => {
+      const spec = parseOrThrow(`
+version: '1'
+nodes:
+  - id: gateway
+    label: Gateway
+  - id: a
+    label: A
+  - id: b
+    label: B
+  - id: c
+    label: C
+edges:
+  - from: gateway
+    to: a
+  - from: gateway
+    to: b
+  - from: gateway
+    to: c
+`);
+      const layout = await layoutSpec(spec);
+      assert.equal(layout.direction, "down");
+    });
+
+    test("escolhe 'down' quando um node tem fan-in >= 3 (convergência, não só fan-out)", async () => {
+      const spec = parseOrThrow(`
+version: '1'
+nodes:
+  - id: a
+    label: A
+  - id: b
+    label: B
+  - id: c
+    label: C
+  - id: sink
+    label: Sink
+edges:
+  - from: a
+    to: sink
+  - from: b
+    to: sink
+  - from: c
+    to: sink
+`);
+      const layout = await layoutSpec(spec);
+      assert.equal(layout.direction, "down");
+    });
+
+    test("direction explícita na spec sempre prevalece sobre a heurística", async () => {
+      const spec = parseOrThrow(`
+version: '1'
+direction: right
+nodes:
+  - id: gateway
+    label: Gateway
+  - id: a
+    label: A
+  - id: b
+    label: B
+  - id: c
+    label: C
+edges:
+  - from: gateway
+    to: a
+  - from: gateway
+    to: b
+  - from: gateway
+    to: c
+`);
+      const layout = await layoutSpec(spec);
+      assert.equal(layout.direction, "right", "direction explícita não deveria ser sobrescrita pela heurística");
+    });
+  });
 });
