@@ -1,0 +1,41 @@
+name: Release Skill
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run validate:skill
+
+      - name: Render examples (smoke test)
+        run: |
+          for spec in examples/*.yaml; do
+            node dist/cli.js "$spec" --png -o /tmp/"$(basename "$spec" .yaml)".svg
+          done
+
+      - name: Package skill
+        run: npm run package:skill
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: architecture-diagrams.skill
+          generate_release_notes: true
