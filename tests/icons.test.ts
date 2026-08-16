@@ -16,6 +16,26 @@ describe("icon resolution", () => {
     assert.match(result.icon.brandHex!, /^#[0-9A-Fa-f]{6}$/);
   });
 
+  test("usa o viewBox real do ícone de marca, não um valor fixo (regressão: logos cortados)", async () => {
+    // AWS/Azure/GCP usam um canvas 64x64 por convenção, mas logos de marca
+    // genéricos (postgres, redis, mongo...) têm viewBox nativo bem diferente.
+    // Assumir "0 0 64 64" pra todo mundo cortava esses logos num fragmento
+    // irreconhecível do canto superior-esquerdo — bug real encontrado em produção.
+    const cases: [string, string][] = [
+      ["brand:postgresql", "0 0 432.071 445.383"],
+      ["brand:redis", "0 0 256 220"],
+      ["brand:mongodb", "0 0 120 257"],
+      ["brand:kafka", "-78.5 0 413 413"],
+    ];
+    for (const [key, expectedViewBox] of cases) {
+      const result = await resolveIcon(key);
+      assert.equal(result.ok, true, `${key} deveria resolver`);
+      if (!result.ok) continue;
+      assert.equal(result.icon.viewBox, expectedViewBox, `${key} deveria usar seu viewBox nativo`);
+      assert.notEqual(result.icon.viewBox, "0 0 64 64", `${key} não deveria cair no fallback genérico de 64x64`);
+    }
+  });
+
   test("resolve um ícone genérico (mdi) e aplica a cor de destaque recebida", async () => {
     const result = await resolveIcon("generic:database", "#2563eb");
     assert.equal(result.ok, true);
@@ -44,6 +64,20 @@ describe("icon resolution", () => {
     const badge = fallbackBadge("weird service", "#e11d48");
     assert.ok(badge.body.includes(">W<"));
     assert.equal(badge.viewBox, "0 0 64 64");
+  });
+
+  test("todo ícone thesvg do catálogo resolve com um viewBox numericamente são", async () => {
+    const thesvgEntries = ICON_CATALOG.filter((e) => e.source === "thesvg");
+    assert.ok(thesvgEntries.length > 0);
+    for (const entry of thesvgEntries) {
+      const result = await resolveIcon(entry.key);
+      assert.equal(result.ok, true, `${entry.key} deveria resolver`);
+      if (!result.ok) continue;
+      const parts = result.icon.viewBox.trim().split(/\s+/).map(Number);
+      assert.equal(parts.length, 4, `${entry.key}: viewBox "${result.icon.viewBox}" deveria ter 4 números`);
+      assert.ok(parts.every((n) => Number.isFinite(n)), `${entry.key}: viewBox "${result.icon.viewBox}" tem valor não numérico`);
+      assert.ok(parts[2] > 0 && parts[3] > 0, `${entry.key}: viewBox "${result.icon.viewBox}" tem largura/altura não positiva`);
+    }
   });
 
   describe("searchCatalog", () => {

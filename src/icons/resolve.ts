@@ -73,8 +73,7 @@ function resolveCustomFileIcon(key: string, baseDir: string): IconResolveResult 
     return { ok: false, key, suggestions: [], reason: "arquivo não parece ser um SVG válido (tag <svg>...</svg> não encontrada)" };
   }
 
-  const viewBox = raw.match(/<svg[^>]*\sviewBox="([^"]+)"/i)?.[1] ?? "0 0 64 64";
-  return { ok: true, icon: { body: svgMatch[1], viewBox } };
+  return { ok: true, icon: { body: svgMatch[1], viewBox: extractViewBox(raw) } };
 }
 
 /**
@@ -104,7 +103,7 @@ export async function resolveIcon(key: string, accentColor?: string, baseDir?: s
       const body = extractSvgInner(mod.svg);
       return {
         ok: true,
-        icon: { body, viewBox: "0 0 64 64", brandHex: mod.hex ? `#${mod.hex}` : undefined },
+        icon: { body, viewBox: extractViewBox(mod.svg), brandHex: mod.hex ? `#${mod.hex}` : undefined },
       };
     } catch {
       // slug não existe mais no pacote thesvg instalado (ex: renomeado numa atualização) —
@@ -129,6 +128,23 @@ export async function resolveIcon(key: string, accentColor?: string, baseDir?: s
 function extractSvgInner(svg: string): string {
   const match = svg.match(/<svg[^>]*>([\s\S]*)<\/svg>/);
   return match ? match[1] : svg;
+}
+
+/**
+ * Extrai o viewBox real declarado no SVG de origem. O thesvg cobre marcas de
+ * origens bem diferentes (ícones AWS/Azure/GCP usam um canvas 64x64 por
+ * convenção, mas logos de marca genéricos como PostgreSQL/Redis/MongoDB usam
+ * qualquer viewBox nativo do logo original — 432x445, 256x220, etc). Assumir
+ * "0 0 64 64" pra todo mundo cortava a maioria dos logos de marca num
+ * fragmento irreconhecível do canto superior-esquerdo.
+ */
+function extractViewBox(svg: string): string {
+  const viewBox = svg.match(/<svg[^>]*\sviewBox="([^"]+)"/i)?.[1];
+  if (viewBox) return viewBox;
+  const width = svg.match(/<svg[^>]*\swidth="([\d.]+)"/i)?.[1];
+  const height = svg.match(/<svg[^>]*\sheight="([\d.]+)"/i)?.[1];
+  if (width && height) return `0 0 ${width} ${height}`;
+  return "0 0 64 64";
 }
 
 export function fallbackBadge(label: string, accentColor: string): ResolvedIcon {
