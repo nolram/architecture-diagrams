@@ -36,6 +36,27 @@ describe("icon resolution", () => {
     }
   });
 
+  test("ícones com variant não usam a versão branca-sobre-branco (regressão: badges invisíveis)", async () => {
+    // Alguns logos do thesvg só têm uma versão default branca/transparente,
+    // pensada pra sentar sobre um fundo escuro/colorido — invisível no nosso
+    // badge de fundo branco. Encontrado via revisão visual de todo o catálogo:
+    // renderizavam "ok" mas ficavam em branco no diagrama. Cada um desses tem
+    // `variant: "mono"` no catálogo apontando pra uma silhueta de cor única.
+    const keys = ["brand:mysql", "brand:vercel", "brand:nextjs", "brand:angular", "brand:flask", "brand:rust", "brand:go", "brand:php"];
+    for (const key of keys) {
+      const entry = getCatalogEntry(key)!;
+      assert.ok(entry.variant, `${key} deveria ter um variant configurado no catálogo`);
+
+      const result = await resolveIcon(key);
+      assert.equal(result.ok, true, `${key} deveria resolver`);
+      if (!result.ok) continue;
+      assert.ok(
+        !/fill="#f{3,6}"/i.test(result.icon.body),
+        `${key}: body ainda contém um fill branco (ficaria invisível num badge de fundo branco)`,
+      );
+    }
+  });
+
   test("resolve um ícone genérico (mdi) e aplica a cor de destaque recebida", async () => {
     const result = await resolveIcon("generic:database", "#2563eb");
     assert.equal(result.ok, true);

@@ -17,6 +17,13 @@ export interface CatalogEntry {
   source: "thesvg" | "mdi";
   /** slug do thesvg (ex: "aws-aws-lambda") ou nome do ícone mdi (ex: "database") */
   ref: string;
+  /**
+   * variante do thesvg a usar em vez de `svg` (default) — alguns logos (ex:
+   * vercel, nextjs, go) só têm uma versão branca/transparente pensada pra
+   * fundo escuro, invisível no nosso badge branco. "mono" costuma ser uma
+   * silhueta de cor única (preto por padrão) que funciona em qualquer fundo.
+   */
+  variant?: string;
 }
 
 // Curado a partir dos pacotes `thesvg` (AWS/Azure/GCP/marcas, offline) e
@@ -116,7 +123,7 @@ export const ICON_CATALOG: CatalogEntry[] = [
   { key: "brand:kubernetes", label: "Kubernetes", category: "compute", source: "thesvg", ref: "kubernetes" },
   { key: "brand:docker", label: "Docker", category: "compute", source: "thesvg", ref: "docker" },
   { key: "brand:postgresql", label: "PostgreSQL", category: "database", source: "thesvg", ref: "postgresql" },
-  { key: "brand:mysql", label: "MySQL", category: "database", source: "thesvg", ref: "mysql" },
+  { key: "brand:mysql", label: "MySQL", category: "database", source: "thesvg", ref: "mysql", variant: "mono" },
   { key: "brand:redis", label: "Redis", category: "database", source: "thesvg", ref: "redis" },
   { key: "brand:mongodb", label: "MongoDB", category: "database", source: "thesvg", ref: "mongodb" },
   { key: "brand:elasticsearch", label: "Elasticsearch", category: "database", source: "thesvg", ref: "elasticsearch" },
@@ -131,18 +138,18 @@ export const ICON_CATALOG: CatalogEntry[] = [
   { key: "brand:terraform", label: "Terraform", category: "generic", source: "thesvg", ref: "terraform" },
   { key: "brand:nodejs", label: "Node.js", category: "compute", source: "thesvg", ref: "nodedotjs" },
   { key: "brand:react", label: "React", category: "external", source: "thesvg", ref: "react" },
-  { key: "brand:nextjs", label: "Next.js", category: "external", source: "thesvg", ref: "nextdotjs" },
+  { key: "brand:nextjs", label: "Next.js", category: "external", source: "thesvg", ref: "nextdotjs", variant: "mono" },
   { key: "brand:python", label: "Python", category: "compute", source: "thesvg", ref: "python" },
   { key: "brand:stripe", label: "Stripe", category: "external", source: "thesvg", ref: "stripe" },
   { key: "brand:cloudflare", label: "Cloudflare", category: "network", source: "thesvg", ref: "cloudflare" },
-  { key: "brand:vercel", label: "Vercel", category: "external", source: "thesvg", ref: "vercel" },
+  { key: "brand:vercel", label: "Vercel", category: "external", source: "thesvg", ref: "vercel", variant: "mono" },
   { key: "brand:aws", label: "AWS (genérico)", category: "generic", source: "thesvg", ref: "amazon-web-services" },
   { key: "brand:gcp", label: "Google Cloud (genérico)", category: "generic", source: "thesvg", ref: "googlecloud" },
   { key: "brand:vue", label: "Vue.js", category: "external", source: "thesvg", ref: "vuedotjs" },
-  { key: "brand:angular", label: "Angular", category: "external", source: "thesvg", ref: "angular" },
+  { key: "brand:angular", label: "Angular", category: "external", source: "thesvg", ref: "angular", variant: "mono" },
   { key: "brand:svelte", label: "Svelte", category: "external", source: "thesvg", ref: "svelte" },
   { key: "brand:django", label: "Django", category: "compute", source: "thesvg", ref: "django" },
-  { key: "brand:flask", label: "Flask", category: "compute", source: "thesvg", ref: "flask" },
+  { key: "brand:flask", label: "Flask", category: "compute", source: "thesvg", ref: "flask", variant: "mono" },
   { key: "brand:fastapi", label: "FastAPI", category: "compute", source: "thesvg", ref: "fastapi" },
   { key: "brand:spring", label: "Spring", category: "compute", source: "thesvg", ref: "spring" },
   { key: "brand:dotnet", label: ".NET", category: "compute", source: "thesvg", ref: "dotnet" },
@@ -175,11 +182,11 @@ export const ICON_CATALOG: CatalogEntry[] = [
   { key: "brand:figma", label: "Figma", category: "external", source: "thesvg", ref: "figma" },
   { key: "brand:linux", label: "Linux", category: "compute", source: "thesvg", ref: "linux" },
   { key: "brand:ubuntu", label: "Ubuntu", category: "compute", source: "thesvg", ref: "ubuntu" },
-  { key: "brand:rust", label: "Rust", category: "compute", source: "thesvg", ref: "rust" },
+  { key: "brand:rust", label: "Rust", category: "compute", source: "thesvg", ref: "rust", variant: "mono" },
   { key: "brand:java", label: "Java", category: "compute", source: "thesvg", ref: "openjdk" },
-  { key: "brand:go", label: "Go", category: "compute", source: "thesvg", ref: "go" },
+  { key: "brand:go", label: "Go", category: "compute", source: "thesvg", ref: "go", variant: "mono" },
   { key: "brand:typescript", label: "TypeScript", category: "compute", source: "thesvg", ref: "typescript" },
-  { key: "brand:php", label: "PHP", category: "compute", source: "thesvg", ref: "php" },
+  { key: "brand:php", label: "PHP", category: "compute", source: "thesvg", ref: "php", variant: "mono" },
   { key: "brand:ruby", label: "Ruby", category: "compute", source: "thesvg", ref: "ruby" },
   { key: "brand:csharp", label: "C#", category: "compute", source: "thesvg", ref: "csharp" },
   { key: "brand:supabase", label: "Supabase", category: "database", source: "thesvg", ref: "supabase" },

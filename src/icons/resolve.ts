@@ -99,11 +99,19 @@ export async function resolveIcon(key: string, accentColor?: string, baseDir?: s
 
   if (entry.source === "thesvg") {
     try {
-      const mod = (await import(`thesvg/${entry.ref}`)) as { svg: string; hex?: string };
-      const body = extractSvgInner(mod.svg);
+      const mod = (await import(`thesvg/${entry.ref}`)) as { svg: string; hex?: string; variants?: Record<string, string> };
+      let svgSource = mod.svg;
+      if (entry.variant) {
+        const variantSvg = mod.variants?.[entry.variant];
+        if (!variantSvg) {
+          return { ok: false, key, suggestions: [], reason: `variant "${entry.variant}" não existe para o ícone "${entry.ref}" no pacote thesvg instalado` };
+        }
+        svgSource = variantSvg;
+      }
+      const body = extractSvgInner(svgSource);
       return {
         ok: true,
-        icon: { body, viewBox: extractViewBox(mod.svg), brandHex: mod.hex ? `#${mod.hex}` : undefined },
+        icon: { body, viewBox: extractViewBox(svgSource), brandHex: mod.hex ? `#${mod.hex}` : undefined },
       };
     } catch {
       // slug não existe mais no pacote thesvg instalado (ex: renomeado numa atualização) —
