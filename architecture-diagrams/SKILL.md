@@ -10,7 +10,11 @@ Renderer próprio (ELK.js para layout + ícones reais via `thesvg`/Iconify + SVG
 ## Fluxo de trabalho
 
 1. **Escreva a spec YAML** descrevendo nodes (componentes), groups (boundaries como VPC/subnet/camada lógica) e edges (conexões). Regras completas em `reference/spec-guide.md` — leia antes da primeira vez que usar esta skill na conversa.
-2. **Escolha ícones do catálogo** em `reference/icon-catalog.md` — não invente chaves. Se não achar uma marca específica, use um ícone `generic:*` (ex: `generic:database`, `generic:server`, `generic:queue`) em vez de adivinhar.
+2. **Escolha ícones do catálogo** — não invente chaves. Busque rápido no terminal (mais prático que abrir `reference/icon-catalog.md` inteiro):
+   ```bash
+   bash <caminho-desta-skill>/scripts/render.sh icons postgres
+   ```
+   Se não achar uma marca específica (o catálogo curado tem ~195 entradas, não é exaustivo), use um ícone `generic:*` (ex: `generic:database`, `generic:server`, `generic:queue`) em vez de adivinhar uma chave.
 3. Se o caso de uso for parecido com algo comum (app web, microsserviços com fila, VPC multi-AZ, pipeline de dados), comece a partir de um exemplo pronto em `reference/patterns.md` e adapte.
 4. Salve a spec em um arquivo `.yaml` (pode ser em qualquer diretório de trabalho da tarefa atual).
 5. Renderize:
@@ -21,7 +25,7 @@ Renderer próprio (ELK.js para layout + ícones reais via `thesvg`/Iconify + SVG
 6. **Leia a saída do comando antes de considerar a tarefa concluída:**
    - Se a spec for inválida, o comando falha (exit code 1) e imprime os erros exatos (campo + motivo). Corrija a spec e rode de novo — não adivinhe o que está errado, o erro já diz.
    - Avisos de ícone não encontrado aparecem em `Avisos:` no stderr mas **não** fazem o comando falhar (um badge genérico com a inicial do nome é usado no lugar). Se aparecer um aviso, troque a chave do ícone por uma real do catálogo e rode de novo antes de entregar o resultado.
-7. Visualize o PNG gerado para conferir o resultado antes de apresentar ao usuário (layouts com muitos groups aninhados ocasionalmente precisam de um ajuste de `label`/quantidade de edges cruzando um group — ver nota no fim de `reference/patterns.md`).
+7. Visualize o PNG gerado para conferir o resultado antes de apresentar ao usuário.
 
 ## Temas disponíveis
 

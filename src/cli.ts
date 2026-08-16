@@ -6,12 +6,15 @@ import { loadSpecFromText } from "./spec/index.js";
 import { layoutSpec } from "./layout/index.js";
 import { composeDiagram } from "./render/index.js";
 import { svgToPng } from "./export/index.js";
+import { searchCatalog } from "./icons/index.js";
 
 const program = new Command();
 
+program.name("arch-diagram").description("Gera diagramas de arquitetura de software ricos e profissionais a partir de uma spec YAML/JSON");
+
 program
-  .name("arch-diagram")
-  .description("Gera diagramas de arquitetura de software ricos e profissionais a partir de uma spec YAML/JSON")
+  .command("render", { isDefault: true })
+  .description("renderiza uma spec YAML/JSON em SVG (e opcionalmente PNG)")
   .argument("<spec>", "caminho para o arquivo de spec (YAML ou JSON)")
   .option("-o, --out <path>", "caminho de saída (.svg ou .png). Padrão: mesmo nome do spec, com extensão .svg")
   .option("--png", "gera também um .png além do .svg")
@@ -59,6 +62,26 @@ program
       const png = svgToPng(svg, Number(opts.scale));
       writeFileSync(pngPath, png);
       console.error(`PNG escrito em ${pngPath}`);
+    }
+  });
+
+program
+  .command("icons")
+  .description("busca ícones no catálogo por termo (bate contra key, label e category)")
+  .argument("<query>", "termo de busca, ex: 'postgres', 'aws:s', 'database'")
+  .action((query: string) => {
+    const matches = searchCatalog(query);
+
+    if (matches.length === 0) {
+      console.log(`Nenhum ícone encontrado para "${query}". Veja o catálogo completo em architecture-diagrams/reference/icon-catalog.md.`);
+      return;
+    }
+
+    const keyWidth = Math.max(...matches.map((e) => e.key.length), 3);
+    const labelWidth = Math.max(...matches.map((e) => e.label.length), 5);
+    console.log(`${matches.length} ícone(s) encontrado(s):\n`);
+    for (const e of matches) {
+      console.log(`  ${e.key.padEnd(keyWidth)}  ${e.label.padEnd(labelWidth)}  [${e.category}]`);
     }
   });
 
