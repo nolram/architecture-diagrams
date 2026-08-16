@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1719" height="567" viewBox="0 0 1719 567">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+  <marker id="arrow-clean-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+  </marker>
+</defs>
+<rect x="0" y="0" width="1719" height="567" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">VPC Multi-AZ com Load Balancer</text>
+<g transform="translate(32, 88)">
+<g>
+  <rect x="783" y="24" width="848" height="399" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+  <rect x="799" y="11" width="43.8" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1"/>
+  <text x="820.9" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC</text>
+</g>
+<g>
+  <rect x="1132" y="76" width="456" height="171" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="1148" y="63" width="50.4" height="26" rx="13" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+  <text x="1173.2" y="80" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#047857">AZ-A</text>
+</g>
+<g>
+  <rect x="836" y="125" width="246" height="256" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="852" y="112" width="50.4" height="26" rx="13" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+  <text x="877.2" y="129" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#047857">AZ-B</text>
+</g>
+<path d="M214,127 L406,127" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/><g>
+    <rect x="286" y="120" width="48" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="310" y="134" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
+  </g>
+<path d="M682,114 L1117,114 L1117,167 L1160,167" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/>
+<path d="M682,140 L714,140 L714,216 L864,216" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/>
+<path d="M1350,167 L1370,167" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/>
+<path d="M1054,216 L1360,216 L1360,193 L1370,193" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-clean-light)"/>
+<path d="M1560,180 L1603,180 L1603,391 L821,391 L821,314 L864,314" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g>
+    <rect x="1067" y="384" width="80" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="1107" y="398" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">replicação</text>
+  </g>
+<g transform="translate(24, 88)">
+  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="#475569" fill-opacity="0.14" stroke="#475569" stroke-opacity="0.35"/>
+  <svg x="22" y="27" width="24" height="24" viewBox="0 0 24 24"><path fill="#475569" d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+  <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Usuário</text>
+  
+</g>
+<g transform="translate(406, 88)">
+  <rect x="0" y="0" width="276" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <clipPath id="clip-badge-alb"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
+  <g clip-path="url(#clip-badge-alb)">
+    <svg x="17" y="22" width="34" height="34" viewBox="0 0 64 64">
+    <title>Icon-Architecture/48/Arch_Elastic-Load-Balancing_48</title>
+    <g id="Icon-Architecture/48/Arch_Elastic-Load-Balancing_48" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-Architecture-BG/48/Networking-Content-Delivery" fill="#8C4FFF">
+            <rect id="Rectangle" x="0" y="0" width="64" height="64"></rect>
+        </g>
+        <path d="M23.5,42 C17.71,42 13,37.29 13,31.5 C13,25.71 17.71,21 23.5,21 C29.29,21 34,25.71 34,31.5 C34,37.29 29.29,42 23.5,42 M48,48 C48,49.654 46.654,51 45,51 C43.346,51 42,49.654 42,48 C42,46.346 43.346,45 45,45 C46.654,45 48,46.346 48,48 M45,13 C46.654,13 48,14.346 48,16 C48,17.654 46.654,19 45,19 C43.346,19 42,17.654 42,16 C42,14.346 43.346,13 45,13 M48,29 C49.654,29 51,30.346 51,32 C51,33.654 49.654,35 48,35 C46.346,35 45,33.654 45,32 C45,30.346 46.346,29 48,29 M35.901,33 L43.102,33 C43.565,35.279 45.586,37 48,37 C50.757,37 53,34.757 53,32 C53,29.243 50.757,27 48,27 C45.586,27 43.565,28.721 43.102,31 L35.975,31 C35.916,29.541 35.614,28.146 35.096,26.856 L42.799,20.467 C43.466,20.797 44.206,21 45,21 C47.757,21 50,18.757 50,16 C50,13.243 47.757,11 45,11 C42.243,11 40,13.243 40,16 C40,17.224 40.459,18.331 41.191,19.201 L34.172,25.024 C31.977,21.42 28.021,19 23.5,19 C16.607,19 11,24.607 11,31.5 C11,38.393 16.607,44 23.5,44 C27.743,44 31.493,41.871 33.754,38.629 L41.191,44.799 C40.459,45.669 40,46.776 40,48 C40,50.757 42.243,53 45,53 C47.757,53 50,50.757 50,48 C50,45.243 47.757,43 45,43 C44.206,43 43.466,43.203 42.799,43.533 L34.77,36.873 C35.344,35.673 35.736,34.373 35.901,33" id="Elastic-Load-Balancing_Icon_48_Squid" fill="#FFFFFF"></path>
+    </g>
+</svg>
+  </g>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#059669" stroke-opacity="0.25"/>
+  <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Application Load Balancer</text>
+  
+</g>
+<g transform="translate(1160, 128)">
+  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <clipPath id="clip-badge-web1"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
+  <g clip-path="url(#clip-badge-web1)">
+    <svg x="17" y="22" width="34" height="34" viewBox="0 0 64 64">
+    <title>Icon-Architecture/48/Arch_Amazon-EC2_48</title>
+    <g id="Icon-Architecture/48/Arch_Amazon-EC2_48" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-Architecture-BG/48/Compute" fill="#ED7100">
+            <rect id="Rectangle" x="0" y="0" width="64" height="64"></rect>
+        </g>
+        <path d="M22,41 L41,41 L41,23 L22,23 L22,41 Z M43,23 L46,23 L46,25 L43,25 L43,27 L46,27 L46,29 L43,29 L43,31 L46,31 L46,33 L43,33 L43,36 L46,36 L46,38 L43,38 L43,40 L46,40 L46,42 L42.863,42 C42.608,42.587 42.023,43 41.344,43 L41,43 L41,46 L39,46 L39,43 L37,43 L37,46 L35,46 L35,43 L33,43 L33,46 L31,46 L31,43 L29,43 L29,46 L27,46 L27,43 L24,43 L24,46 L22,46 L22,43 L21.656,43 C20.977,43 20.392,42.587 20.137,42 L18,42 L18,40 L20,40 L20,38 L18,38 L18,36 L20,36 L20,33 L18,33 L18,31 L20,31 L20,29 L18,29 L18,27 L20,27 L20,25 L18,25 L18,23 L20,23 L20,22.656 C20,21.743 20.743,21 21.656,21 L22,21 L22,18 L24,18 L24,21 L27,21 L27,18 L29,18 L29,21 L31,21 L31,18 L33,18 L33,21 L35,21 L35,18 L37,18 L37,21 L39,21 L39,18 L41,18 L41,21 L41.344,21 C42.257,21 43,21.743 43,22.656 L43,23 Z M32,52 L12,52 L12,32 L16,32 L16,30 L11.843,30 C10.826,30 10,30.827 10,31.843 L10,52.157 C10,53.173 10.826,54 11.843,54 L32.157,54 C33.174,54 34,53.173 34,52.157 L34,48 L32,48 L32,52 Z M54,11.843 L54,32.157 C54,33.173 53.174,34 52.157,34 L48,34 L48,32 L52,32 L52,12 L32,12 L32,16 L30,16 L30,11.843 C30,10.827 30.826,10 31.843,10 L52.157,10 C53.174,10 54,10.827 54,11.843 L54,11.843 Z" id="Amazon-EC2_Icon_48_Squid" fill="#FFFFFF"></path>
+    </g>
+</svg>
+  </g>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
+  <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Web Server</text>
+  
+</g>
+<g transform="translate(1370, 141)">
+  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <clipPath id="clip-badge-dbprimary"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
+  <g clip-path="url(#clip-badge-dbprimary)">
+    <svg x="17" y="22" width="34" height="34" viewBox="0 0 64 64">
+    <title>Icon-Architecture/48/Arch_Amazon-RDS_48</title>
+    <g id="Icon-Architecture/48/Arch_Amazon-RDS_48" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-Architecture-BG/48/Database" fill="#C925D1">
+            <rect id="Rectangle" x="0" y="0" width="64" height="64"></rect>
+        </g>
+        <path d="M54,11 L54,19 L52,19 L52,13.414 L45.707,19.707 L44.293,18.293 L50.586,12 L45.125,12 L45.125,10 L53,10 C53.553,10 54,10.448 54,11 L54,11 Z M12,18.875 L10,18.875 L10,11 C10,10.448 10.447,10 11,10 L19,10 L19,12 L13.414,12 L19.707,18.293 L18.293,19.707 L12,13.414 L12,18.875 Z M19.707,45.707 L13.414,52 L18.875,52 L18.875,54 L11,54 C10.447,54 10,53.552 10,53 L10,45 L12,45 L12,50.586 L18.293,44.293 L19.707,45.707 Z M51.5,31.781 C51.5,29.352 48.634,26.932 43.833,25.307 L44.474,23.413 C50.21,25.354 53.5,28.404 53.5,31.781 C53.5,35.158 50.21,38.208 44.474,40.15 L43.833,38.255 C48.634,36.631 51.5,34.21 51.5,31.781 L51.5,31.781 Z M12.543,31.781 C12.543,34.105 15.224,36.46 19.715,38.081 L19.035,39.961 C13.639,38.014 10.543,35.033 10.543,31.781 C10.543,28.53 13.639,25.548 19.035,23.601 L19.715,25.482 C15.224,27.103 12.543,29.458 12.543,31.781 L12.543,31.781 Z M52,45.125 L54,45.125 L54,53 C54,53.552 53.553,54 53,54 L45,54 L45,52 L50.586,52 L44.293,45.707 L45.707,44.293 L52,50.586 L52,45.125 Z M32.022,31.402 C26.999,31.402 24.126,30.059 24,29.483 L24,26.257 C26.159,27.266 29.609,27.593 32,27.593 C34.391,27.593 37.841,27.266 40,26.257 L40,29.483 C39.894,30.057 37.051,31.402 32.022,31.402 L32.022,31.402 Z M32.022,37.13 C26.999,37.13 24.126,35.786 24,35.21 L24,31.956 C25.953,32.937 29.055,33.402 32.022,33.402 C34.973,33.402 38.055,32.938 40,31.96 L40,35.21 C39.894,35.785 37.052,37.13 32.022,37.13 L32.022,37.13 Z M32,42.268 C26.95,42.268 24.104,40.917 24,40.346 L24,37.683 C25.953,38.665 29.055,39.13 32.022,39.13 C34.973,39.13 38.055,38.666 40,37.687 L40,40.342 C39.896,40.917 37.05,42.268 32,42.268 L32,42.268 Z M32,22.193 C36.971,22.193 39.642,23.37 39.982,23.894 C39.642,24.417 36.971,25.593 32,25.593 C26.909,25.593 24.233,24.361 24,23.949 L24,23.93 C24.233,23.426 26.909,22.193 32,22.193 L32,22.193 Z M32,20.193 C28.286,20.193 22,20.973 22,23.894 L22,40.346 C22,43.041 27.184,44.268 32,44.268 C36.816,44.268 42,43.041 42,40.346 L42,23.894 C42,20.973 35.714,20.193 32,20.193 L32,20.193 Z" id="Amazon-RDS_Icon_48_Squid" fill="#FFFFFF"></path>
+    </g>
+</svg>
+  </g>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
+  <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">RDS Primary</text>
+  
+</g>
+<g transform="translate(864, 177)">
+  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <clipPath id="clip-badge-web2"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
+  <g clip-path="url(#clip-badge-web2)">
+    <svg x="17" y="22" width="34" height="34" viewBox="0 0 64 64">
+    <title>Icon-Architecture/48/Arch_Amazon-EC2_48</title>
+    <g id="Icon-Architecture/48/Arch_Amazon-EC2_48" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-Architecture-BG/48/Compute" fill="#ED7100">
+            <rect id="Rectangle" x="0" y="0" width="64" height="64"></rect>
+        </g>
+        <path d="M22,41 L41,41 L41,23 L22,23 L22,41 Z M43,23 L46,23 L46,25 L43,25 L43,27 L46,27 L46,29 L43,29 L43,31 L46,31 L46,33 L43,33 L43,36 L46,36 L46,38 L43,38 L43,40 L46,40 L46,42 L42.863,42 C42.608,42.587 42.023,43 41.344,43 L41,43 L41,46 L39,46 L39,43 L37,43 L37,46 L35,46 L35,43 L33,43 L33,46 L31,46 L31,43 L29,43 L29,46 L27,46 L27,43 L24,43 L24,46 L22,46 L22,43 L21.656,43 C20.977,43 20.392,42.587 20.137,42 L18,42 L18,40 L20,40 L20,38 L18,38 L18,36 L20,36 L20,33 L18,33 L18,31 L20,31 L20,29 L18,29 L18,27 L20,27 L20,25 L18,25 L18,23 L20,23 L20,22.656 C20,21.743 20.743,21 21.656,21 L22,21 L22,18 L24,18 L24,21 L27,21 L27,18 L29,18 L29,21 L31,21 L31,18 L33,18 L33,21 L35,21 L35,18 L37,18 L37,21 L39,21 L39,18 L41,18 L41,21 L41.344,21 C42.257,21 43,21.743 43,22.656 L43,23 Z M32,52 L12,52 L12,32 L16,32 L16,30 L11.843,30 C10.826,30 10,30.827 10,31.843 L10,52.157 C10,53.173 10.826,54 11.843,54 L32.157,54 C33.174,54 34,53.173 34,52.157 L34,48 L32,48 L32,52 Z M54,11.843 L54,32.157 C54,33.173 53.174,34 52.157,34 L48,34 L48,32 L52,32 L52,12 L32,12 L32,16 L30,16 L30,11.843 C30,10.827 30.826,10 31.843,10 L52.157,10 C53.174,10 54,10.827 54,11.843 L54,11.843 Z" id="Amazon-EC2_Icon_48_Squid" fill="#FFFFFF"></path>
+    </g>
+</svg>
+  </g>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
+  <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Web Server</text>
+  
+</g>
+<g transform="translate(864, 275)">
+  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <clipPath id="clip-badge-dbstandby"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
+  <g clip-path="url(#clip-badge-dbstandby)">
+    <svg x="17" y="22" width="34" height="34" viewBox="0 0 64 64">
+    <title>Icon-Architecture/48/Arch_Amazon-RDS_48</title>
+    <g id="Icon-Architecture/48/Arch_Amazon-RDS_48" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-Architecture-BG/48/Database" fill="#C925D1">
+            <rect id="Rectangle" x="0" y="0" width="64" height="64"></rect>
+        </g>
+        <path d="M54,11 L54,19 L52,19 L52,13.414 L45.707,19.707 L44.293,18.293 L50.586,12 L45.125,12 L45.125,10 L53,10 C53.553,10 54,10.448 54,11 L54,11 Z M12,18.875 L10,18.875 L10,11 C10,10.448 10.447,10 11,10 L19,10 L19,12 L13.414,12 L19.707,18.293 L18.293,19.707 L12,13.414 L12,18.875 Z M19.707,45.707 L13.414,52 L18.875,52 L18.875,54 L11,54 C10.447,54 10,53.552 10,53 L10,45 L12,45 L12,50.586 L18.293,44.293 L19.707,45.707 Z M51.5,31.781 C51.5,29.352 48.634,26.932 43.833,25.307 L44.474,23.413 C50.21,25.354 53.5,28.404 53.5,31.781 C53.5,35.158 50.21,38.208 44.474,40.15 L43.833,38.255 C48.634,36.631 51.5,34.21 51.5,31.781 L51.5,31.781 Z M12.543,31.781 C12.543,34.105 15.224,36.46 19.715,38.081 L19.035,39.961 C13.639,38.014 10.543,35.033 10.543,31.781 C10.543,28.53 13.639,25.548 19.035,23.601 L19.715,25.482 C15.224,27.103 12.543,29.458 12.543,31.781 L12.543,31.781 Z M52,45.125 L54,45.125 L54,53 C54,53.552 53.553,54 53,54 L45,54 L45,52 L50.586,52 L44.293,45.707 L45.707,44.293 L52,50.586 L52,45.125 Z M32.022,31.402 C26.999,31.402 24.126,30.059 24,29.483 L24,26.257 C26.159,27.266 29.609,27.593 32,27.593 C34.391,27.593 37.841,27.266 40,26.257 L40,29.483 C39.894,30.057 37.051,31.402 32.022,31.402 L32.022,31.402 Z M32.022,37.13 C26.999,37.13 24.126,35.786 24,35.21 L24,31.956 C25.953,32.937 29.055,33.402 32.022,33.402 C34.973,33.402 38.055,32.938 40,31.96 L40,35.21 C39.894,35.785 37.052,37.13 32.022,37.13 L32.022,37.13 Z M32,42.268 C26.95,42.268 24.104,40.917 24,40.346 L24,37.683 C25.953,38.665 29.055,39.13 32.022,39.13 C34.973,39.13 38.055,38.666 40,37.687 L40,40.342 C39.896,40.917 37.05,42.268 32,42.268 L32,42.268 Z M32,22.193 C36.971,22.193 39.642,23.37 39.982,23.894 C39.642,24.417 36.971,25.593 32,25.593 C26.909,25.593 24.233,24.361 24,23.949 L24,23.93 C24.233,23.426 26.909,22.193 32,22.193 L32,22.193 Z M32,20.193 C28.286,20.193 22,20.973 22,23.894 L22,40.346 C22,43.041 27.184,44.268 32,44.268 C36.816,44.268 42,43.041 42,40.346 L42,23.894 C42,20.973 35.714,20.193 32,20.193 L32,20.193 Z" id="Amazon-RDS_Icon_48_Squid" fill="#FFFFFF"></path>
+    </g>
+</svg>
+  </g>
+  <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
+  <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">RDS Standby</text>
+  
+</g>
+</g>
+</svg>

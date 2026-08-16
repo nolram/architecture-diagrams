@@ -1,0 +1,52 @@
+version: '1'
+title: Arquitetura Web 3 Camadas
+theme: clean-light
+nodes:
+  - id: user
+    label: Usuário
+    icon: generic:user
+    category: external
+  - id: cdn
+    label: CloudFront
+    sublabel: CDN
+    icon: aws:cloudfront
+    category: network
+  - id: web
+    label: Web Server
+    sublabel: Node.js / Express
+    icon: aws:lambda
+    category: compute
+    group: vpc
+  - id: cache
+    label: Redis
+    sublabel: Cache de sessão
+    icon: brand:redis
+    category: database
+    group: private
+  - id: db
+    label: PostgreSQL
+    sublabel: Banco principal
+    icon: aws:rds
+    category: database
+    group: private
+groups:
+  - id: vpc
+    label: VPC
+    style: vpc
+  - id: private
+    label: Private Subnet
+    style: subnet
+    parent: vpc
+edges:
+  - from: user
+    to: cdn
+    label: HTTPS
+  - from: cdn
+    to: web
+    label: HTTPS
+  - from: web
+    to: cache
+    label: TCP
+  - from: web
+    to: db
+    label: SQL

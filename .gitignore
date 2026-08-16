@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.skill
+output/
+*.log
+.DS_Store

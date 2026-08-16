@@ -1,0 +1,83 @@
+import { getCatalogEntry, findSimilarKeys } from "./catalog.js";
+
+export interface ResolvedIcon {
+  /** SVG interno (sem tag <svg> externa) pronto para ser embutido num viewBox padrão */
+  body: string;
+  viewBox: string;
+  /** cor de marca, se o ícone já vier colorido (thesvg) */
+  brandHex?: string;
+}
+
+export interface IconResolveOk {
+  ok: true;
+  icon: ResolvedIcon;
+}
+export interface IconResolveMissing {
+  ok: false;
+  key: string;
+  suggestions: string[];
+}
+export type IconResolveResult = IconResolveOk | IconResolveMissing;
+
+interface MdiIconSet {
+  width: number;
+  height: number;
+  icons: Record<string, { body: string; width?: number; height?: number }>;
+}
+
+let mdiSetPromise: Promise<MdiIconSet> | null = null;
+async function loadMdiSet(): Promise<MdiIconSet> {
+  if (!mdiSetPromise) {
+    mdiSetPromise = import("@iconify-json/mdi/icons.json", { with: { type: "json" } }).then(
+      (mod) => mod.default as MdiIconSet,
+    );
+  }
+  return mdiSetPromise;
+}
+
+/**
+ * Resolve uma chave de ícone da spec (ex: "aws:lambda", "generic:database")
+ * para SVG pronto para composição. `accentColor` é usado apenas para ícones
+ * genéricos mdi, que herdam a cor da categoria no tema; ícones de marca
+ * (thesvg) mantêm sua cor oficial e ignoram accentColor.
+ */
+export async function resolveIcon(key: string, accentColor?: string): Promise<IconResolveResult> {
+  const entry = getCatalogEntry(key);
+  if (!entry) {
+    return { ok: false, key, suggestions: findSimilarKeys(key) };
+  }
+
+  if (entry.source === "thesvg") {
+    const mod = (await import(`thesvg/${entry.ref}`)) as { svg: string; hex?: string };
+    const body = extractSvgInner(mod.svg);
+    return {
+      ok: true,
+      icon: { body, viewBox: "0 0 64 64", brandHex: mod.hex ? `#${mod.hex}` : undefined },
+    };
+  }
+
+  const set = await loadMdiSet();
+  const raw = set.icons[entry.ref];
+  if (!raw) {
+    return { ok: false, key, suggestions: findSimilarKeys(key) };
+  }
+  const w = raw.width ?? set.width;
+  const h = raw.height ?? set.height;
+  const color = accentColor ?? "#334155";
+  const body = raw.body.replace(/currentColor/g, color);
+  return { ok: true, icon: { body, viewBox: `0 0 ${w} ${h}` } };
+}
+
+function extractSvgInner(svg: string): string {
+  const match = svg.match(/<svg[^>]*>([\s\S]*)<\/svg>/);
+  return match ? match[1] : svg;
+}
+
+export function fallbackBadge(label: string, accentColor: string): ResolvedIcon {
+  const initial = (label.trim()[0] ?? "?").toUpperCase();
+  return {
+    viewBox: "0 0 64 64",
+    body: `<circle cx="32" cy="32" r="30" fill="${accentColor}" fill-opacity="0.15" stroke="${accentColor}" stroke-width="2"/>
+<text x="32" y="40" font-size="26" font-family="sans-serif" font-weight="600" text-anchor="middle" fill="${accentColor}">${initial}</text>`,
+  };
+}

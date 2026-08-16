@@ -1,0 +1,62 @@
+version: '1'
+title: VPC Multi-AZ com Load Balancer
+theme: clean-light
+direction: right
+nodes:
+  - id: user
+    label: Usuário
+    icon: generic:user
+    category: external
+  - id: alb
+    label: Application Load Balancer
+    icon: aws:elb
+    category: network
+  - id: web1
+    label: Web Server
+    icon: aws:ec2
+    category: compute
+    group: az1
+  - id: web2
+    label: Web Server
+    icon: aws:ec2
+    category: compute
+    group: az2
+  - id: dbprimary
+    label: RDS Primary
+    icon: aws:rds
+    category: database
+    group: az1
+  - id: dbstandby
+    label: RDS Standby
+    icon: aws:rds
+    category: database
+    group: az2
+groups:
+  - id: vpc
+    label: VPC
+    style: vpc
+  - id: az1
+    label: AZ-A
+    style: az
+    parent: vpc
+  - id: az2
+    label: AZ-B
+    style: az
+    parent: vpc
+edges:
+  - from: user
+    to: alb
+    label: HTTPS
+  - from: alb
+    to: web1
+  - from: alb
+    to: web2
+  - from: web1
+    to: dbprimary
+  - from: web2
+    to: dbprimary
+  - from: dbprimary
+    to: dbstandby
+    label: replicação
+    style: dashed
+    direction: none

@@ -1,0 +1,38 @@
+version: '1'
+title: Pipeline de Dados
+theme: midnight-dark
+direction: right
+nodes:
+  - id: source
+    label: App Events
+    icon: generic:service
+    category: external
+  - id: raw
+    label: S3 Raw
+    icon: aws:s3
+    category: storage
+  - id: etl
+    label: ETL Job
+    sublabel: Scheduled
+    icon: generic:cron
+    category: compute
+  - id: warehouse
+    label: BigQuery
+    icon: gcp:bigquery
+    category: database
+  - id: dashboard
+    label: Grafana
+    icon: brand:grafana
+    category: generic
+edges:
+  - from: source
+    to: raw
+    label: eventos
+  - from: raw
+    to: etl
+  - from: etl
+    to: warehouse
+    label: load
+  - from: warehouse
+    to: dashboard
+    label: query

@@ -1,0 +1,68 @@
+version: '1'
+title: Microsserviços com Fila de Eventos
+theme: clean-light
+direction: right
+nodes:
+  - id: client
+    label: Cliente
+    icon: generic:browser
+    category: external
+  - id: gateway
+    label: API Gateway
+    icon: aws:api-gateway
+    category: network
+  - id: orders
+    label: Orders Service
+    sublabel: Node.js
+    icon: brand:nodejs
+    category: compute
+    group: services
+  - id: payments
+    label: Payments Service
+    sublabel: Python
+    icon: brand:python
+    category: compute
+    group: services
+  - id: kafka
+    label: Kafka
+    sublabel: Event bus
+    icon: brand:kafka
+    category: messaging
+  - id: notifier
+    label: Notification Worker
+    icon: generic:worker
+    category: compute
+    group: services
+  - id: ordersdb
+    label: Orders DB
+    icon: brand:postgresql
+    category: database
+  - id: paymentsdb
+    label: Payments DB
+    icon: brand:postgresql
+    category: database
+groups:
+  - id: services
+    label: Services
+    style: boundary
+edges:
+  - from: client
+    to: gateway
+    label: HTTPS
+  - from: gateway
+    to: orders
+  - from: gateway
+    to: payments
+  - from: orders
+    to: ordersdb
+  - from: payments
+    to: paymentsdb
+  - from: orders
+    to: kafka
+    label: order.created
+  - from: payments
+    to: kafka
+    label: payment.completed
+  - from: kafka
+    to: notifier
+    label: consume
