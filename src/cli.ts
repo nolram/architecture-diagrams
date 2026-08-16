@@ -42,7 +42,7 @@ async function renderOnce(specPath: string, opts: RenderOptions): Promise<boolea
   if (result.spec.direction === "auto") {
     console.error(`Direção do layout escolhida automaticamente: ${layout.direction}`);
   }
-  const { svg, warnings } = await composeDiagram(result.spec, layout);
+  const { svg, warnings } = await composeDiagram(result.spec, layout, dirname(specPath));
 
   if (warnings.length > 0) {
     console.error("Avisos:");

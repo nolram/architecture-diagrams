@@ -40,6 +40,19 @@ nodes:
 - `actor` — sem card/retângulo: só o ícone num badge circular com o label centralizado embaixo. Use para pessoas, usuários, ou sistemas externos que só aparecem como ponto de entrada/saída do diagrama (não como um serviço "encaixotado").
 - `cloud` — silhueta de nuvem. Use para representar "a internet"/rede pública, ou um serviço externo de terceiros fora do seu controle.
 
+### Ícone customizado (`file:`)
+
+Se o serviço não estiver no catálogo (verifique com `arch-diagram icons <termo>` antes de desistir), a spec pode apontar pra um arquivo `.svg` local em vez de uma chave do catálogo:
+
+```yaml
+icon: file:./assets/logo.svg   # caminho relativo ao diretório do arquivo de spec, não ao cwd
+```
+
+Regras:
+- Só `.svg`, resolvido relativo ao diretório onde a spec `.yaml` está salva (não ao diretório de onde o comando é rodado).
+- O arquivo é validado antes de embutir: precisa ter menos de 200KB, conter uma tag `<svg>...</svg>` válida, e **não pode** conter `<script>`, handlers de evento (`on*=`), `javascript:`, `<foreignObject>`, `<iframe>`/`<embed>`/`<object>`. Se qualquer um desses aparecer, o arquivo inteiro é recusado (sem tentativa de sanitização parcial) e o node cai no badge de fallback — igual a uma chave de catálogo não encontrada, com o motivo específico no aviso.
+- O `viewBox` original do arquivo é preservado; a cor não é alterada (diferente dos ícones `generic:*`, que herdam a cor da categoria).
+
 ## `groups`
 
 Caixas delimitadoras (boundaries) que agrupam nodes visualmente — VPCs, subnets, zonas de disponibilidade, camadas lógicas, etc. Podem ser aninhados via `parent`.
@@ -79,7 +92,7 @@ edges:
 ## Erros comuns e como o renderer reage
 
 - **ids duplicados, edge apontando para node inexistente, group com parent inexistente ou ciclo de parents**: a validação falha (exit code 1) e imprime uma lista de erros específicos com o caminho exato do campo problemático (ex: `[edges.2.to] edge referencia node "db2", que não existe`). Corrija a spec e rode de novo.
-- **`icon` com chave que não existe no catálogo**: NÃO falha. O renderer gera um badge genérico com a inicial do `label` e imprime um aviso no stderr sugerindo chaves parecidas, se houver. Sempre confira o aviso — se aparecer, prefira trocar para uma chave real do catálogo (`icon-catalog.md`) numa próxima geração.
+- **`icon` com chave que não existe no catálogo, ou `file:...` apontando pra um SVG ausente/inseguro/inválido**: NÃO falha. O renderer gera um badge genérico com a inicial do `label` e imprime um aviso no stderr com o motivo específico. Sempre confira o aviso — se aparecer, corrija a chave/caminho numa próxima geração.
 
 ## Exemplo completo
 

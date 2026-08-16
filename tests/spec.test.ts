@@ -24,6 +24,20 @@ describe("spec validation", () => {
     assert.deepEqual(result.spec.edges, []);
   });
 
+  test("campo icon aceita chave de catálogo e 'file:<caminho>.svg'", () => {
+    const catalogKey = validateSpec({ version: "1", nodes: [{ id: "a", label: "A", icon: "aws:lambda" }] });
+    assert.equal(catalogKey.ok, true);
+
+    const fileIcon = validateSpec({ version: "1", nodes: [{ id: "a", label: "A", icon: "file:./assets/logo.svg" }] });
+    assert.equal(fileIcon.ok, true);
+
+    const missingExtension = validateSpec({ version: "1", nodes: [{ id: "a", label: "A", icon: "file:./assets/logo" }] });
+    assert.equal(missingExtension.ok, false);
+
+    const malformed = validateSpec({ version: "1", nodes: [{ id: "a", label: "A", icon: "not-a-valid-icon-key" }] });
+    assert.equal(malformed.ok, false);
+  });
+
   test("aceita uma spec completa com groups aninhados e edges", () => {
     const result = validateSpec({
       version: "1",

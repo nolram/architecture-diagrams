@@ -1,6 +1,10 @@
 import { describe, test } from "node:test";
 import assert from "node:assert/strict";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { resolveIcon, fallbackBadge, getCatalogEntry, findSimilarKeys, searchCatalog, ICON_CATALOG } from "../src/icons/index.js";
+
+const FIXTURES_DIR = dirname(fileURLToPath(import.meta.url)) + "/fixtures";
 
 describe("icon resolution", () => {
   test("resolve um ícone de marca (thesvg) com cor própria", async () => {
@@ -65,6 +69,37 @@ describe("icon resolution", () => {
 
     test("catálogo tem cobertura mínima esperada (regressão contra o expandido)", () => {
       assert.ok(ICON_CATALOG.length >= 150, `catálogo encolheu para ${ICON_CATALOG.length} entradas`);
+    });
+  });
+
+  describe("ícone customizado (file:...)", () => {
+    test("resolve um SVG local válido e preserva o viewBox original", async () => {
+      const result = await resolveIcon("file:./custom-icon.svg", undefined, FIXTURES_DIR);
+      assert.equal(result.ok, true);
+      if (!result.ok) return;
+      assert.equal(result.icon.viewBox, "0 0 48 48");
+      assert.ok(result.icon.body.includes("#ff6b35"));
+    });
+
+    test("recusa SVG com <script>/handler de evento inteiro, sem tentar sanitizar parcialmente", async () => {
+      const result = await resolveIcon("file:./malicious-icon.svg", undefined, FIXTURES_DIR);
+      assert.equal(result.ok, false);
+      if (result.ok) return;
+      assert.match(result.reason!, /recusado/i);
+    });
+
+    test("arquivo inexistente falha com motivo claro em vez de lançar exceção", async () => {
+      const result = await resolveIcon("file:./nao-existe.svg", undefined, FIXTURES_DIR);
+      assert.equal(result.ok, false);
+      if (result.ok) return;
+      assert.match(result.reason!, /não encontrado/i);
+    });
+
+    test("sem baseDir, falha com um motivo explicando o porquê (em vez de tentar um caminho arbitrário)", async () => {
+      const result = await resolveIcon("file:./custom-icon.svg");
+      assert.equal(result.ok, false);
+      if (result.ok) return;
+      assert.match(result.reason!, /diretório base/i);
     });
   });
 });

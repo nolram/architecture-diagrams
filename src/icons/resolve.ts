@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve as resolvePath } from "node:path";
 import { getCatalogEntry, findSimilarKeys } from "./catalog.js";
 
 export interface ResolvedIcon {
@@ -16,6 +18,8 @@ export interface IconResolveMissing {
   ok: false;
   key: string;
   suggestions: string[];
+  /** motivo específico (ex: arquivo custom inválido/inseguro) — quando presente, sobrescreve a mensagem genérica de "não encontrado no catálogo" */
+  reason?: string;
 }
 export type IconResolveResult = IconResolveOk | IconResolveMissing;
 
@@ -35,13 +39,60 @@ async function loadMdiSet(): Promise<MdiIconSet> {
   return mdiSetPromise;
 }
 
+const FILE_ICON_PREFIX = "file:";
+const MAX_CUSTOM_ICON_BYTES = 200_000;
+// recusa o arquivo inteiro (em vez de tentar limpar e usar o resto) se qualquer coisa
+// potencialmente perigosa aparecer — mais simples de garantir correto que sanitização parcial.
+const UNSAFE_SVG_PATTERN = /<script[\s>/]|on[a-z]+\s*=|javascript:|<foreignobject[\s>]|<iframe[\s>]|<embed[\s>]|<object[\s>]/i;
+
+function resolveCustomFileIcon(key: string, baseDir: string): IconResolveResult {
+  const relativePath = key.slice(FILE_ICON_PREFIX.length);
+  const fullPath = resolvePath(baseDir, relativePath);
+
+  let raw: string;
+  try {
+    raw = readFileSync(fullPath, "utf-8");
+  } catch {
+    return { ok: false, key, suggestions: [], reason: `arquivo não encontrado: ${fullPath}` };
+  }
+
+  if (Buffer.byteLength(raw, "utf-8") > MAX_CUSTOM_ICON_BYTES) {
+    return { ok: false, key, suggestions: [], reason: `arquivo maior que ${MAX_CUSTOM_ICON_BYTES / 1000}KB, recusado por segurança` };
+  }
+  if (UNSAFE_SVG_PATTERN.test(raw)) {
+    return {
+      ok: false,
+      key,
+      suggestions: [],
+      reason: "SVG recusado: contém <script>, handler de evento (on*=), javascript:, <foreignObject>, <iframe/embed/object> ou outro conteúdo potencialmente inseguro",
+    };
+  }
+
+  const svgMatch = raw.match(/<svg[^>]*>([\s\S]*)<\/svg>/i);
+  if (!svgMatch) {
+    return { ok: false, key, suggestions: [], reason: "arquivo não parece ser um SVG válido (tag <svg>...</svg> não encontrada)" };
+  }
+
+  const viewBox = raw.match(/<svg[^>]*\sviewBox="([^"]+)"/i)?.[1] ?? "0 0 64 64";
+  return { ok: true, icon: { body: svgMatch[1], viewBox } };
+}
+
 /**
- * Resolve uma chave de ícone da spec (ex: "aws:lambda", "generic:database")
- * para SVG pronto para composição. `accentColor` é usado apenas para ícones
- * genéricos mdi, que herdam a cor da categoria no tema; ícones de marca
- * (thesvg) mantêm sua cor oficial e ignoram accentColor.
+ * Resolve uma chave de ícone da spec (ex: "aws:lambda", "generic:database",
+ * "file:./assets/logo.svg") para SVG pronto para composição. `accentColor` é
+ * usado apenas para ícones genéricos mdi, que herdam a cor da categoria no
+ * tema; ícones de marca (thesvg) mantêm sua cor oficial e ignoram accentColor.
+ * `baseDir` é obrigatório apenas para chaves "file:..." — resolve o caminho
+ * relativo ao diretório do arquivo de spec.
  */
-export async function resolveIcon(key: string, accentColor?: string): Promise<IconResolveResult> {
+export async function resolveIcon(key: string, accentColor?: string, baseDir?: string): Promise<IconResolveResult> {
+  if (key.startsWith(FILE_ICON_PREFIX)) {
+    if (!baseDir) {
+      return { ok: false, key, suggestions: [], reason: "ícone customizado (file:...) requer um diretório base, que não foi informado" };
+    }
+    return resolveCustomFileIcon(key, baseDir);
+  }
+
   const entry = getCatalogEntry(key);
   if (!entry) {
     return { ok: false, key, suggestions: findSimilarKeys(key) };

@@ -6,10 +6,13 @@ export const NodeSchema = z.object({
   id: z.string().regex(idPattern, "id deve conter apenas letras, números, '-' ou '_'"),
   label: z.string().min(1),
   sublabel: z.string().optional(),
-  /** chave no formato "fonte:identificador", ex: "aws:lambda", "generic:database" */
+  /** chave no formato "fonte:identificador" (ex: "aws:lambda") ou "file:<caminho relativo ao spec>.svg" para ícone customizado */
   icon: z
     .string()
-    .regex(/^[a-z0-9_-]+:[a-z0-9_-]+$/, "icon deve seguir o formato 'fonte:identificador', ex: 'aws:lambda'")
+    .regex(
+      /^([a-z0-9_-]+:[a-z0-9_-]+|file:.+\.svg)$/i,
+      "icon deve seguir o formato 'fonte:identificador' (ex: 'aws:lambda') ou 'file:<caminho>.svg' para ícone customizado",
+    )
     .optional(),
   category: z
     .enum(["compute", "storage", "database", "network", "security", "messaging", "external", "generic"])

@@ -16,7 +16,7 @@ export interface ComposeResult {
 const CANVAS_MARGIN = 32;
 const TITLE_HEIGHT = 56;
 
-export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult): Promise<ComposeResult> {
+export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult, baseDir = process.cwd()): Promise<ComposeResult> {
   const theme = getTheme(spec.theme);
   const warnings: string[] = [];
 
@@ -27,12 +27,14 @@ export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult): P
       continue;
     }
     const accent = theme.categoryColors[node.category];
-    const resolved = await resolveIcon(node.icon, accent);
+    const resolved = await resolveIcon(node.icon, accent, baseDir);
     if (resolved.ok) {
       iconByNode.set(node.id, resolved.icon);
     } else {
-      const hint = resolved.suggestions.length ? ` Sugestões: ${resolved.suggestions.join(", ")}.` : "";
-      warnings.push(`ícone "${node.icon}" (node "${node.id}") não encontrado no catálogo.${hint}`);
+      const message = resolved.reason
+        ? `ícone "${node.icon}" (node "${node.id}"): ${resolved.reason}`
+        : `ícone "${node.icon}" (node "${node.id}") não encontrado no catálogo.${resolved.suggestions.length ? ` Sugestões: ${resolved.suggestions.join(", ")}.` : ""}`;
+      warnings.push(message);
       iconByNode.set(node.id, fallbackBadge(node.label, accent));
     }
   }
