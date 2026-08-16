@@ -4,7 +4,7 @@
 
 Gera diagramas de arquitetura de software/infraestrutura **visualmente ricos e profissionais** a partir de uma spec YAML estruturada — pensado para ser usado por uma IA (ex: como uma Claude Skill), não desenhado à mão.
 
-A motivação: diagramas gerados por IA hoje em dia costumam sair em Mermaid — funcionais, mas visualmente pobres (caixas simples, sem ícones, sem hierarquia visual). Este projeto troca a sintaxe do Mermaid por uma spec estruturada e um motor de renderização próprio, com ícones reais de marca (AWS/Azure/GCP/Kubernetes/tecnologias), cards com sombra e cantos arredondados, e boundaries aninhados (VPC/subnet/AZ), mantendo o layout 100% automático.
+A motivação: diagramas gerados por IA hoje em dia costumam sair em Mermaid — funcionais, mas visualmente pobres (caixas simples, sem ícones, sem hierarquia visual). Este projeto troca a sintaxe do Mermaid por uma spec estruturada e um motor de renderização próprio, com ícones reais de marca (195 entradas curadas de AWS/Azure/GCP/Kubernetes/tecnologias, buscáveis via `arch-diagram icons <termo>`), 4 shapes de node (card, cilindro para banco de dados, ator, nuvem), boundaries aninhados (VPC/subnet/AZ), legenda de cores automática e layout 100% automático — inclusive a orientação do diagrama (`direction: auto`).
 
 ## Exemplos
 
@@ -24,13 +24,15 @@ Specs completas desses exemplos em [`examples/`](examples/) e [`architecture-dia
 
 ## Como funciona
 
-```
+```text
 spec YAML/JSON
   → validação (zod, erros acionáveis com o caminho exato do campo)
-  → layout automático hierárquico (ELK.js — groups viram containers aninhados,
-    edges roteadas por AABB do ancestral comum entre origem e destino)
-  → composição SVG (cards com sombra/gradiente/cantos arredondados,
-    ícones resolvidos via `thesvg` + `@iconify-json/mdi`, groups como boundaries com label)
+  → layout automático hierárquico (ELK.js — direção right/down auto-detectada pelo
+    fan-out/fan-in do grafo, groups viram containers aninhados, edges roteadas por
+    AABB do ancestral comum entre origem e destino, labels de edge com espaço reservado)
+  → composição SVG (4 shapes de node — card/database/actor/cloud —, sombra/gradiente/
+    cantos arredondados, ícones resolvidos via `thesvg` + `@iconify-json/mdi`, groups
+    como boundaries com label, legenda de cores automática quando há variedade)
   → export SVG (padrão) + PNG (via @resvg/resvg-js)
 ```
 
@@ -57,7 +59,10 @@ Roda tudo isso (mais um smoke test renderizando `examples/`) em CI a cada push.
 
 ```bash
 node dist/cli.js diagrama.yaml --png -o diagrama.svg
-# gera diagrama.svg e diagrama.png
+# gera diagrama.svg e diagrama.png (equivalente a `node dist/cli.js render diagrama.yaml ...`)
+
+node dist/cli.js icons postgres
+# busca no catálogo de ícones por key, label ou category
 ```
 
 Ou em modo dev (sem precisar buildar antes):
@@ -115,14 +120,14 @@ npm run package:skill
 
 ## Estrutura do projeto
 
-```
+```text
 src/
   spec/     schema (zod) + parser YAML/JSON da spec
-  icons/    catálogo curado de ícones + resolver (thesvg / mdi) com fallback
-  layout/   integração com ELK.js (grafo hierárquico → posições absolutas)
-  render/   design tokens (temas) + composição SVG (cards, groups, edges)
+  icons/    catálogo curado (195 ícones) + resolver (thesvg / mdi) com fallback + busca
+  layout/   integração com ELK.js (grafo hierárquico → posições absolutas) + direção automática
+  render/   design tokens (temas) + composição SVG (shapes de node, groups, edges, legenda)
   export/   rasterização PNG
-  cli.ts    CLI (`arch-diagram`)
+  cli.ts    CLI (`arch-diagram`: render + icons)
 examples/                    specs de exemplo já renderizadas
 architecture-diagrams/       a Claude Skill (SKILL.md + reference/ + scripts/)
 ```
