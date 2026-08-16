@@ -1,50 +1,50 @@
 version: '1'
-title: Arquitetura de Backend — E-commerce
+title: E-commerce Backend Architecture
 theme: clean-light
 nodes:
   - id: client
-    label: Cliente Web
+    label: Web Client
     sublabel: Browser / SPA
     icon: generic:browser
     category: external
   - id: gateway
     label: API Gateway
-    sublabel: Roteamento, authN, rate limiting
+    sublabel: Routing, authN, rate limiting
     icon: aws:api-gateway
     category: network
   - id: orders
     label: Orders Service
-    sublabel: Gerenciamento de pedidos
+    sublabel: Order management
     icon: generic:service
     category: compute
     group: vpc
   - id: payments
     label: Payments Service
-    sublabel: Processamento de pagamentos
+    sublabel: Payment processing
     icon: generic:service
     category: compute
     group: vpc
   - id: redis
     label: Redis
-    sublabel: Cache de sessão
+    sublabel: Session cache
     icon: brand:redis
     category: database
     group: vpc
   - id: queue
     label: Message Queue
-    sublabel: Pagamentos assíncronos
+    sublabel: Async payments
     icon: generic:queue
     category: messaging
     group: vpc
   - id: postgres
     label: PostgreSQL
-    sublabel: Banco de dados principal
+    sublabel: Main database
     icon: brand:postgresql
     category: database
     group: vpc
 groups:
   - id: vpc
-    label: VPC — Rede Privada
+    label: VPC — Private Network
     style: vpc
 edges:
   - from: client
@@ -58,15 +58,15 @@ edges:
     label: REST
   - from: gateway
     to: redis
-    label: sessão R/W
+    label: session R/W
   - from: orders
     to: postgres
-    label: dados de pedidos
+    label: order data
   - from: payments
     to: postgres
-    label: dados de pagamentos
+    label: payment data
   - from: payments
     to: queue
-    label: publish / consome (assíncrono)
+    label: publish / consume (async)
     style: dashed
     direction: bidirectional

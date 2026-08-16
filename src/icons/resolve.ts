@@ -3,10 +3,10 @@ import { resolve as resolvePath } from "node:path";
 import { getCatalogEntry, findSimilarKeys } from "./catalog.js";
 
 export interface ResolvedIcon {
-  /** SVG interno (sem tag <svg> externa) pronto para ser embutido num viewBox padrão */
+  /** inner SVG (without the outer <svg> tag), ready to embed inside a standard viewBox */
   body: string;
   viewBox: string;
-  /** cor de marca, se o ícone já vier colorido (thesvg) */
+  /** brand color, if the icon already comes colored (thesvg) */
   brandHex?: string;
 }
 
@@ -18,7 +18,7 @@ export interface IconResolveMissing {
   ok: false;
   key: string;
   suggestions: string[];
-  /** motivo específico (ex: arquivo custom inválido/inseguro) — quando presente, sobrescreve a mensagem genérica de "não encontrado no catálogo" */
+  /** specific reason (e.g. invalid/unsafe custom file) -- when present, overrides the generic "not found in catalog" message */
   reason?: string;
 }
 export type IconResolveResult = IconResolveOk | IconResolveMissing;
@@ -41,8 +41,9 @@ async function loadMdiSet(): Promise<MdiIconSet> {
 
 const FILE_ICON_PREFIX = "file:";
 const MAX_CUSTOM_ICON_BYTES = 200_000;
-// recusa o arquivo inteiro (em vez de tentar limpar e usar o resto) se qualquer coisa
-// potencialmente perigosa aparecer — mais simples de garantir correto que sanitização parcial.
+// Reject the whole file (instead of trying to clean it up and use the rest)
+// if anything potentially dangerous shows up -- simpler to guarantee correct
+// than partial sanitization.
 const UNSAFE_SVG_PATTERN = /<script[\s>/]|on[a-z]+\s*=|javascript:|<foreignobject[\s>]|<iframe[\s>]|<embed[\s>]|<object[\s>]/i;
 
 function resolveCustomFileIcon(key: string, baseDir: string): IconResolveResult {
@@ -53,41 +54,41 @@ function resolveCustomFileIcon(key: string, baseDir: string): IconResolveResult 
   try {
     raw = readFileSync(fullPath, "utf-8");
   } catch {
-    return { ok: false, key, suggestions: [], reason: `arquivo não encontrado: ${fullPath}` };
+    return { ok: false, key, suggestions: [], reason: `file not found: ${fullPath}` };
   }
 
   if (Buffer.byteLength(raw, "utf-8") > MAX_CUSTOM_ICON_BYTES) {
-    return { ok: false, key, suggestions: [], reason: `arquivo maior que ${MAX_CUSTOM_ICON_BYTES / 1000}KB, recusado por segurança` };
+    return { ok: false, key, suggestions: [], reason: `file larger than ${MAX_CUSTOM_ICON_BYTES / 1000}KB, rejected for safety` };
   }
   if (UNSAFE_SVG_PATTERN.test(raw)) {
     return {
       ok: false,
       key,
       suggestions: [],
-      reason: "SVG recusado: contém <script>, handler de evento (on*=), javascript:, <foreignObject>, <iframe/embed/object> ou outro conteúdo potencialmente inseguro",
+      reason: "SVG rejected: contains <script>, an event handler (on*=), javascript:, <foreignObject>, <iframe/embed/object>, or other potentially unsafe content",
     };
   }
 
   const svgMatch = raw.match(/<svg[^>]*>([\s\S]*)<\/svg>/i);
   if (!svgMatch) {
-    return { ok: false, key, suggestions: [], reason: "arquivo não parece ser um SVG válido (tag <svg>...</svg> não encontrada)" };
+    return { ok: false, key, suggestions: [], reason: "file does not look like a valid SVG (no <svg>...</svg> tag found)" };
   }
 
   return { ok: true, icon: { body: svgMatch[1], viewBox: extractViewBox(raw) } };
 }
 
 /**
- * Resolve uma chave de ícone da spec (ex: "aws:lambda", "generic:database",
- * "file:./assets/logo.svg") para SVG pronto para composição. `accentColor` é
- * usado apenas para ícones genéricos mdi, que herdam a cor da categoria no
- * tema; ícones de marca (thesvg) mantêm sua cor oficial e ignoram accentColor.
- * `baseDir` é obrigatório apenas para chaves "file:..." — resolve o caminho
- * relativo ao diretório do arquivo de spec.
+ * Resolves a spec icon key (e.g. "aws:lambda", "generic:database",
+ * "file:./assets/logo.svg") into SVG ready for composition. `accentColor` is
+ * only used for generic mdi icons, which inherit the category's color from
+ * the theme; brand icons (thesvg) keep their official color and ignore
+ * accentColor. `baseDir` is required only for "file:..." keys -- it resolves
+ * the path relative to the spec file's directory.
  */
 export async function resolveIcon(key: string, accentColor?: string, baseDir?: string): Promise<IconResolveResult> {
   if (key.startsWith(FILE_ICON_PREFIX)) {
     if (!baseDir) {
-      return { ok: false, key, suggestions: [], reason: "ícone customizado (file:...) requer um diretório base, que não foi informado" };
+      return { ok: false, key, suggestions: [], reason: "custom icon (file:...) requires a base directory, which was not provided" };
     }
     return resolveCustomFileIcon(key, baseDir);
   }
@@ -104,7 +105,7 @@ export async function resolveIcon(key: string, accentColor?: string, baseDir?: s
       if (entry.variant) {
         const variantSvg = mod.variants?.[entry.variant];
         if (!variantSvg) {
-          return { ok: false, key, suggestions: [], reason: `variant "${entry.variant}" não existe para o ícone "${entry.ref}" no pacote thesvg instalado` };
+          return { ok: false, key, suggestions: [], reason: `variant "${entry.variant}" does not exist for icon "${entry.ref}" in the installed thesvg package` };
         }
         svgSource = variantSvg;
       }
@@ -114,9 +115,10 @@ export async function resolveIcon(key: string, accentColor?: string, baseDir?: s
         icon: { body, viewBox: extractViewBox(svgSource), brandHex: mod.hex ? `#${mod.hex}` : undefined },
       };
     } catch {
-      // slug não existe mais no pacote thesvg instalado (ex: renomeado numa atualização) —
-      // degrada para o mesmo caminho de fallback gracioso das outras chaves ausentes,
-      // em vez de propagar a exceção do import() e derrubar o render inteiro.
+      // Slug no longer exists in the installed thesvg package (e.g. renamed
+      // in an update) -- degrade to the same graceful fallback path as other
+      // missing-key cases, instead of letting the import() exception bubble
+      // up and crash the whole render.
       return { ok: false, key, suggestions: findSimilarKeys(key) };
     }
   }
@@ -139,12 +141,12 @@ function extractSvgInner(svg: string): string {
 }
 
 /**
- * Extrai o viewBox real declarado no SVG de origem. O thesvg cobre marcas de
- * origens bem diferentes (ícones AWS/Azure/GCP usam um canvas 64x64 por
- * convenção, mas logos de marca genéricos como PostgreSQL/Redis/MongoDB usam
- * qualquer viewBox nativo do logo original — 432x445, 256x220, etc). Assumir
- * "0 0 64 64" pra todo mundo cortava a maioria dos logos de marca num
- * fragmento irreconhecível do canto superior-esquerdo.
+ * Extracts the real viewBox declared in the source SVG. thesvg covers brands
+ * from very different origins (AWS/Azure/GCP icons use a 64x64 canvas by
+ * convention, but generic brand logos like PostgreSQL/Redis/MongoDB use
+ * whatever native viewBox the original logo had -- 432x445, 256x220, etc).
+ * Assuming "0 0 64 64" for everyone cropped most brand logos into an
+ * unrecognizable fragment of the top-left corner.
  */
 function extractViewBox(svg: string): string {
   const viewBox = svg.match(/<svg[^>]*\sviewBox="([^"]+)"/i)?.[1];

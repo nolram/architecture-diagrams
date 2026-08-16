@@ -14,7 +14,7 @@ function specOrThrow(raw: unknown) {
 const theme = getTheme("clean-light");
 
 describe("legend", () => {
-  test("não mostra legenda quando não há variedade de cor suficiente", () => {
+  test("does not show a legend when there isn't enough color variety", () => {
     const spec = specOrThrow({
       version: "1",
       nodes: [
@@ -25,7 +25,7 @@ describe("legend", () => {
     assert.equal(shouldShowLegend(spec), false);
   });
 
-  test("mostra legenda com 3+ categorias distintas mesmo sem groups", () => {
+  test("shows a legend with 3+ distinct categories even without groups", () => {
     const spec = specOrThrow({
       version: "1",
       nodes: [
@@ -37,7 +37,7 @@ describe("legend", () => {
     assert.equal(shouldShowLegend(spec), true);
   });
 
-  test("mostra legenda com 2+ estilos de group distintos mesmo com poucas categorias", () => {
+  test("shows a legend with 2+ distinct group styles even with few categories", () => {
     const spec = specOrThrow({
       version: "1",
       nodes: [
@@ -52,7 +52,7 @@ describe("legend", () => {
     assert.equal(shouldShowLegend(spec), true);
   });
 
-  test("computeLegendEntries deduplica e preserva a ordem de primeira aparição (groups antes de categories)", () => {
+  test("computeLegendEntries deduplicates and preserves first-appearance order (groups before categories)", () => {
     const spec = specOrThrow({
       version: "1",
       nodes: [
@@ -65,24 +65,24 @@ describe("legend", () => {
     const entries = computeLegendEntries(spec, theme);
     assert.deepEqual(
       entries.map((e) => e.label),
-      ["VPC", "Computação", "Banco de dados"],
+      ["VPC", "Compute", "Database"],
     );
     assert.equal(entries[0].color, theme.groupStyles.vpc.stroke);
     assert.equal(entries[1].color, theme.categoryColors.compute);
   });
 
-  test("renderLegend quebra linha quando excede a largura máxima", () => {
+  test("renderLegend wraps to a new line when it exceeds the max width", () => {
     const entries = [
-      { color: "#111", label: "Categoria Bem Comprida Um" },
-      { color: "#222", label: "Categoria Bem Comprida Dois" },
-      { color: "#333", label: "Categoria Bem Comprida Três" },
+      { color: "#111", label: "A Rather Long Category One" },
+      { color: "#222", label: "A Rather Long Category Two" },
+      { color: "#333", label: "A Rather Long Category Three" },
     ];
     const wide = renderLegend(entries, 2000, theme);
     const narrow = renderLegend(entries, 150, theme);
-    assert.ok(wide.height < narrow.height, "com mais largura disponível deveria caber em menos linhas (altura menor)");
+    assert.ok(wide.height < narrow.height, "with more width available it should fit in fewer rows (smaller height)");
   });
 
-  test("renderLegend com lista vazia não desenha nada", () => {
+  test("renderLegend with an empty list draws nothing", () => {
     const result = renderLegend([], 1000, theme);
     assert.equal(result.svg, "");
     assert.equal(result.height, 0);

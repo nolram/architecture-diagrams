@@ -9,7 +9,7 @@ function errorPaths(result: ReturnType<typeof validateSpec>): string[] {
 }
 
 describe("spec validation", () => {
-  test("aceita uma spec mínima válida e aplica defaults", () => {
+  test("accepts a minimal valid spec and applies defaults", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "a", label: "A" }],
@@ -24,7 +24,7 @@ describe("spec validation", () => {
     assert.deepEqual(result.spec.edges, []);
   });
 
-  test("campo icon aceita chave de catálogo e 'file:<caminho>.svg'", () => {
+  test("icon field accepts a catalog key and 'file:<path>.svg'", () => {
     const catalogKey = validateSpec({ version: "1", nodes: [{ id: "a", label: "A", icon: "aws:lambda" }] });
     assert.equal(catalogKey.ok, true);
 
@@ -38,10 +38,10 @@ describe("spec validation", () => {
     assert.equal(malformed.ok, false);
   });
 
-  test("aceita uma spec completa com groups aninhados e edges", () => {
+  test("accepts a full spec with nested groups and edges", () => {
     const result = validateSpec({
       version: "1",
-      title: "Teste",
+      title: "Test",
       nodes: [
         { id: "web", label: "Web", group: "vpc" },
         { id: "db", label: "DB", group: "private" },
@@ -55,7 +55,7 @@ describe("spec validation", () => {
     assert.equal(result.ok, true);
   });
 
-  test("rejeita id de node duplicado", () => {
+  test("rejects a duplicate node id", () => {
     const result = validateSpec({
       version: "1",
       nodes: [
@@ -67,7 +67,7 @@ describe("spec validation", () => {
     assert.ok(paths.some((p) => p === "nodes.1.id"));
   });
 
-  test("rejeita node e group com o mesmo id (namespace compartilhado)", () => {
+  test("rejects a node and a group sharing the same id (shared namespace)", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "shared", label: "A" }],
@@ -76,7 +76,7 @@ describe("spec validation", () => {
     errorPaths(result);
   });
 
-  test("rejeita edge apontando para node inexistente", () => {
+  test("rejects an edge pointing at a nonexistent node", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "a", label: "A" }],
@@ -86,7 +86,7 @@ describe("spec validation", () => {
     assert.ok(paths.includes("edges.0.to"));
   });
 
-  test("rejeita node.group apontando para group inexistente", () => {
+  test("rejects node.group pointing at a nonexistent group", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "a", label: "A", group: "ghost" }],
@@ -95,7 +95,7 @@ describe("spec validation", () => {
     assert.ok(paths.includes("nodes.0.group"));
   });
 
-  test("rejeita group.parent apontando para group inexistente", () => {
+  test("rejects group.parent pointing at a nonexistent group", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "a", label: "A" }],
@@ -105,7 +105,7 @@ describe("spec validation", () => {
     assert.ok(paths.includes("groups.0.parent"));
   });
 
-  test("rejeita group que é parent de si mesmo", () => {
+  test("rejects a group that is its own parent", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "a", label: "A" }],
@@ -114,7 +114,7 @@ describe("spec validation", () => {
     errorPaths(result);
   });
 
-  test("rejeita ciclo de parent entre groups", () => {
+  test("rejects a parent cycle between groups", () => {
     const result = validateSpec({
       version: "1",
       nodes: [{ id: "a", label: "A" }],
@@ -126,12 +126,12 @@ describe("spec validation", () => {
     errorPaths(result);
   });
 
-  test("rejeita spec sem nenhum node", () => {
+  test("rejects a spec with no nodes", () => {
     const result = validateSpec({ version: "1", nodes: [] });
     assert.equal(result.ok, false);
   });
 
-  test("loadSpecFromText reporta erro de YAML malformado sem lançar exceção", () => {
+  test("loadSpecFromText reports a malformed YAML error without throwing", () => {
     const result = loadSpecFromText("version: '1'\nnodes: [this is not: valid: yaml");
     assert.equal(result.ok, false);
     if (result.ok) return;

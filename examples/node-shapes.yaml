@@ -1,15 +1,15 @@
 version: '1'
-title: Shapes de Node
+title: Node Shapes
 theme: clean-light
 nodes:
   - id: user
-    label: Usuário
+    label: User
     shape: actor
     icon: generic:user
     category: external
   - id: internet
     label: Internet
-    sublabel: DNS público
+    sublabel: Public DNS
     shape: cloud
     icon: generic:cloud
     category: external
@@ -21,7 +21,7 @@ nodes:
     category: compute
   - id: db
     label: PostgreSQL
-    sublabel: Banco principal
+    sublabel: Main database
     shape: database
     icon: brand:postgresql
     category: database

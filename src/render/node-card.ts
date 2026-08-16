@@ -8,7 +8,7 @@ const BADGE_SIZE = 40;
 const BADGE_MARGIN = 14;
 const CARD_RADIUS = 14;
 
-/** silhueta de nuvem (mdi "cloud", MIT) normalizada num viewBox 24x24, usada como fundo do shape "cloud" */
+/** cloud silhouette (mdi "cloud", MIT), normalized to a 24x24 viewBox, used as the background of the "cloud" shape */
 const CLOUD_PATH_D =
   "M6.5 20q-2.28 0-3.89-1.57Q1 16.85 1 14.58q0-1.95 1.17-3.48q1.18-1.53 3.08-1.95q.63-2.3 2.5-3.72Q9.63 4 12 4q2.93 0 4.96 2.04Q19 8.07 19 11q1.73.2 2.86 1.5q1.14 1.28 1.14 3q0 1.88-1.31 3.19T18.5 20Z";
 const CLOUD_VIEWBOX = "0 0 24 24";
@@ -58,14 +58,14 @@ function renderDatabaseNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, i
   const h = box.height;
   const capRy = Math.min(16, h * 0.16);
 
-  // corpo do cilindro: dois arcos elípticos (topo e base) ligados pelas laterais
+  // cylinder body: two elliptical arcs (top and bottom) joined by the sides
   const bodyPath = `M0,${capRy}
     A${w / 2},${capRy} 0 0 1 ${w},${capRy}
     L${w},${h - capRy}
     A${w / 2},${capRy} 0 0 1 0,${h - capRy}
     Z`;
 
-  // ícone/texto centralizados no "corpo" do cilindro, entre as duas tampas
+  // icon/text centered in the cylinder's "body", between the two caps
   const badgeY = capRy + (h - capRy * 2 - BADGE_SIZE) / 2;
   const textX = BADGE_MARGIN + BADGE_SIZE + 12;
   const textMaxWidth = w - textX - BADGE_MARGIN;
@@ -87,7 +87,7 @@ function renderActorNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, icon
   const badgeX = (box.width - size) / 2;
   const badgeY = 4;
   const clipId = `clip-badge-${node.id}`;
-  const badge = renderIconBadge(icon, accent, clipId, badgeX, badgeY, size, /* rounded pill */ size / 2);
+  const badge = renderIconBadge(icon, accent, clipId, badgeX, badgeY, size, /* full circle */ size / 2);
 
   const labelY = badgeY + size + 20;
   const label = `<text x="${box.width / 2}" y="${labelY}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="14" font-weight="600" fill="${theme.labelColor}">${escapeXml(truncateToWidth(node.label, box.width))}</text>`;
@@ -95,8 +95,9 @@ function renderActorNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, icon
     ? `<text x="${box.width / 2}" y="${labelY + 17}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="11" fill="${theme.sublabelColor}">${escapeXml(truncateToWidth(node.sublabel, box.width))}</text>`
     : "";
 
-  // sem card/retângulo de fundo — só o badge (com sombra própria) e o texto embaixo,
-  // pra diferenciar visualmente atores/sistemas externos dos serviços "encaixotados"
+  // No card/background rect -- just the badge (with its own shadow) and the
+  // text below it, to visually set people/external systems apart from
+  // "boxed" services.
   return `<g transform="translate(${box.x}, ${box.y})">
   <g filter="url(#card-shadow)">${badge}</g>
   ${label}
@@ -115,9 +116,10 @@ function renderCloudNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, icon
   const badge = renderIconBadge(icon, accent, clipId, BADGE_MARGIN, badgeY, BADGE_SIZE);
   const text = labelBlock(node, textX, textMaxWidth, box, theme);
 
-  // o filtro de sombra vai no <g> externo (coordenadas reais em px) em vez do
-  // <svg> aninhado com viewBox — aplicado dentro do viewBox minúsculo (0 0 24 24)
-  // o resvg não segue a silhueta do path e desenha uma sombra retangular.
+  // The shadow filter goes on the outer <g> (real px coordinates) instead of
+  // the nested <svg> with its viewBox -- applied inside the tiny (0 0 24 24)
+  // viewBox, resvg doesn't follow the path's silhouette and draws a
+  // rectangular shadow instead.
   return `<g transform="translate(${box.x}, ${box.y})" filter="url(#card-shadow)">
   <svg x="0" y="0" width="${w}" height="${h}" viewBox="${CLOUD_VIEWBOX}" preserveAspectRatio="none">
     <path d="${CLOUD_PATH_D}" fill="${theme.cardBg}" stroke="${theme.cardBorder}" stroke-width="0.6" vector-effect="non-scaling-stroke"/>
@@ -137,7 +139,7 @@ function renderIconBadge(
   radius = 10,
 ): string {
   if (icon?.brandHex) {
-    // ícone de marca com cor própria (thesvg): fundo neutro, ícone recortado com cantos arredondados
+    // brand icon with its own color (thesvg): neutral background, icon clipped with rounded corners
     const inset = Math.round(size * 0.075);
     return `<clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}"/></clipPath>
   <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}" fill="#ffffff"/>

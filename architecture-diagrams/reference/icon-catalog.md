@@ -1,244 +1,244 @@
-# Catálogo de ícones
+# Icon catalog
 
-Chaves disponíveis para o campo `icon` dos nodes. Use exatamente a chave da coluna **key** (formato `fonte:identificador`). Se a chave não existir, o render ainda funciona (gera um badge genérico com a inicial do label e imprime um aviso) — mas prefira sempre uma chave real do catálogo abaixo.
+Keys available for a node's `icon` field. Use exactly the key from the **key** column (format `source:identifier`). If the key doesn't exist, the render still works (it generates a generic badge with the label's initial and prints a warning) -- but always prefer a real key from the catalog below.
 
-Busca rápida no terminal: `node dist/cli.js icons <termo>` (ver `SKILL.md`).
+Quick terminal search: `node dist/cli.js icons <term>` (see `SKILL.md`).
 
 ## compute
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:batch` | AWS Batch | marca/serviço (cor própria) |
-| `aws:ec2` | Amazon EC2 | marca/serviço (cor própria) |
-| `aws:ecs` | Amazon ECS Anywhere | marca/serviço (cor própria) |
-| `aws:eks` | Amazon EKS Anywhere | marca/serviço (cor própria) |
-| `aws:elastic-beanstalk` | AWS Elastic Beanstalk | marca/serviço (cor própria) |
-| `aws:emr` | Amazon EMR | marca/serviço (cor própria) |
-| `aws:fargate` | AWS Fargate | marca/serviço (cor própria) |
-| `aws:glue` | AWS Glue | marca/serviço (cor própria) |
-| `aws:lambda` | AWS Lambda | marca/serviço (cor própria) |
-| `aws:step-functions` | AWS Step Functions | marca/serviço (cor própria) |
-| `azure:aks` | Azure Kubernetes Service | marca/serviço (cor própria) |
-| `azure:data-factory` | Azure Data Factory | marca/serviço (cor própria) |
-| `azure:functions` | Azure Function Apps | marca/serviço (cor própria) |
-| `azure:vm` | Azure Virtual Machine | marca/serviço (cor própria) |
-| `brand:csharp` | C# | marca/serviço (cor própria) |
-| `brand:django` | Django | marca/serviço (cor própria) |
-| `brand:docker` | Docker | marca/serviço (cor própria) |
-| `brand:dotnet` | .NET | marca/serviço (cor própria) |
-| `brand:fastapi` | FastAPI | marca/serviço (cor própria) |
-| `brand:flask` | Flask | marca/serviço (cor própria) |
-| `brand:go` | Go | marca/serviço (cor própria) |
-| `brand:helm` | Helm | marca/serviço (cor própria) |
-| `brand:java` | Java | marca/serviço (cor própria) |
-| `brand:kubernetes` | Kubernetes | marca/serviço (cor própria) |
-| `brand:linux` | Linux | marca/serviço (cor própria) |
-| `brand:nodejs` | Node.js | marca/serviço (cor própria) |
-| `brand:php` | PHP | marca/serviço (cor própria) |
-| `brand:python` | Python | marca/serviço (cor própria) |
-| `brand:ruby` | Ruby | marca/serviço (cor própria) |
-| `brand:rust` | Rust | marca/serviço (cor própria) |
-| `brand:spring` | Spring | marca/serviço (cor própria) |
-| `brand:typescript` | TypeScript | marca/serviço (cor própria) |
-| `brand:ubuntu` | Ubuntu | marca/serviço (cor própria) |
-| `gcp:cloud-functions` | Cloud Functions | marca/serviço (cor própria) |
-| `gcp:cloud-run` | Cloud Run | marca/serviço (cor própria) |
-| `gcp:compute-engine` | Compute Engine | marca/serviço (cor própria) |
-| `gcp:gke` | Google Kubernetes Engine | marca/serviço (cor própria) |
-| `generic:automation` | Automação / pipeline | forma genérica (herda a cor da categoria) |
-| `generic:cron` | Job agendado | forma genérica (herda a cor da categoria) |
-| `generic:function` | Função serverless | forma genérica (herda a cor da categoria) |
-| `generic:server` | Servidor | forma genérica (herda a cor da categoria) |
-| `generic:worker` | Worker / processo em background | forma genérica (herda a cor da categoria) |
+| `aws:batch` | AWS Batch | brand/service (own color) |
+| `aws:ec2` | Amazon EC2 | brand/service (own color) |
+| `aws:ecs` | Amazon ECS Anywhere | brand/service (own color) |
+| `aws:eks` | Amazon EKS Anywhere | brand/service (own color) |
+| `aws:elastic-beanstalk` | AWS Elastic Beanstalk | brand/service (own color) |
+| `aws:emr` | Amazon EMR | brand/service (own color) |
+| `aws:fargate` | AWS Fargate | brand/service (own color) |
+| `aws:glue` | AWS Glue | brand/service (own color) |
+| `aws:lambda` | AWS Lambda | brand/service (own color) |
+| `aws:step-functions` | AWS Step Functions | brand/service (own color) |
+| `azure:aks` | Azure Kubernetes Service | brand/service (own color) |
+| `azure:data-factory` | Azure Data Factory | brand/service (own color) |
+| `azure:functions` | Azure Function Apps | brand/service (own color) |
+| `azure:vm` | Azure Virtual Machine | brand/service (own color) |
+| `brand:csharp` | C# | brand/service (own color) |
+| `brand:django` | Django | brand/service (own color) |
+| `brand:docker` | Docker | brand/service (own color) |
+| `brand:dotnet` | .NET | brand/service (own color) |
+| `brand:fastapi` | FastAPI | brand/service (own color) |
+| `brand:flask` | Flask | brand/service (own color) |
+| `brand:go` | Go | brand/service (own color) |
+| `brand:helm` | Helm | brand/service (own color) |
+| `brand:java` | Java | brand/service (own color) |
+| `brand:kubernetes` | Kubernetes | brand/service (own color) |
+| `brand:linux` | Linux | brand/service (own color) |
+| `brand:nodejs` | Node.js | brand/service (own color) |
+| `brand:php` | PHP | brand/service (own color) |
+| `brand:python` | Python | brand/service (own color) |
+| `brand:ruby` | Ruby | brand/service (own color) |
+| `brand:rust` | Rust | brand/service (own color) |
+| `brand:spring` | Spring | brand/service (own color) |
+| `brand:typescript` | TypeScript | brand/service (own color) |
+| `brand:ubuntu` | Ubuntu | brand/service (own color) |
+| `gcp:cloud-functions` | Cloud Functions | brand/service (own color) |
+| `gcp:cloud-run` | Cloud Run | brand/service (own color) |
+| `gcp:compute-engine` | Compute Engine | brand/service (own color) |
+| `gcp:gke` | Google Kubernetes Engine | brand/service (own color) |
+| `generic:automation` | Automation / pipeline | generic shape (inherits the category's color) |
+| `generic:cron` | Scheduled job | generic shape (inherits the category's color) |
+| `generic:function` | Serverless function | generic shape (inherits the category's color) |
+| `generic:server` | Server | generic shape (inherits the category's color) |
+| `generic:worker` | Worker / background process | generic shape (inherits the category's color) |
 
 ## storage
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:backup` | AWS Backup | marca/serviço (cor própria) |
-| `aws:ecr` | Amazon ECR | marca/serviço (cor própria) |
-| `aws:s3` | Amazon S3 | marca/serviço (cor própria) |
-| `azure:blob` | Azure Blob Storage | marca/serviço (cor própria) |
-| `azure:container-registry` | Azure Container Registry | marca/serviço (cor própria) |
-| `azure:storage` | Azure Storage Accounts | marca/serviço (cor própria) |
-| `gcp:artifact-registry` | Artifact Registry | marca/serviço (cor própria) |
-| `gcp:cloud-storage` | Cloud Storage | marca/serviço (cor própria) |
-| `generic:archive` | Arquivamento | forma genérica (herda a cor da categoria) |
-| `generic:backup` | Backup | forma genérica (herda a cor da categoria) |
-| `generic:file` | Documento / arquivo | forma genérica (herda a cor da categoria) |
-| `generic:package` | Artefato / build | forma genérica (herda a cor da categoria) |
-| `generic:storage` | Armazenamento de arquivos | forma genérica (herda a cor da categoria) |
+| `aws:backup` | AWS Backup | brand/service (own color) |
+| `aws:ecr` | Amazon ECR | brand/service (own color) |
+| `aws:s3` | Amazon S3 | brand/service (own color) |
+| `azure:blob` | Azure Blob Storage | brand/service (own color) |
+| `azure:container-registry` | Azure Container Registry | brand/service (own color) |
+| `azure:storage` | Azure Storage Accounts | brand/service (own color) |
+| `gcp:artifact-registry` | Artifact Registry | brand/service (own color) |
+| `gcp:cloud-storage` | Cloud Storage | brand/service (own color) |
+| `generic:archive` | Archival | generic shape (inherits the category's color) |
+| `generic:backup` | Backup | generic shape (inherits the category's color) |
+| `generic:file` | Document / file | generic shape (inherits the category's color) |
+| `generic:package` | Artifact / build | generic shape (inherits the category's color) |
+| `generic:storage` | File storage | generic shape (inherits the category's color) |
 
 ## database
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:athena` | Amazon Athena | marca/serviço (cor própria) |
-| `aws:dynamodb` | Amazon DynamoDB | marca/serviço (cor própria) |
-| `aws:elasticache` | Amazon ElastiCache | marca/serviço (cor própria) |
-| `aws:neptune` | Amazon Neptune | marca/serviço (cor própria) |
-| `aws:rds` | Amazon RDS | marca/serviço (cor própria) |
-| `aws:redshift` | Amazon Redshift | marca/serviço (cor própria) |
-| `azure:cosmos-db` | Azure Cosmos DB | marca/serviço (cor própria) |
-| `azure:sql-database` | Azure SQL Database | marca/serviço (cor própria) |
-| `azure:synapse-analytics` | Azure Synapse Analytics | marca/serviço (cor própria) |
-| `brand:cassandra` | Cassandra | marca/serviço (cor própria) |
-| `brand:elasticsearch` | Elasticsearch | marca/serviço (cor própria) |
-| `brand:mariadb` | MariaDB | marca/serviço (cor própria) |
-| `brand:mongodb` | MongoDB | marca/serviço (cor própria) |
-| `brand:mysql` | MySQL | marca/serviço (cor própria) |
-| `brand:neo4j` | Neo4j | marca/serviço (cor própria) |
-| `brand:postgresql` | PostgreSQL | marca/serviço (cor própria) |
-| `brand:redis` | Redis | marca/serviço (cor própria) |
-| `brand:sqlite` | SQLite | marca/serviço (cor própria) |
-| `brand:supabase` | Supabase | marca/serviço (cor própria) |
-| `gcp:bigquery` | BigQuery | marca/serviço (cor própria) |
-| `gcp:cloud-spanner` | Cloud Spanner | marca/serviço (cor própria) |
-| `gcp:cloud-sql` | Cloud SQL | marca/serviço (cor própria) |
-| `gcp:firestore` | Firestore | marca/serviço (cor própria) |
-| `gcp:memorystore` | Memorystore | marca/serviço (cor própria) |
-| `generic:cache` | Cache | forma genérica (herda a cor da categoria) |
-| `generic:database` | Banco de dados (genérico) | forma genérica (herda a cor da categoria) |
-| `generic:table` | Tabela / dataset | forma genérica (herda a cor da categoria) |
+| `aws:athena` | Amazon Athena | brand/service (own color) |
+| `aws:dynamodb` | Amazon DynamoDB | brand/service (own color) |
+| `aws:elasticache` | Amazon ElastiCache | brand/service (own color) |
+| `aws:neptune` | Amazon Neptune | brand/service (own color) |
+| `aws:rds` | Amazon RDS | brand/service (own color) |
+| `aws:redshift` | Amazon Redshift | brand/service (own color) |
+| `azure:cosmos-db` | Azure Cosmos DB | brand/service (own color) |
+| `azure:sql-database` | Azure SQL Database | brand/service (own color) |
+| `azure:synapse-analytics` | Azure Synapse Analytics | brand/service (own color) |
+| `brand:cassandra` | Cassandra | brand/service (own color) |
+| `brand:elasticsearch` | Elasticsearch | brand/service (own color) |
+| `brand:mariadb` | MariaDB | brand/service (own color) |
+| `brand:mongodb` | MongoDB | brand/service (own color) |
+| `brand:mysql` | MySQL | brand/service (own color) |
+| `brand:neo4j` | Neo4j | brand/service (own color) |
+| `brand:postgresql` | PostgreSQL | brand/service (own color) |
+| `brand:redis` | Redis | brand/service (own color) |
+| `brand:sqlite` | SQLite | brand/service (own color) |
+| `brand:supabase` | Supabase | brand/service (own color) |
+| `gcp:bigquery` | BigQuery | brand/service (own color) |
+| `gcp:cloud-spanner` | Cloud Spanner | brand/service (own color) |
+| `gcp:cloud-sql` | Cloud SQL | brand/service (own color) |
+| `gcp:firestore` | Firestore | brand/service (own color) |
+| `gcp:memorystore` | Memorystore | brand/service (own color) |
+| `generic:cache` | Cache | generic shape (inherits the category's color) |
+| `generic:database` | Database (generic) | generic shape (inherits the category's color) |
+| `generic:table` | Table / dataset | generic shape (inherits the category's color) |
 
 ## messaging
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:eventbridge` | Amazon EventBridge | marca/serviço (cor própria) |
-| `aws:kinesis` | Amazon Kinesis | marca/serviço (cor própria) |
-| `aws:ses` | Amazon SES | marca/serviço (cor própria) |
-| `aws:sns` | Amazon SNS | marca/serviço (cor própria) |
-| `aws:sqs` | Amazon SQS | marca/serviço (cor própria) |
-| `azure:event-hubs` | Azure Event Hubs | marca/serviço (cor própria) |
-| `azure:pubsub` | Azure Web PubSub | marca/serviço (cor própria) |
-| `azure:service-bus` | Azure Service Bus | marca/serviço (cor própria) |
-| `brand:kafka` | Apache Kafka | marca/serviço (cor própria) |
-| `brand:nats` | NATS | marca/serviço (cor própria) |
-| `brand:rabbitmq` | RabbitMQ | marca/serviço (cor própria) |
-| `gcp:cloud-tasks` | Cloud Tasks | marca/serviço (cor própria) |
-| `gcp:pubsub` | Pub/Sub | marca/serviço (cor própria) |
-| `generic:notification` | Notificação | forma genérica (herda a cor da categoria) |
-| `generic:queue` | Fila de mensagens | forma genérica (herda a cor da categoria) |
+| `aws:eventbridge` | Amazon EventBridge | brand/service (own color) |
+| `aws:kinesis` | Amazon Kinesis | brand/service (own color) |
+| `aws:ses` | Amazon SES | brand/service (own color) |
+| `aws:sns` | Amazon SNS | brand/service (own color) |
+| `aws:sqs` | Amazon SQS | brand/service (own color) |
+| `azure:event-hubs` | Azure Event Hubs | brand/service (own color) |
+| `azure:pubsub` | Azure Web PubSub | brand/service (own color) |
+| `azure:service-bus` | Azure Service Bus | brand/service (own color) |
+| `brand:kafka` | Apache Kafka | brand/service (own color) |
+| `brand:nats` | NATS | brand/service (own color) |
+| `brand:rabbitmq` | RabbitMQ | brand/service (own color) |
+| `gcp:cloud-tasks` | Cloud Tasks | brand/service (own color) |
+| `gcp:pubsub` | Pub/Sub | brand/service (own color) |
+| `generic:notification` | Notification | generic shape (inherits the category's color) |
+| `generic:queue` | Message queue | generic shape (inherits the category's color) |
 
 ## network
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:api-gateway` | Amazon API Gateway | marca/serviço (cor própria) |
-| `aws:appsync` | AWS AppSync | marca/serviço (cor própria) |
-| `aws:cloudfront` | Amazon CloudFront | marca/serviço (cor própria) |
-| `aws:elb` | Elastic Load Balancing | marca/serviço (cor própria) |
-| `aws:route53` | Amazon Route 53 | marca/serviço (cor própria) |
-| `aws:vpc` | Amazon VPC Lattice | marca/serviço (cor própria) |
-| `azure:api-management` | Azure API Management | marca/serviço (cor própria) |
-| `azure:front-door` | Azure Front Door | marca/serviço (cor própria) |
-| `azure:load-balancer` | Azure Load Balancer | marca/serviço (cor própria) |
-| `azure:virtual-network` | Azure Virtual Network | marca/serviço (cor própria) |
-| `brand:apache` | Apache HTTP Server | marca/serviço (cor própria) |
-| `brand:cloudflare` | Cloudflare | marca/serviço (cor própria) |
-| `brand:envoy` | Envoy | marca/serviço (cor própria) |
-| `brand:graphql` | GraphQL | marca/serviço (cor própria) |
-| `brand:istio` | Istio | marca/serviço (cor própria) |
-| `brand:nginx` | NGINX | marca/serviço (cor própria) |
-| `brand:traefik` | Traefik | marca/serviço (cor própria) |
-| `gcp:cloud-cdn` | Cloud CDN | marca/serviço (cor própria) |
-| `gcp:cloud-dns` | Cloud DNS | marca/serviço (cor própria) |
-| `gcp:load-balancing` | Cloud Load Balancing | marca/serviço (cor própria) |
-| `generic:api` | API | forma genérica (herda a cor da categoria) |
-| `generic:dns` | DNS | forma genérica (herda a cor da categoria) |
-| `generic:load-balancer` | Load balancer | forma genérica (herda a cor da categoria) |
-| `generic:router` | Rede / roteador | forma genérica (herda a cor da categoria) |
-| `generic:topology` | Topologia de rede | forma genérica (herda a cor da categoria) |
-| `generic:webhook` | Webhook | forma genérica (herda a cor da categoria) |
+| `aws:api-gateway` | Amazon API Gateway | brand/service (own color) |
+| `aws:appsync` | AWS AppSync | brand/service (own color) |
+| `aws:cloudfront` | Amazon CloudFront | brand/service (own color) |
+| `aws:elb` | Elastic Load Balancing | brand/service (own color) |
+| `aws:route53` | Amazon Route 53 | brand/service (own color) |
+| `aws:vpc` | Amazon VPC Lattice | brand/service (own color) |
+| `azure:api-management` | Azure API Management | brand/service (own color) |
+| `azure:front-door` | Azure Front Door | brand/service (own color) |
+| `azure:load-balancer` | Azure Load Balancer | brand/service (own color) |
+| `azure:virtual-network` | Azure Virtual Network | brand/service (own color) |
+| `brand:apache` | Apache HTTP Server | brand/service (own color) |
+| `brand:cloudflare` | Cloudflare | brand/service (own color) |
+| `brand:envoy` | Envoy | brand/service (own color) |
+| `brand:graphql` | GraphQL | brand/service (own color) |
+| `brand:istio` | Istio | brand/service (own color) |
+| `brand:nginx` | NGINX | brand/service (own color) |
+| `brand:traefik` | Traefik | brand/service (own color) |
+| `gcp:cloud-cdn` | Cloud CDN | brand/service (own color) |
+| `gcp:cloud-dns` | Cloud DNS | brand/service (own color) |
+| `gcp:load-balancing` | Cloud Load Balancing | brand/service (own color) |
+| `generic:api` | API | generic shape (inherits the category's color) |
+| `generic:dns` | DNS | generic shape (inherits the category's color) |
+| `generic:load-balancer` | Load balancer | generic shape (inherits the category's color) |
+| `generic:router` | Network / router | generic shape (inherits the category's color) |
+| `generic:topology` | Network topology | generic shape (inherits the category's color) |
+| `generic:webhook` | Webhook | generic shape (inherits the category's color) |
 
 ## security
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:acm` | AWS Certificate Manager | marca/serviço (cor própria) |
-| `aws:cognito` | Amazon Cognito | marca/serviço (cor própria) |
-| `aws:iam` | AWS IAM Identity Center | marca/serviço (cor própria) |
-| `aws:secrets-manager` | AWS Secrets Manager | marca/serviço (cor própria) |
-| `aws:shield` | AWS Shield | marca/serviço (cor própria) |
-| `aws:waf` | AWS WAF | marca/serviço (cor própria) |
-| `azure:key-vault` | Azure Key Vault | marca/serviço (cor própria) |
-| `brand:auth0` | Auth0 | marca/serviço (cor própria) |
-| `brand:okta` | Okta | marca/serviço (cor própria) |
-| `gcp:iam` | Identity and Access Management | marca/serviço (cor própria) |
-| `generic:certificate` | Certificado TLS | forma genérica (herda a cor da categoria) |
-| `generic:firewall` | Firewall / segurança | forma genérica (herda a cor da categoria) |
-| `generic:key` | Chave de acesso | forma genérica (herda a cor da categoria) |
-| `generic:lock` | Autenticação / segredo | forma genérica (herda a cor da categoria) |
+| `aws:acm` | AWS Certificate Manager | brand/service (own color) |
+| `aws:cognito` | Amazon Cognito | brand/service (own color) |
+| `aws:iam` | AWS IAM Identity Center | brand/service (own color) |
+| `aws:secrets-manager` | AWS Secrets Manager | brand/service (own color) |
+| `aws:shield` | AWS Shield | brand/service (own color) |
+| `aws:waf` | AWS WAF | brand/service (own color) |
+| `azure:key-vault` | Azure Key Vault | brand/service (own color) |
+| `brand:auth0` | Auth0 | brand/service (own color) |
+| `brand:okta` | Okta | brand/service (own color) |
+| `gcp:iam` | Identity and Access Management | brand/service (own color) |
+| `generic:certificate` | TLS certificate | generic shape (inherits the category's color) |
+| `generic:firewall` | Firewall / security | generic shape (inherits the category's color) |
+| `generic:key` | Access key | generic shape (inherits the category's color) |
+| `generic:lock` | Authentication / secret | generic shape (inherits the category's color) |
 
 ## generic
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `aws:cloudformation` | AWS CloudFormation | marca/serviço (cor própria) |
-| `aws:cloudwatch` | Amazon CloudWatch | marca/serviço (cor própria) |
-| `aws:codebuild` | AWS CodeBuild | marca/serviço (cor própria) |
-| `aws:codedeploy` | AWS CodeDeploy | marca/serviço (cor própria) |
-| `aws:codepipeline` | AWS CodePipeline | marca/serviço (cor própria) |
-| `aws:systems-manager` | AWS Systems Manager | marca/serviço (cor própria) |
-| `aws:xray` | AWS X-Ray | marca/serviço (cor própria) |
-| `azure:app-configuration` | Azure App Configuration | marca/serviço (cor própria) |
-| `azure:devops` | Azure DevOps | marca/serviço (cor própria) |
-| `azure:monitor` | Azure Monitor | marca/serviço (cor própria) |
-| `brand:aws` | AWS (genérico) | marca/serviço (cor própria) |
-| `brand:circleci` | CircleCI | marca/serviço (cor própria) |
-| `brand:datadog` | Datadog | marca/serviço (cor própria) |
-| `brand:digitalocean` | DigitalOcean | marca/serviço (cor própria) |
-| `brand:gcp` | Google Cloud (genérico) | marca/serviço (cor própria) |
-| `brand:github-actions` | GitHub Actions | marca/serviço (cor própria) |
-| `brand:grafana` | Grafana | marca/serviço (cor própria) |
-| `brand:jenkins` | Jenkins | marca/serviço (cor própria) |
-| `brand:kibana` | Kibana | marca/serviço (cor própria) |
-| `brand:logstash` | Logstash | marca/serviço (cor própria) |
-| `brand:new-relic` | New Relic | marca/serviço (cor própria) |
-| `brand:pagerduty` | PagerDuty | marca/serviço (cor própria) |
-| `brand:prometheus` | Prometheus | marca/serviço (cor própria) |
-| `brand:sentry` | Sentry | marca/serviço (cor própria) |
-| `brand:splunk` | Splunk | marca/serviço (cor própria) |
-| `brand:swagger` | Swagger / OpenAPI | marca/serviço (cor própria) |
-| `brand:terraform` | Terraform | marca/serviço (cor própria) |
-| `gcp:cloud-build` | Cloud Build | marca/serviço (cor própria) |
-| `gcp:cloud-logging` | Cloud Logging | marca/serviço (cor própria) |
-| `generic:analytics` | Analytics / métricas | forma genérica (herda a cor da categoria) |
-| `generic:cloud` | Cloud | forma genérica (herda a cor da categoria) |
-| `generic:layer` | Camada / módulo | forma genérica (herda a cor da categoria) |
-| `generic:logs` | Logs | forma genérica (herda a cor da categoria) |
-| `generic:monitoring` | Observabilidade / monitor | forma genérica (herda a cor da categoria) |
-| `generic:search` | Busca / índice de pesquisa | forma genérica (herda a cor da categoria) |
-| `generic:service` | Serviço genérico | forma genérica (herda a cor da categoria) |
-| `generic:sync` | Sincronização | forma genérica (herda a cor da categoria) |
+| `aws:cloudformation` | AWS CloudFormation | brand/service (own color) |
+| `aws:cloudwatch` | Amazon CloudWatch | brand/service (own color) |
+| `aws:codebuild` | AWS CodeBuild | brand/service (own color) |
+| `aws:codedeploy` | AWS CodeDeploy | brand/service (own color) |
+| `aws:codepipeline` | AWS CodePipeline | brand/service (own color) |
+| `aws:systems-manager` | AWS Systems Manager | brand/service (own color) |
+| `aws:xray` | AWS X-Ray | brand/service (own color) |
+| `azure:app-configuration` | Azure App Configuration | brand/service (own color) |
+| `azure:devops` | Azure DevOps | brand/service (own color) |
+| `azure:monitor` | Azure Monitor | brand/service (own color) |
+| `brand:aws` | AWS (generic) | brand/service (own color) |
+| `brand:circleci` | CircleCI | brand/service (own color) |
+| `brand:datadog` | Datadog | brand/service (own color) |
+| `brand:digitalocean` | DigitalOcean | brand/service (own color) |
+| `brand:gcp` | Google Cloud (generic) | brand/service (own color) |
+| `brand:github-actions` | GitHub Actions | brand/service (own color) |
+| `brand:grafana` | Grafana | brand/service (own color) |
+| `brand:jenkins` | Jenkins | brand/service (own color) |
+| `brand:kibana` | Kibana | brand/service (own color) |
+| `brand:logstash` | Logstash | brand/service (own color) |
+| `brand:new-relic` | New Relic | brand/service (own color) |
+| `brand:pagerduty` | PagerDuty | brand/service (own color) |
+| `brand:prometheus` | Prometheus | brand/service (own color) |
+| `brand:sentry` | Sentry | brand/service (own color) |
+| `brand:splunk` | Splunk | brand/service (own color) |
+| `brand:swagger` | Swagger / OpenAPI | brand/service (own color) |
+| `brand:terraform` | Terraform | brand/service (own color) |
+| `gcp:cloud-build` | Cloud Build | brand/service (own color) |
+| `gcp:cloud-logging` | Cloud Logging | brand/service (own color) |
+| `generic:analytics` | Analytics / metrics | generic shape (inherits the category's color) |
+| `generic:cloud` | Cloud | generic shape (inherits the category's color) |
+| `generic:layer` | Layer / module | generic shape (inherits the category's color) |
+| `generic:logs` | Logs | generic shape (inherits the category's color) |
+| `generic:monitoring` | Observability / monitoring | generic shape (inherits the category's color) |
+| `generic:search` | Search / search index | generic shape (inherits the category's color) |
+| `generic:service` | Generic service | generic shape (inherits the category's color) |
+| `generic:sync` | Sync | generic shape (inherits the category's color) |
 
 ## external
 
-| key | label | tipo |
+| key | label | type |
 |---|---|---|
-| `brand:angular` | Angular | marca/serviço (cor própria) |
-| `brand:confluence` | Confluence | marca/serviço (cor própria) |
-| `brand:figma` | Figma | marca/serviço (cor própria) |
-| `brand:github` | GitHub | marca/serviço (cor própria) |
-| `brand:gitlab` | GitLab | marca/serviço (cor própria) |
-| `brand:heroku` | Heroku | marca/serviço (cor própria) |
-| `brand:jira` | Jira | marca/serviço (cor própria) |
-| `brand:netlify` | Netlify | marca/serviço (cor própria) |
-| `brand:nextjs` | Next.js | marca/serviço (cor própria) |
-| `brand:react` | React | marca/serviço (cor própria) |
-| `brand:slack` | Slack | marca/serviço (cor própria) |
-| `brand:stripe` | Stripe | marca/serviço (cor própria) |
-| `brand:svelte` | Svelte | marca/serviço (cor própria) |
-| `brand:twilio` | Twilio | marca/serviço (cor própria) |
-| `brand:vercel` | Vercel | marca/serviço (cor própria) |
-| `brand:vue` | Vue.js | marca/serviço (cor própria) |
-| `generic:browser` | Navegador / cliente web | forma genérica (herda a cor da categoria) |
-| `generic:desktop` | App desktop | forma genérica (herda a cor da categoria) |
-| `generic:mobile` | App mobile | forma genérica (herda a cor da categoria) |
-| `generic:user` | Usuário / ator | forma genérica (herda a cor da categoria) |
-| `generic:users` | Usuários | forma genérica (herda a cor da categoria) |
+| `brand:angular` | Angular | brand/service (own color) |
+| `brand:confluence` | Confluence | brand/service (own color) |
+| `brand:figma` | Figma | brand/service (own color) |
+| `brand:github` | GitHub | brand/service (own color) |
+| `brand:gitlab` | GitLab | brand/service (own color) |
+| `brand:heroku` | Heroku | brand/service (own color) |
+| `brand:jira` | Jira | brand/service (own color) |
+| `brand:netlify` | Netlify | brand/service (own color) |
+| `brand:nextjs` | Next.js | brand/service (own color) |
+| `brand:react` | React | brand/service (own color) |
+| `brand:slack` | Slack | brand/service (own color) |
+| `brand:stripe` | Stripe | brand/service (own color) |
+| `brand:svelte` | Svelte | brand/service (own color) |
+| `brand:twilio` | Twilio | brand/service (own color) |
+| `brand:vercel` | Vercel | brand/service (own color) |
+| `brand:vue` | Vue.js | brand/service (own color) |
+| `generic:browser` | Browser / web client | generic shape (inherits the category's color) |
+| `generic:desktop` | Desktop app | generic shape (inherits the category's color) |
+| `generic:mobile` | Mobile app | generic shape (inherits the category's color) |
+| `generic:user` | User / actor | generic shape (inherits the category's color) |
+| `generic:users` | Users | generic shape (inherits the category's color) |
 
-## Ícones de marca fora deste catálogo
+## Brand icons outside this catalog
 
-O catálogo acima é curado (subconjunto relevante para arquitetura de software). O pacote `thesvg` embutido no projeto cobre mais de 6.500 marcas/serviços (AWS, Azure, GCP, linguagens, frameworks, bancos de dados, SaaS). Se precisar de uma marca que não está na tabela acima, é possível estender `src/icons/catalog.ts` adicionando uma entrada com `source: "thesvg"` e o slug correto (verificável em `node_modules/@thesvg/icons/dist/`) — não adivinhe o slug sem checar que o arquivo existe.
+The catalog above is curated (a relevant subset for software architecture). The `thesvg` package bundled with the project covers over 6,500 brands/services (AWS, Azure, GCP, languages, frameworks, databases, SaaS). If you need a brand that isn't in the table above, you can extend `src/icons/catalog.ts` by adding an entry with `source: "thesvg"` and the correct slug (verifiable in `node_modules/@thesvg/icons/dist/`) -- don't guess the slug without checking that the file exists.

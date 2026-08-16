@@ -1,9 +1,9 @@
 version: '1'
-title: VPC Multi-AZ com Load Balancer
+title: Multi-AZ VPC with Load Balancer
 theme: clean-light
 nodes:
   - id: user
-    label: Usuário
+    label: User
     icon: generic:user
     category: external
   - id: alb
@@ -56,6 +56,6 @@ edges:
     to: dbprimary
   - from: dbprimary
     to: dbstandby
-    label: replicação
+    label: replication
     style: dashed
     direction: none

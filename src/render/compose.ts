@@ -4,7 +4,7 @@ import { resolveIcon, fallbackBadge, type ResolvedIcon } from "../icons/resolve.
 import { getTheme } from "./theme.js";
 import { renderNode } from "./node-card.js";
 import { renderGroupBox } from "./group-box.js";
-import { renderEdge, renderArrowMarkerDefs } from "./edges.js";
+import { renderEdge } from "./edges.js";
 import { shouldShowLegend, computeLegendEntries, renderLegend } from "./legend.js";
 import { escapeXml } from "./svg-utils.js";
 
@@ -32,8 +32,8 @@ export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult, ba
       iconByNode.set(node.id, resolved.icon);
     } else {
       const message = resolved.reason
-        ? `ícone "${node.icon}" (node "${node.id}"): ${resolved.reason}`
-        : `ícone "${node.icon}" (node "${node.id}") não encontrado no catálogo.${resolved.suggestions.length ? ` Sugestões: ${resolved.suggestions.join(", ")}.` : ""}`;
+        ? `icon "${node.icon}" (node "${node.id}"): ${resolved.reason}`
+        : `icon "${node.icon}" (node "${node.id}") not found in the catalog.${resolved.suggestions.length ? ` Suggestions: ${resolved.suggestions.join(", ")}.` : ""}`;
       warnings.push(message);
       iconByNode.set(node.id, fallbackBadge(node.label, accent));
     }
@@ -77,7 +77,6 @@ export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult, ba
   <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
     <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="${theme.cardShadowColor}"/>
   </filter>
-  ${renderArrowMarkerDefs(theme)}
 </defs>
 <rect x="0" y="0" width="${width}" height="${height}" fill="${theme.canvasBg}"/>
 ${title}

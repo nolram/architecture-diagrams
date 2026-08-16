@@ -1,9 +1,10 @@
 import ElkCtorImport from "elkjs";
 import type { ELK as ElkApi, ElkNode, ElkExtendedEdge } from "elkjs/lib/elk-api.js";
 
-// elkjs é um pacote CJS/UMD sem "exports" no package.json; sob moduleResolution
-// NodeNext o TS infere o default import como o namespace do módulo em vez do
-// construtor. O cast abaixo contorna essa divergência entre os .d.ts e o runtime real.
+// elkjs is a CJS/UMD package with no "exports" in package.json; under
+// moduleResolution NodeNext, TS infers the default import as the module
+// namespace instead of the constructor. The cast below works around that
+// mismatch between the .d.ts files and the real runtime shape.
 const ElkCtor = ElkCtorImport as unknown as new () => ElkApi;
 import type { DiagramSpec } from "../spec/schema.js";
 import { buildElkGraph } from "./build-graph.js";
@@ -19,7 +20,7 @@ export interface AbsoluteBox {
 export interface EdgeRoute {
   id: string;
   points: { x: number; y: number }[];
-  /** canto superior-esquerdo do box reservado pelo ELK para o label (não o centro) */
+  /** top-left corner of the box ELK reserved for the label (not the center) */
   labelPosition?: { x: number; y: number };
   labelSize?: { width: number; height: number };
 }
@@ -27,7 +28,7 @@ export interface EdgeRoute {
 export interface LayoutResult {
   width: number;
   height: number;
-  /** direção efetivamente usada (já resolvida, mesmo quando a spec pediu "auto") */
+  /** the direction actually used (already resolved, even when the spec asked for "auto") */
   direction: "right" | "down";
   nodes: Map<string, AbsoluteBox>;
   groups: Map<string, AbsoluteBox>;

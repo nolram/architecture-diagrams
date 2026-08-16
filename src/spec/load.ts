@@ -8,7 +8,7 @@ export function loadSpecFromText(text: string): SpecValidationResult {
   } catch (err) {
     return {
       ok: false,
-      errors: [{ path: "", message: `YAML inválido: ${(err as Error).message}` }],
+      errors: [{ path: "", message: `Invalid YAML: ${(err as Error).message}` }],
     };
   }
   return validateSpec(raw);

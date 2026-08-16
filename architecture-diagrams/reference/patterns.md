@@ -1,24 +1,24 @@
-# Padrões prontos
+# Ready-made patterns
 
-Specs completas e testadas — use como ponto de partida e adapte nomes/serviços/edges para o caso real. Todas foram renderizadas e conferidas visualmente antes de entrar aqui.
+Complete, tested specs -- use as a starting point and adapt names/services/edges to the real use case. All of them were rendered and visually checked before being added here.
 
-## Os 4 shapes de node juntos
+## The 4 node shapes together
 
-Referência rápida de quando usar cada `shape`: `actor` para o usuário (sem card, ícone + label embaixo), `cloud` para a internet/rede pública, `card` (padrão) para um serviço qualquer, `database` (cilindro) para o banco.
+Quick reference for when to use each `shape`: `actor` for the user (no card, icon + label underneath), `cloud` for the internet/public network, `card` (default) for any generic service, `database` (cylinder) for the database.
 
 ```yaml
 version: '1'
-title: Shapes de Node
+title: Node Shapes
 theme: clean-light
 nodes:
   - id: user
-    label: Usuário
+    label: User
     shape: actor
     icon: generic:user
     category: external
   - id: internet
     label: Internet
-    sublabel: DNS público
+    sublabel: Public DNS
     shape: cloud
     icon: generic:cloud
     category: external
@@ -30,7 +30,7 @@ nodes:
     category: compute
   - id: db
     label: PostgreSQL
-    sublabel: Banco principal
+    sublabel: Main database
     shape: database
     icon: brand:postgresql
     category: database
@@ -46,17 +46,17 @@ edges:
     label: SQL
 ```
 
-## Web 3 camadas (browser → CDN → app → cache/db numa VPC)
+## 3-tier web (browser → CDN → app → cache/db inside a VPC)
 
-Bom padrão default para "aplicação web típica". Mostra: node fora de qualquer group, group aninhado (VPC > Private Subnet), múltiplos edges com label.
+Good default pattern for a "typical web application". Shows: a node outside any group, a nested group (VPC > Private Subnet), multiple labeled edges.
 
 ```yaml
 version: '1'
-title: Arquitetura Web 3 Camadas
+title: 3-Tier Web Architecture
 theme: clean-light
 nodes:
   - id: user
-    label: Usuário
+    label: User
     icon: generic:user
     category: external
   - id: cdn
@@ -72,13 +72,13 @@ nodes:
     group: vpc
   - id: cache
     label: Redis
-    sublabel: Cache de sessão
+    sublabel: Session cache
     icon: brand:redis
     category: database
     group: private
   - id: db
     label: PostgreSQL
-    sublabel: Banco principal
+    sublabel: Main database
     icon: aws:rds
     category: database
     group: private
@@ -105,17 +105,17 @@ edges:
     label: SQL
 ```
 
-## Microsserviços com fila de eventos
+## Microservices with an event queue
 
-Bom para: múltiplos serviços independentes publicando/consumindo de um event bus. Mostra: group `style: boundary` (sem semântica de cloud, só agrupamento lógico), edges convergindo/divergindo, back-edge de consumo.
+Good for: multiple independent services publishing/consuming from an event bus. Shows: a `style: boundary` group (no cloud semantics, just logical grouping), converging/diverging edges, a back-edge for consumption.
 
 ```yaml
 version: '1'
-title: Microsserviços com Fila de Eventos
+title: Microservices with Event Queue
 theme: clean-light
 nodes:
   - id: client
-    label: Cliente
+    label: Client
     icon: generic:browser
     category: external
   - id: gateway
@@ -179,17 +179,17 @@ edges:
     label: consume
 ```
 
-## VPC multi-AZ com load balancer
+## Multi-AZ VPC with load balancer
 
-Bom para: alta disponibilidade / redundância entre zonas de disponibilidade. Mostra: groups aninhados de dois níveis (VPC > AZ-A / AZ-B), edge `direction: none` + `style: dashed` para replicação (sem seta, sem direção implícita).
+Good for: high availability / redundancy across availability zones. Shows: two-level nested groups (VPC > AZ-A / AZ-B), a `direction: none` + `style: dashed` edge for replication (no arrowhead, no implied direction).
 
 ```yaml
 version: '1'
-title: VPC Multi-AZ com Load Balancer
+title: Multi-AZ VPC with Load Balancer
 theme: clean-light
 nodes:
   - id: user
-    label: Usuário
+    label: User
     icon: generic:user
     category: external
   - id: alb
@@ -242,18 +242,18 @@ edges:
     to: dbprimary
   - from: dbprimary
     to: dbstandby
-    label: replicação
+    label: replication
     style: dashed
     direction: none
 ```
 
-## Pipeline de dados (ingestão → storage → transformação → warehouse → dashboard)
+## Data pipeline (ingestion → storage → transformation → warehouse → dashboard)
 
-Bom para: fluxos lineares de dados. Mostra: `theme: midnight-dark`, ícone de job agendado (`generic:cron`), mistura AWS (S3) + GCP (BigQuery) no mesmo diagrama — perfeitamente normal quando a arquitetura real é multi-cloud.
+Good for: linear data flows. Shows: `theme: midnight-dark`, a scheduled-job icon (`generic:cron`), mixing AWS (S3) + GCP (BigQuery) in the same diagram -- perfectly normal when the real architecture is multi-cloud.
 
 ```yaml
 version: '1'
-title: Pipeline de Dados
+title: Data Pipeline
 theme: midnight-dark
 nodes:
   - id: source
@@ -280,7 +280,7 @@ nodes:
 edges:
   - from: source
     to: raw
-    label: eventos
+    label: events
   - from: raw
     to: etl
   - from: etl
@@ -291,58 +291,58 @@ edges:
     label: query
 ```
 
-## Backend com API Gateway fazendo fan-out (e-commerce)
+## Backend with API Gateway fan-out (e-commerce)
 
-Bom para: um node central se conectando a vários serviços (aqui, um API Gateway falando com 3 serviços dentro de uma VPC). Mostra `direction: auto` escolhendo `down` sozinho por causa do fan-out do gateway (3 conexões de saída), e uma edge `bidirectional` + `dashed` pra representar publish/consume assíncrono num único traço em vez de duas edges separadas colidindo.
+Good for: a central node connecting to several services (here, an API Gateway talking to 3 services inside a VPC). Shows `direction: auto` picking `down` on its own because of the gateway's fan-out (3 outgoing connections), and a `bidirectional` + `dashed` edge to represent async publish/consume as a single stroke instead of two overlapping edges.
 
 ```yaml
 version: '1'
-title: Arquitetura de Backend — E-commerce
+title: E-commerce Backend Architecture
 theme: clean-light
 nodes:
   - id: client
-    label: Cliente Web
+    label: Web Client
     sublabel: Browser / SPA
     icon: generic:browser
     category: external
   - id: gateway
     label: API Gateway
-    sublabel: Roteamento, authN, rate limiting
+    sublabel: Routing, authN, rate limiting
     icon: aws:api-gateway
     category: network
   - id: orders
     label: Orders Service
-    sublabel: Gerenciamento de pedidos
+    sublabel: Order management
     icon: generic:service
     category: compute
     group: vpc
   - id: payments
     label: Payments Service
-    sublabel: Processamento de pagamentos
+    sublabel: Payment processing
     icon: generic:service
     category: compute
     group: vpc
   - id: redis
     label: Redis
-    sublabel: Cache de sessão
+    sublabel: Session cache
     icon: brand:redis
     category: database
     group: vpc
   - id: queue
     label: Message Queue
-    sublabel: Pagamentos assíncronos
+    sublabel: Async payments
     icon: generic:queue
     category: messaging
     group: vpc
   - id: postgres
     label: PostgreSQL
-    sublabel: Banco de dados principal
+    sublabel: Main database
     icon: brand:postgresql
     category: database
     group: vpc
 groups:
   - id: vpc
-    label: VPC — Rede Privada
+    label: VPC — Private Network
     style: vpc
 edges:
   - from: client
@@ -356,16 +356,16 @@ edges:
     label: REST
   - from: gateway
     to: redis
-    label: sessão R/W
+    label: session R/W
   - from: orders
     to: postgres
-    label: dados de pedidos
+    label: order data
   - from: payments
     to: postgres
-    label: dados de pagamentos
+    label: payment data
   - from: payments
     to: queue
-    label: publish / consome (assíncrono)
+    label: publish / consume (async)
     style: dashed
     direction: bidirectional
 ```

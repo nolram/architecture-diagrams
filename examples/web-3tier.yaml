@@ -1,9 +1,9 @@
 version: '1'
-title: Arquitetura Web 3 Camadas
+title: 3-Tier Web Architecture
 theme: clean-light
 nodes:
   - id: user
-    label: Usuário
+    label: User
     icon: generic:user
     category: external
   - id: cdn
@@ -19,13 +19,13 @@ nodes:
     group: vpc
   - id: cache
     label: Redis
-    sublabel: Cache de sessão
+    sublabel: Session cache
     icon: brand:redis
     category: database
     group: private
   - id: db
     label: PostgreSQL
-    sublabel: Banco principal
+    sublabel: Main database
     icon: aws:rds
     category: database
     group: private

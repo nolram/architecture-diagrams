@@ -1,9 +1,9 @@
 version: '1'
-title: Microsserviços com Fila de Eventos
+title: Microservices with Event Queue
 theme: clean-light
 nodes:
   - id: client
-    label: Cliente
+    label: Client
     icon: generic:browser
     category: external
   - id: gateway

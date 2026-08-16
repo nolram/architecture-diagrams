@@ -1,7 +1,7 @@
 {
   "name": "architecture-diagrams",
   "version": "0.1.0",
-  "description": "Motor de diagramas de arquitetura de software ricos e profissionais, feito para ser usado por IA",
+  "description": "Rich, professional software architecture diagram engine, built to be used by an AI",
   "type": "module",
   "bin": {
     "arch-diagram": "./dist/cli.js"

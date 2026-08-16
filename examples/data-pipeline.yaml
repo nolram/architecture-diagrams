@@ -1,5 +1,5 @@
 version: '1'
-title: Pipeline de Dados
+title: Data Pipeline
 theme: midnight-dark
 nodes:
   - id: source
@@ -26,7 +26,7 @@ nodes:
 edges:
   - from: source
     to: raw
-    label: eventos
+    label: events
   - from: raw
     to: etl
   - from: etl

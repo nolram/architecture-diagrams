@@ -4,21 +4,21 @@ import type { GroupStyleVariant, Theme } from "./theme.js";
 import { escapeXml } from "./svg-utils.js";
 
 const CATEGORY_LABELS: Record<IconCategory, string> = {
-  compute: "Computação",
-  storage: "Armazenamento",
-  database: "Banco de dados",
-  network: "Rede",
-  security: "Segurança",
-  messaging: "Mensageria",
-  external: "Externo",
-  generic: "Genérico",
+  compute: "Compute",
+  storage: "Storage",
+  database: "Database",
+  network: "Network",
+  security: "Security",
+  messaging: "Messaging",
+  external: "External",
+  generic: "Generic",
 };
 
 const GROUP_STYLE_LABELS: Record<GroupStyleVariant, string> = {
   vpc: "VPC",
   subnet: "Subnet",
-  az: "Zona de disponibilidade",
-  boundary: "Agrupamento lógico",
+  az: "Availability zone",
+  boundary: "Logical grouping",
   generic: "Group",
 };
 
@@ -28,9 +28,9 @@ export interface LegendEntry {
 }
 
 /**
- * A legenda só aparece quando o diagrama realmente tem variedade de cores pra
- * explicar — poucos elementos não precisam de legenda, e mostrar uma sempre
- * só adicionaria ruído visual.
+ * The legend only shows up when the diagram actually has enough color
+ * variety to be worth explaining -- a handful of elements don't need one,
+ * and always showing one would just add visual noise.
  */
 export function shouldShowLegend(spec: DiagramSpec): boolean {
   const styles = new Set(spec.groups.map((g) => g.style));
@@ -38,7 +38,7 @@ export function shouldShowLegend(spec: DiagramSpec): boolean {
   return styles.size >= 2 || categories.size >= 3;
 }
 
-/** entradas na ordem em que os styles/categories aparecem pela primeira vez na spec, sem duplicatas */
+/** entries in the order styles/categories first appear in the spec, deduplicated */
 export function computeLegendEntries(spec: DiagramSpec, theme: Theme): LegendEntry[] {
   const entries: LegendEntry[] = [];
 
@@ -69,7 +69,7 @@ export interface RenderedLegend {
   height: number;
 }
 
-/** desenha a legenda com origem (0,0) — quem chama posiciona via <g transform="translate(x,y)"> */
+/** draws the legend at origin (0,0) -- the caller positions it via <g transform="translate(x,y)"> */
 export function renderLegend(entries: LegendEntry[], maxWidth: number, theme: Theme): RenderedLegend {
   if (entries.length === 0) return { svg: "", height: 0 };
 

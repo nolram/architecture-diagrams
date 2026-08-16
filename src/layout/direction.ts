@@ -1,24 +1,25 @@
 import type { DiagramSpec } from "../spec/schema.js";
 
 /**
- * Decide `right` vs `down` quando a spec pede `direction: auto` (padrão).
+ * Decides `right` vs `down` when the spec asks for `direction: auto` (default).
  *
- * Heurística: olha o maior grau (fan-out ou fan-in) de qualquer node no
- * grafo. Com `elk.direction: RIGHT`, nodes que compartilham a mesma "camada"
- * ficam empilhados verticalmente dentro dela — um node com muitas edges
- * paralelas (ex: um API Gateway se conectando a 3+ serviços) força uma
- * camada estreita e alta, cramped. Com `DOWN` essas edges paralelas viram
- * uma linha horizontal, que acomoda fan-out/fan-in bem melhor.
+ * Heuristic: looks at the highest degree (fan-out or fan-in) of any node in
+ * the graph. With `elk.direction: RIGHT`, nodes that share the same "layer"
+ * end up stacked vertically within it -- a node with many parallel edges
+ * (e.g. an API gateway connecting to 3+ services) forces a narrow, tall,
+ * cramped layer. With `DOWN` those parallel edges become a horizontal row,
+ * which accommodates fan-out/fan-in much better.
  *
- * Motivado por um caso real: um gateway com out-degree 3 (orders/payments/
- * redis) produzia cards sobrepostos com `right` e ficou limpo com `down`.
+ * Motivated by a real case: a gateway with out-degree 3 (orders/payments/
+ * redis) produced overlapping cards with `right` and came out clean with `down`.
  */
 export function resolveDirection(spec: DiagramSpec): "right" | "down" {
   if (spec.direction !== "auto") return spec.direction;
 
-  // out-degree e in-degree são contados separadamente (não somados): um node
-  // com 2 saídas e 1 entrada não é o mesmo tipo de gargalo que um node com 3
-  // saídas — é o maior fan-out OU fan-in isolado que estica uma camada do ELK.
+  // out-degree and in-degree are counted separately (not summed): a node
+  // with 2 outputs and 1 input isn't the same kind of bottleneck as a node
+  // with 3 outputs -- it's the largest isolated fan-out OR fan-in that
+  // stretches an ELK layer.
   const outDegree = new Map<string, number>();
   const inDegree = new Map<string, number>();
   for (const edge of spec.edges) {

@@ -23,7 +23,7 @@ function buildGroupTree(spec: DiagramSpec): Map<string, GroupNode> {
   return tree;
 }
 
-/** caminho de containers (do root até o pai imediato) para cada node/group, usado para achar o ancestral comum de uma edge */
+/** container path (from root to immediate parent) for each node/group, used to find an edge's common ancestor */
 function buildContainmentPaths(spec: DiagramSpec): Map<string, string[]> {
   const paths = new Map<string, string[]>();
   const groupParent = new Map(spec.groups.map((g) => [g.id, g.parent]));
@@ -68,12 +68,13 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
   });
 
   function toElkEdge({ edge, specIndex }: { edge: DiagramEdge; specIndex: number }): ElkExtendedEdge {
-    // dar largura/altura ao label é o que faz o ELK reservar espaço entre edges
-    // paralelas durante o roteamento — sem isso os pills desenhados na composição
-    // final colidem, porque o ELK não sabia que precisava afastar as edges.
+    // Giving the label a width/height is what makes ELK reserve space between
+    // parallel edges during routing -- without it, the pills drawn in the
+    // final composition collide, because ELK didn't know it had to space the
+    // edges apart.
     const labelSize = edge.label ? estimateEdgeLabelSize(edge.label) : null;
     return {
-      // id estável = índice do edge em spec.edges, usado para religar rotas calculadas de volta ao spec original na renderização
+      // stable id = index of the edge in spec.edges, used to reconnect computed routes back to the original spec at render time
       id: `edge_${specIndex}`,
       sources: [edge.from],
       targets: [edge.to],

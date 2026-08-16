@@ -7,7 +7,7 @@ export function escapeXml(text: string): string {
     .replace(/'/g, "&apos;");
 }
 
-/** trunca um texto para caber aproximadamente em `maxWidth` px, considerando uma largura média de caractere */
+/** truncates text to roughly fit within `maxWidth` px, assuming an average character width */
 export function truncateToWidth(text: string, maxWidth: number, charWidth = 7.2): string {
   const maxChars = Math.max(3, Math.floor(maxWidth / charWidth));
   if (text.length <= maxChars) return text;

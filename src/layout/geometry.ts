@@ -7,7 +7,7 @@ const CHAR_WIDTH = 7.2;
 const BASE_WIDTH = 96;
 const NODE_HEIGHT_SIMPLE = 78;
 const NODE_HEIGHT_WITH_SUBLABEL = 100;
-/** altura extra reservada para as "tampas" elípticas do shape database (topo + base) */
+/** extra height reserved for the database shape's elliptical "caps" (top + bottom) */
 const CYLINDER_CAP_EXTRA = 24;
 
 const ACTOR_MIN_WIDTH = 120;
@@ -49,10 +49,10 @@ export interface EdgeLabelSize {
 }
 
 /**
- * Tamanho estimado do pill de um label de edge. Usado tanto para informar o
- * ELK (que só reserva espaço entre edges paralelas se souber o tamanho do
- * label — sem isso os pills desenhados depois colidem) quanto para desenhar
- * o pill de verdade, garantindo que os dois usem exatamente o mesmo valor.
+ * Estimated size of an edge label's pill. Used both to inform ELK (which
+ * only reserves space between parallel edges if it knows the label size --
+ * without it the pills drawn later collide) and to draw the actual pill,
+ * guaranteeing both use exactly the same value.
  */
 export function estimateEdgeLabelSize(text: string): EdgeLabelSize {
   return { width: text.length * EDGE_LABEL_CHAR_WIDTH + EDGE_LABEL_PAD_X, height: EDGE_LABEL_HEIGHT };

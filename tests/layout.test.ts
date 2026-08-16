@@ -12,7 +12,7 @@ function parseOrThrow(yaml: string) {
 }
 
 describe("layout", () => {
-  test("posiciona dois nodes sem group da esquerda para a direita (direction: right)", async () => {
+  test("places two nodes with no group left-to-right (direction: right)", async () => {
     const spec = parseOrThrow(`
 version: '1'
 direction: right
@@ -30,10 +30,10 @@ edges:
     const b = layout.nodes.get("b")!;
     assert.ok(a && b);
     assert.ok(a.width > 0 && a.height > 0);
-    assert.ok(b.x > a.x, "b deveria estar à direita de a");
+    assert.ok(b.x > a.x, "b should be to the right of a");
   });
 
-  test("groups aninhados: filho fica geometricamente contido no pai (coordenadas absolutas)", async () => {
+  test("nested groups: child is geometrically contained in the parent (absolute coordinates)", async () => {
     const spec = parseOrThrow(`
 version: '1'
 nodes:
@@ -69,12 +69,12 @@ edges:
       inner.x + inner.width <= outer.x + outer.width &&
       inner.y + inner.height <= outer.y + outer.height;
 
-    assert.ok(contains(vpc, priv), "private subnet deveria estar contida na VPC");
-    assert.ok(contains(vpc, web), "web deveria estar contido na VPC");
-    assert.ok(contains(priv, db), "db deveria estar contido na private subnet");
+    assert.ok(contains(vpc, priv), "private subnet should be contained in the VPC");
+    assert.ok(contains(vpc, web), "web should be contained in the VPC");
+    assert.ok(contains(priv, db), "db should be contained in the private subnet");
   });
 
-  test("rotas de edge têm pontos com coordenadas finitas", async () => {
+  test("edge routes have points with finite coordinates", async () => {
     const spec = parseOrThrow(`
 version: '1'
 nodes:
@@ -85,7 +85,7 @@ nodes:
 edges:
   - from: a
     to: b
-    label: liga
+    label: connects
 `);
     const layout = await layoutSpec(spec);
     assert.equal(layout.edges.size, 1);
@@ -96,7 +96,7 @@ edges:
     }
   });
 
-  test("direction muda a orientação geral do canvas (right = mais largo, down = mais alto)", async () => {
+  test("direction changes the canvas's overall orientation (right = wider, down = taller)", async () => {
     const chain = (direction: string) => `
 version: '1'
 direction: ${direction}
@@ -116,14 +116,14 @@ edges:
     const right = await layoutSpec(parseOrThrow(chain("right")));
     const down = await layoutSpec(parseOrThrow(chain("down")));
 
-    assert.ok(right.width > right.height, "direction right deveria produzir um canvas mais largo que alto");
-    assert.ok(down.height > down.width, "direction down deveria produzir um canvas mais alto que largo");
+    assert.ok(right.width > right.height, "direction right should produce a canvas wider than it is tall");
+    assert.ok(down.height > down.width, "direction down should produce a canvas taller than it is wide");
   });
 
-  test("labels de edges em leque (mesmo source, vários targets) não se sobrepõem", async () => {
-    // Reproduz o caso real que colidia visualmente: um node com 3 edges de
-    // saída pra nodes irmãos, cada uma com label. Regressão para a correção
-    // que passou a informar largura/altura de label ao ELK (build-graph.ts).
+  test("fan-out edge labels (same source, multiple targets) don't overlap", async () => {
+    // Reproduces the real case that visually collided: a node with 3
+    // outgoing edges to sibling nodes, each with a label. Regression for the
+    // fix that started informing ELK of label width/height (build-graph.ts).
     const spec = parseOrThrow(`
 version: '1'
 direction: down
@@ -145,7 +145,7 @@ edges:
     label: REST
   - from: gateway
     to: redis
-    label: sessão R/W
+    label: session R/W
 `);
     const layout = await layoutSpec(spec);
     const boxes = [...layout.edges.values()]
@@ -154,11 +154,11 @@ edges:
 
     assert.equal(boxes.length, 3);
     for (const box of boxes) {
-      // se isso for 0, o ELK não recebeu dimensão de label nenhuma e não reservou
-      // espaço pra ele — é exatamente essa regressão que a checagem de overlap
-      // abaixo, sozinha, não pega (um box de área zero nunca "sobrepõe" nada).
-      assert.ok(box.width > 0, "label deveria ter largura reservada > 0");
-      assert.ok(box.height > 0, "label deveria ter altura reservada > 0");
+      // if this is 0, ELK never received a label dimension and didn't reserve
+      // space for it -- exactly the regression the overlap check below,
+      // on its own, wouldn't catch (a zero-area box never "overlaps" anything).
+      assert.ok(box.width > 0, "label should have reserved width > 0");
+      assert.ok(box.height > 0, "label should have reserved height > 0");
     }
 
     const overlaps = (
@@ -168,13 +168,13 @@ edges:
 
     for (let i = 0; i < boxes.length; i++) {
       for (let j = i + 1; j < boxes.length; j++) {
-        assert.ok(!overlaps(boxes[i], boxes[j]), `labels ${i} e ${j} se sobrepõem: ${JSON.stringify(boxes[i])} / ${JSON.stringify(boxes[j])}`);
+        assert.ok(!overlaps(boxes[i], boxes[j]), `labels ${i} and ${j} overlap: ${JSON.stringify(boxes[i])} / ${JSON.stringify(boxes[j])}`);
       }
     }
   });
 
   describe("direction: auto", () => {
-    test("mantém 'right' quando nenhum node tem fan-out/fan-in >= 3", async () => {
+    test("stays 'right' when no node has fan-out/fan-in >= 3", async () => {
       const spec = parseOrThrow(`
 version: '1'
 nodes:
@@ -194,7 +194,7 @@ edges:
       assert.equal(layout.direction, "right");
     });
 
-    test("escolhe 'down' quando um node tem fan-out >= 3 (caso real: gateway -> 3 serviços)", async () => {
+    test("picks 'down' when a node has fan-out >= 3 (real case: gateway -> 3 services)", async () => {
       const spec = parseOrThrow(`
 version: '1'
 nodes:
@@ -218,7 +218,7 @@ edges:
       assert.equal(layout.direction, "down");
     });
 
-    test("escolhe 'down' quando um node tem fan-in >= 3 (convergência, não só fan-out)", async () => {
+    test("picks 'down' when a node has fan-in >= 3 (convergence, not just fan-out)", async () => {
       const spec = parseOrThrow(`
 version: '1'
 nodes:
@@ -242,7 +242,7 @@ edges:
       assert.equal(layout.direction, "down");
     });
 
-    test("direction explícita na spec sempre prevalece sobre a heurística", async () => {
+    test("an explicit direction in the spec always wins over the heuristic", async () => {
       const spec = parseOrThrow(`
 version: '1'
 direction: right
@@ -264,11 +264,11 @@ edges:
     to: c
 `);
       const layout = await layoutSpec(spec);
-      assert.equal(layout.direction, "right", "direction explícita não deveria ser sobrescrita pela heurística");
+      assert.equal(layout.direction, "right", "explicit direction should not be overridden by the heuristic");
     });
   });
 
-  describe("estimateNodeSize por shape", () => {
+  describe("estimateNodeSize per shape", () => {
     const base: DiagramNode = {
       id: "n",
       label: "PostgreSQL",
@@ -276,24 +276,24 @@ edges:
       shape: "card",
     };
 
-    test("shape 'database' reserva altura extra em relação a 'card' (tampas do cilindro)", () => {
+    test("shape 'database' reserves extra height compared to 'card' (cylinder caps)", () => {
       const card = estimateNodeSize({ ...base, shape: "card" });
       const database = estimateNodeSize({ ...base, shape: "database" });
-      assert.equal(database.width, card.width, "largura não deveria mudar, só a altura");
+      assert.equal(database.width, card.width, "width should not change, only the height");
       assert.ok(database.height > card.height);
     });
 
-    test("shape 'actor' tem layout diferente (ícone em cima, label embaixo) — mais alto, não necessariamente mais largo", () => {
+    test("shape 'actor' has a different layout (icon on top, label below) -- taller, not necessarily wider", () => {
       const card = estimateNodeSize({ ...base, shape: "card" });
       const actor = estimateNodeSize({ ...base, shape: "actor" });
       assert.ok(actor.height > card.height);
     });
 
-    test("labels mais longos aumentam a largura em todos os shapes", () => {
+    test("longer labels increase the width for every shape", () => {
       for (const shape of ["card", "database", "actor", "cloud"] as const) {
         const short = estimateNodeSize({ ...base, shape, label: "DB" });
         const long = estimateNodeSize({ ...base, shape, label: "Amazon Relational Database Service" });
-        assert.ok(long.width >= short.width, `shape ${shape} deveria ficar mais largo com label maior`);
+        assert.ok(long.width >= short.width, `shape ${shape} should get wider with a longer label`);
       }
     });
   });

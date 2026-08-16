@@ -3,15 +3,15 @@ import { z } from "zod";
 const idPattern = /^[a-zA-Z0-9_-]+$/;
 
 export const NodeSchema = z.object({
-  id: z.string().regex(idPattern, "id deve conter apenas letras, números, '-' ou '_'"),
+  id: z.string().regex(idPattern, "id must only contain letters, numbers, '-' or '_'"),
   label: z.string().min(1),
   sublabel: z.string().optional(),
-  /** chave no formato "fonte:identificador" (ex: "aws:lambda") ou "file:<caminho relativo ao spec>.svg" para ícone customizado */
+  /** key in the "source:identifier" format (e.g. "aws:lambda") or "file:<path relative to the spec>.svg" for a custom icon */
   icon: z
     .string()
     .regex(
       /^([a-z0-9_-]+:[a-z0-9_-]+|file:.+\.svg)$/i,
-      "icon deve seguir o formato 'fonte:identificador' (ex: 'aws:lambda') ou 'file:<caminho>.svg' para ícone customizado",
+      "icon must follow the 'source:identifier' format (e.g. 'aws:lambda') or 'file:<path>.svg' for a custom icon",
     )
     .optional(),
   category: z
@@ -23,7 +23,7 @@ export const NodeSchema = z.object({
 export type DiagramNode = z.infer<typeof NodeSchema>;
 
 export const GroupSchema = z.object({
-  id: z.string().regex(idPattern, "id deve conter apenas letras, números, '-' ou '_'"),
+  id: z.string().regex(idPattern, "id must only contain letters, numbers, '-' or '_'"),
   label: z.string().min(1),
   style: z.enum(["vpc", "subnet", "az", "boundary", "generic"]).default("generic"),
   parent: z.string().optional(),
@@ -45,7 +45,7 @@ export const DiagramSpecSchema = z
     title: z.string().optional(),
     theme: z.enum(["clean-light", "midnight-dark"]).default("clean-light"),
     direction: z.enum(["auto", "right", "down"]).default("auto"),
-    nodes: z.array(NodeSchema).min(1, "o diagrama precisa de pelo menos um node"),
+    nodes: z.array(NodeSchema).min(1, "the diagram needs at least one node"),
     groups: z.array(GroupSchema).default([]),
     edges: z.array(EdgeSchema).default([]),
   })
@@ -56,7 +56,7 @@ export const DiagramSpecSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["nodes", i, "id"],
-          message: `id de node duplicado: "${node.id}". Cada node precisa de um id único.`,
+          message: `duplicate node id: "${node.id}". Every node needs a unique id.`,
         });
       }
       nodeIds.add(node.id);
@@ -68,7 +68,7 @@ export const DiagramSpecSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["groups", i, "id"],
-          message: `id de group duplicado: "${group.id}". Cada group precisa de um id único.`,
+          message: `duplicate group id: "${group.id}". Every group needs a unique id.`,
         });
       }
       groupIds.add(group.id);
@@ -79,7 +79,7 @@ export const DiagramSpecSchema = z
           ctx.addIssue({
             code: "custom",
             path: ["nodes"],
-            message: `"${id}" é usado como id de node e de group ao mesmo tempo. IDs de node e group compartilham o mesmo namespace e precisam ser únicos entre si.`,
+            message: `"${id}" is used as both a node id and a group id. Node and group ids share the same namespace and must be unique across both.`,
           });
         }
       }
@@ -90,7 +90,7 @@ export const DiagramSpecSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["nodes", i, "group"],
-          message: `node "${node.id}" referencia group "${node.group}", que não existe. Groups definidos: ${[...groupIds].join(", ") || "(nenhum)"}.`,
+          message: `node "${node.id}" references group "${node.group}", which does not exist. Defined groups: ${[...groupIds].join(", ") || "(none)"}.`,
         });
       }
     }
@@ -100,18 +100,18 @@ export const DiagramSpecSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["groups", i, "parent"],
-          message: `group "${group.id}" referencia parent "${group.parent}", que não existe.`,
+          message: `group "${group.id}" references parent "${group.parent}", which does not exist.`,
         });
       }
       if (group.parent === group.id) {
         ctx.addIssue({
           code: "custom",
           path: ["groups", i, "parent"],
-          message: `group "${group.id}" não pode ser parent de si mesmo.`,
+          message: `group "${group.id}" cannot be its own parent.`,
         });
       }
     }
-    // detecta ciclos de parent entre groups
+    // detect parent cycles between groups
     const parentOf = new Map(spec.groups.map((g) => [g.id, g.parent]));
     for (const group of spec.groups) {
       const seen = new Set<string>([group.id]);
@@ -121,7 +121,7 @@ export const DiagramSpecSchema = z
           ctx.addIssue({
             code: "custom",
             path: ["groups"],
-            message: `ciclo de parent detectado envolvendo o group "${group.id}".`,
+            message: `parent cycle detected involving group "${group.id}".`,
           });
           break;
         }
@@ -135,14 +135,14 @@ export const DiagramSpecSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["edges", i, "from"],
-          message: `edge referencia node "${edge.from}" em "from", que não existe entre os nodes definidos.`,
+          message: `edge references node "${edge.from}" in "from", which does not exist among the defined nodes.`,
         });
       }
       if (!nodeIds.has(edge.to)) {
         ctx.addIssue({
           code: "custom",
           path: ["edges", i, "to"],
-          message: `edge referencia node "${edge.to}" em "to", que não existe entre os nodes definidos.`,
+          message: `edge references node "${edge.to}" in "to", which does not exist among the defined nodes.`,
         });
       }
     }

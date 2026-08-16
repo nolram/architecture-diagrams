@@ -28,18 +28,18 @@ edges:
 }
 
 describe("export", () => {
-  test("renderPng produz um PNG válido com dimensões escaladas", async () => {
+  test("renderPng produces a valid PNG with scaled dimensions", async () => {
     const svg = await renderTestSvg();
     const svgWidth = Number(svg.match(/<svg[^>]*\swidth="([\d.]+)"/)?.[1]);
     const svgHeight = Number(svg.match(/<svg[^>]*\sheight="([\d.]+)"/)?.[1]);
 
     const png = renderPng(svg, 2);
-    assert.equal(png.buffer.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", "assinatura PNG");
+    assert.equal(png.buffer.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", "PNG signature");
     assert.equal(png.width, Math.round(svgWidth * 2));
     assert.equal(png.height, Math.round(svgHeight * 2));
   });
 
-  test("svgToPdf produz um PDF com página do tamanho exato do SVG e imagem em alta resolução", async () => {
+  test("svgToPdf produces a PDF with a page sized exactly to the SVG and a high-resolution image", async () => {
     const svg = await renderTestSvg();
     const svgWidth = Number(svg.match(/<svg[^>]*\swidth="([\d.]+)"/)?.[1]);
     const svgHeight = Number(svg.match(/<svg[^>]*\sheight="([\d.]+)"/)?.[1]);
@@ -49,9 +49,9 @@ describe("export", () => {
 
     const text = pdf.toString("latin1");
     const mediaBox = text.match(/\/MediaBox\s*\[([^\]]+)\]/)?.[1].trim().split(/\s+/).map(Number);
-    assert.ok(mediaBox, "PDF deveria ter um /MediaBox");
-    assert.equal(mediaBox![2], svgWidth, "largura da página deveria bater com o SVG");
-    assert.equal(mediaBox![3], svgHeight, "altura da página deveria bater com o SVG");
+    assert.ok(mediaBox, "PDF should have a /MediaBox");
+    assert.equal(mediaBox![2], svgWidth, "page width should match the SVG");
+    assert.equal(mediaBox![3], svgHeight, "page height should match the SVG");
 
     const imgWidth = Number(text.match(/\/Width (\d+)/)?.[1]);
     const imgHeight = Number(text.match(/\/Height (\d+)/)?.[1]);

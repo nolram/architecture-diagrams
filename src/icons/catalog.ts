@@ -9,26 +9,26 @@ export type IconCategory =
   | "generic";
 
 export interface CatalogEntry {
-  /** chave amigável usada na spec, ex: "aws:lambda" */
+  /** friendly key used in the spec, e.g. "aws:lambda" */
   key: string;
   label: string;
   category: IconCategory;
-  /** "thesvg" = ícone de marca/serviço com cor própria; "mdi" = forma genérica, herda a cor do tema */
+  /** "thesvg" = brand/service icon with its own color; "mdi" = generic shape, inherits the theme's color */
   source: "thesvg" | "mdi";
-  /** slug do thesvg (ex: "aws-aws-lambda") ou nome do ícone mdi (ex: "database") */
+  /** thesvg slug (e.g. "aws-aws-lambda") or mdi icon name (e.g. "database") */
   ref: string;
   /**
-   * variante do thesvg a usar em vez de `svg` (default) — alguns logos (ex:
-   * vercel, nextjs, go) só têm uma versão branca/transparente pensada pra
-   * fundo escuro, invisível no nosso badge branco. "mono" costuma ser uma
-   * silhueta de cor única (preto por padrão) que funciona em qualquer fundo.
+   * thesvg variant to use instead of `svg` (the default) -- some logos (e.g.
+   * vercel, nextjs, go) only have a white/transparent version meant for a
+   * dark background, invisible on our white badge. "mono" is usually a
+   * single-color silhouette (black by default) that works on any background.
    */
   variant?: string;
 }
 
-// Curado a partir dos pacotes `thesvg` (AWS/Azure/GCP/marcas, offline) e
-// `@iconify-json/mdi` (formas genéricas). Todas as refs abaixo foram
-// verificadas contra os pacotes instalados antes de entrar no catálogo.
+// Curated from the `thesvg` package (AWS/Azure/GCP/brands, offline) and
+// `@iconify-json/mdi` (generic shapes). Every ref below was verified against
+// the installed packages before entering the catalog.
 export const ICON_CATALOG: CatalogEntry[] = [
   // ---- AWS ----
   { key: "aws:lambda", label: "AWS Lambda", category: "compute", source: "thesvg", ref: "aws-aws-lambda" },
@@ -119,7 +119,7 @@ export const ICON_CATALOG: CatalogEntry[] = [
   { key: "gcp:artifact-registry", label: "Artifact Registry", category: "storage", source: "thesvg", ref: "gcp-artifact-registry" },
   { key: "gcp:cloud-tasks", label: "Cloud Tasks", category: "messaging", source: "thesvg", ref: "gcp-cloud-tasks" },
 
-  // ---- Marcas / tecnologias genéricas ----
+  // ---- Generic brands / technologies ----
   { key: "brand:kubernetes", label: "Kubernetes", category: "compute", source: "thesvg", ref: "kubernetes" },
   { key: "brand:docker", label: "Docker", category: "compute", source: "thesvg", ref: "docker" },
   { key: "brand:postgresql", label: "PostgreSQL", category: "database", source: "thesvg", ref: "postgresql" },
@@ -143,8 +143,8 @@ export const ICON_CATALOG: CatalogEntry[] = [
   { key: "brand:stripe", label: "Stripe", category: "external", source: "thesvg", ref: "stripe" },
   { key: "brand:cloudflare", label: "Cloudflare", category: "network", source: "thesvg", ref: "cloudflare" },
   { key: "brand:vercel", label: "Vercel", category: "external", source: "thesvg", ref: "vercel", variant: "mono" },
-  { key: "brand:aws", label: "AWS (genérico)", category: "generic", source: "thesvg", ref: "amazon-web-services" },
-  { key: "brand:gcp", label: "Google Cloud (genérico)", category: "generic", source: "thesvg", ref: "googlecloud" },
+  { key: "brand:aws", label: "AWS (generic)", category: "generic", source: "thesvg", ref: "amazon-web-services" },
+  { key: "brand:gcp", label: "Google Cloud (generic)", category: "generic", source: "thesvg", ref: "googlecloud" },
   { key: "brand:vue", label: "Vue.js", category: "external", source: "thesvg", ref: "vuedotjs" },
   { key: "brand:angular", label: "Angular", category: "external", source: "thesvg", ref: "angular", variant: "mono" },
   { key: "brand:svelte", label: "Svelte", category: "external", source: "thesvg", ref: "svelte" },
@@ -195,45 +195,45 @@ export const ICON_CATALOG: CatalogEntry[] = [
   { key: "brand:digitalocean", label: "DigitalOcean", category: "generic", source: "thesvg", ref: "digitalocean" },
   { key: "brand:swagger", label: "Swagger / OpenAPI", category: "generic", source: "thesvg", ref: "swagger" },
 
-  // ---- Formas genéricas (mdi, herdam a cor da categoria no tema) ----
-  { key: "generic:database", label: "Banco de dados (genérico)", category: "database", source: "mdi", ref: "database" },
+  // ---- Generic shapes (mdi, inherit the category's color from the theme) ----
+  { key: "generic:database", label: "Database (generic)", category: "database", source: "mdi", ref: "database" },
   { key: "generic:cache", label: "Cache", category: "database", source: "mdi", ref: "cached" },
-  { key: "generic:server", label: "Servidor", category: "compute", source: "mdi", ref: "server" },
-  { key: "generic:function", label: "Função serverless", category: "compute", source: "mdi", ref: "function-variant" },
-  { key: "generic:cron", label: "Job agendado", category: "compute", source: "mdi", ref: "timer-outline" },
-  { key: "generic:worker", label: "Worker / processo em background", category: "compute", source: "mdi", ref: "cog-outline" },
-  { key: "generic:queue", label: "Fila de mensagens", category: "messaging", source: "mdi", ref: "message-processing-outline" },
+  { key: "generic:server", label: "Server", category: "compute", source: "mdi", ref: "server" },
+  { key: "generic:function", label: "Serverless function", category: "compute", source: "mdi", ref: "function-variant" },
+  { key: "generic:cron", label: "Scheduled job", category: "compute", source: "mdi", ref: "timer-outline" },
+  { key: "generic:worker", label: "Worker / background process", category: "compute", source: "mdi", ref: "cog-outline" },
+  { key: "generic:queue", label: "Message queue", category: "messaging", source: "mdi", ref: "message-processing-outline" },
   { key: "generic:api", label: "API", category: "network", source: "mdi", ref: "api" },
   { key: "generic:load-balancer", label: "Load balancer", category: "network", source: "mdi", ref: "swap-horizontal" },
   { key: "generic:dns", label: "DNS", category: "network", source: "mdi", ref: "dns-outline" },
-  { key: "generic:router", label: "Rede / roteador", category: "network", source: "mdi", ref: "router-wireless" },
+  { key: "generic:router", label: "Network / router", category: "network", source: "mdi", ref: "router-wireless" },
   { key: "generic:cloud", label: "Cloud", category: "generic", source: "mdi", ref: "cloud-outline" },
-  { key: "generic:firewall", label: "Firewall / segurança", category: "security", source: "mdi", ref: "shield-lock-outline" },
-  { key: "generic:lock", label: "Autenticação / segredo", category: "security", source: "mdi", ref: "lock-outline" },
-  { key: "generic:user", label: "Usuário / ator", category: "external", source: "mdi", ref: "account" },
-  { key: "generic:users", label: "Usuários", category: "external", source: "mdi", ref: "account-group" },
-  { key: "generic:browser", label: "Navegador / cliente web", category: "external", source: "mdi", ref: "web" },
-  { key: "generic:mobile", label: "App mobile", category: "external", source: "mdi", ref: "cellphone" },
-  { key: "generic:desktop", label: "App desktop", category: "external", source: "mdi", ref: "desktop-classic" },
-  { key: "generic:storage", label: "Armazenamento de arquivos", category: "storage", source: "mdi", ref: "folder-outline" },
-  { key: "generic:file", label: "Documento / arquivo", category: "storage", source: "mdi", ref: "file-document-outline" },
-  { key: "generic:monitoring", label: "Observabilidade / monitor", category: "generic", source: "mdi", ref: "monitor" },
+  { key: "generic:firewall", label: "Firewall / security", category: "security", source: "mdi", ref: "shield-lock-outline" },
+  { key: "generic:lock", label: "Authentication / secret", category: "security", source: "mdi", ref: "lock-outline" },
+  { key: "generic:user", label: "User / actor", category: "external", source: "mdi", ref: "account" },
+  { key: "generic:users", label: "Users", category: "external", source: "mdi", ref: "account-group" },
+  { key: "generic:browser", label: "Browser / web client", category: "external", source: "mdi", ref: "web" },
+  { key: "generic:mobile", label: "Mobile app", category: "external", source: "mdi", ref: "cellphone" },
+  { key: "generic:desktop", label: "Desktop app", category: "external", source: "mdi", ref: "desktop-classic" },
+  { key: "generic:storage", label: "File storage", category: "storage", source: "mdi", ref: "folder-outline" },
+  { key: "generic:file", label: "Document / file", category: "storage", source: "mdi", ref: "file-document-outline" },
+  { key: "generic:monitoring", label: "Observability / monitoring", category: "generic", source: "mdi", ref: "monitor" },
   { key: "generic:logs", label: "Logs", category: "generic", source: "mdi", ref: "eye-outline" },
-  { key: "generic:service", label: "Serviço genérico", category: "generic", source: "mdi", ref: "cube-outline" },
-  { key: "generic:layer", label: "Camada / módulo", category: "generic", source: "mdi", ref: "layers-outline" },
+  { key: "generic:service", label: "Generic service", category: "generic", source: "mdi", ref: "cube-outline" },
+  { key: "generic:layer", label: "Layer / module", category: "generic", source: "mdi", ref: "layers-outline" },
   { key: "generic:webhook", label: "Webhook", category: "network", source: "mdi", ref: "webhook" },
-  { key: "generic:notification", label: "Notificação", category: "messaging", source: "mdi", ref: "bell-outline" },
-  { key: "generic:search", label: "Busca / índice de pesquisa", category: "generic", source: "mdi", ref: "magnify" },
-  { key: "generic:analytics", label: "Analytics / métricas", category: "generic", source: "mdi", ref: "chart-line" },
-  { key: "generic:sync", label: "Sincronização", category: "generic", source: "mdi", ref: "cloud-sync-outline" },
+  { key: "generic:notification", label: "Notification", category: "messaging", source: "mdi", ref: "bell-outline" },
+  { key: "generic:search", label: "Search / search index", category: "generic", source: "mdi", ref: "magnify" },
+  { key: "generic:analytics", label: "Analytics / metrics", category: "generic", source: "mdi", ref: "chart-line" },
+  { key: "generic:sync", label: "Sync", category: "generic", source: "mdi", ref: "cloud-sync-outline" },
   { key: "generic:backup", label: "Backup", category: "storage", source: "mdi", ref: "backup-restore" },
-  { key: "generic:package", label: "Artefato / build", category: "storage", source: "mdi", ref: "package-variant-closed" },
-  { key: "generic:certificate", label: "Certificado TLS", category: "security", source: "mdi", ref: "certificate-outline" },
-  { key: "generic:topology", label: "Topologia de rede", category: "network", source: "mdi", ref: "sitemap-outline" },
-  { key: "generic:automation", label: "Automação / pipeline", category: "compute", source: "mdi", ref: "cog-sync-outline" },
-  { key: "generic:table", label: "Tabela / dataset", category: "database", source: "mdi", ref: "table-large" },
-  { key: "generic:archive", label: "Arquivamento", category: "storage", source: "mdi", ref: "file-cabinet" },
-  { key: "generic:key", label: "Chave de acesso", category: "security", source: "mdi", ref: "key-outline" },
+  { key: "generic:package", label: "Artifact / build", category: "storage", source: "mdi", ref: "package-variant-closed" },
+  { key: "generic:certificate", label: "TLS certificate", category: "security", source: "mdi", ref: "certificate-outline" },
+  { key: "generic:topology", label: "Network topology", category: "network", source: "mdi", ref: "sitemap-outline" },
+  { key: "generic:automation", label: "Automation / pipeline", category: "compute", source: "mdi", ref: "cog-sync-outline" },
+  { key: "generic:table", label: "Table / dataset", category: "database", source: "mdi", ref: "table-large" },
+  { key: "generic:archive", label: "Archival", category: "storage", source: "mdi", ref: "file-cabinet" },
+  { key: "generic:key", label: "Access key", category: "security", source: "mdi", ref: "key-outline" },
 ];
 
 const catalogByKey = new Map(ICON_CATALOG.map((entry) => [entry.key, entry]));
@@ -249,7 +249,7 @@ export function findSimilarKeys(key: string, limit = 3): string[] {
     .map((e) => e.key);
 }
 
-/** busca livre usada pelo `arch-diagram icons <termo>` — bate contra key, label e category */
+/** free-text search used by `arch-diagram icons <query>` -- matches against key, label and category */
 export function searchCatalog(query: string): CatalogEntry[] {
   const needle = query.toLowerCase();
   return ICON_CATALOG.filter(
