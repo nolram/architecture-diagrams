@@ -39,6 +39,16 @@ npm install
 npm run build
 ```
 
+## Testes
+
+```bash
+npm test           # suite de testes (node:test, via tsx — cobre spec/layout/icons/render)
+npm run typecheck  # checa src/ e tests/
+npm run validate:icons  # confere se todo ícone do catálogo ainda resolve nos pacotes instalados
+```
+
+Roda tudo isso (mais um smoke test renderizando `examples/`) em CI a cada push.
+
 ## Uso
 
 ```bash

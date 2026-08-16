@@ -10,7 +10,8 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli.ts",
     "render": "tsx src/cli.ts",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.tests.json",
+    "test": "tsx --test tests/*.test.ts",
     "validate:skill": "node scripts/validate-skill.mjs",
     "validate:icons": "tsx scripts/validate-icon-catalog.mts",
     "package:skill": "rm -f architecture-diagrams.skill && cd architecture-diagrams && zip -rq ../architecture-diagrams.skill . -x '*.DS_Store' && cd .."
