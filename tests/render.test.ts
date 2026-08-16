@@ -66,4 +66,53 @@ edges: []
     assert.ok(!svg.includes("<script>"));
     assert.ok(svg.includes("&lt;script&gt;"));
   });
+
+  describe("shapes de node", () => {
+    for (const shape of ["card", "database", "actor", "cloud"]) {
+      test(`shape "${shape}" renderiza sem avisos e sem coordenadas inválidas`, async () => {
+        const { svg, warnings } = await renderYaml(`
+version: '1'
+nodes:
+  - id: a
+    label: Node ${shape}
+    shape: ${shape}
+    icon: generic:server
+  - id: b
+    label: B
+edges:
+  - from: a
+    to: b
+`);
+        assert.deepEqual(warnings, []);
+        assert.ok(svg.includes(`Node ${shape}`));
+        assert.ok(!svg.includes("NaN"), "path/coordenadas não deveriam conter NaN");
+        assert.ok(!svg.includes("undefined"), "atributos não deveriam conter 'undefined'");
+      });
+    }
+
+    test("shape 'database' desenha um path (corpo do cilindro) além do badge/ícone", async () => {
+      const { svg } = await renderYaml(`
+version: '1'
+nodes:
+  - id: a
+    label: DB
+    shape: database
+edges: []
+`);
+      assert.match(svg, /<path d="M0,\d/);
+      assert.match(svg, /<ellipse /);
+    });
+
+    test("shape 'cloud' desenha a silhueta de nuvem sem retângulo de card por baixo", async () => {
+      const { svg } = await renderYaml(`
+version: '1'
+nodes:
+  - id: a
+    label: Internet
+    shape: cloud
+edges: []
+`);
+      assert.ok(svg.includes("q-2.28"), "deveria conter o path da nuvem");
+    });
+  });
 });

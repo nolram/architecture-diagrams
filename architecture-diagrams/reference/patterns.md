@@ -2,6 +2,50 @@
 
 Specs completas e testadas — use como ponto de partida e adapte nomes/serviços/edges para o caso real. Todas foram renderizadas e conferidas visualmente antes de entrar aqui.
 
+## Os 4 shapes de node juntos
+
+Referência rápida de quando usar cada `shape`: `actor` para o usuário (sem card, ícone + label embaixo), `cloud` para a internet/rede pública, `card` (padrão) para um serviço qualquer, `database` (cilindro) para o banco.
+
+```yaml
+version: '1'
+title: Shapes de Node
+theme: clean-light
+nodes:
+  - id: user
+    label: Usuário
+    shape: actor
+    icon: generic:user
+    category: external
+  - id: internet
+    label: Internet
+    sublabel: DNS público
+    shape: cloud
+    icon: generic:cloud
+    category: external
+  - id: api
+    label: API Service
+    sublabel: Node.js
+    shape: card
+    icon: brand:nodejs
+    category: compute
+  - id: db
+    label: PostgreSQL
+    sublabel: Banco principal
+    shape: database
+    icon: brand:postgresql
+    category: database
+edges:
+  - from: user
+    to: internet
+    label: HTTPS
+  - from: internet
+    to: api
+    label: HTTPS
+  - from: api
+    to: db
+    label: SQL
+```
+
 ## Web 3 camadas (browser → CDN → app → cache/db numa VPC)
 
 Bom padrão default para "aplicação web típica". Mostra: node fora de qualquer group, group aninhado (VPC > Private Subnet), múltiplos edges com label.

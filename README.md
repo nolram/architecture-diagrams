@@ -16,9 +16,9 @@ A motivação: diagramas gerados por IA hoje em dia costumam sair em Mermaid —
 |---|---|
 | ![Microsserviços](examples/microservices-queue.png) | ![Pipeline de dados](examples/data-pipeline.png) |
 
-| Backend com fan-out (`direction: auto` escolhendo `down` sozinho) |
-|---|
-| ![Backend e-commerce](examples/ecommerce-backend.png) |
+| Backend com fan-out (`direction: auto` escolhendo `down` sozinho) | Os 4 shapes de node (actor, cloud, card, database) |
+|---|---|
+| ![Backend e-commerce](examples/ecommerce-backend.png) | ![Shapes de node](examples/node-shapes.png) |
 
 Specs completas desses exemplos em [`examples/`](examples/) e [`architecture-diagrams/reference/patterns.md`](architecture-diagrams/reference/patterns.md).
 

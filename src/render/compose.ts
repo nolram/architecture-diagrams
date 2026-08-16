@@ -2,7 +2,7 @@ import type { DiagramSpec } from "../spec/schema.js";
 import type { LayoutResult } from "../layout/run-layout.js";
 import { resolveIcon, fallbackBadge, type ResolvedIcon } from "../icons/resolve.js";
 import { getTheme } from "./theme.js";
-import { renderNodeCard } from "./node-card.js";
+import { renderNode } from "./node-card.js";
 import { renderGroupBox } from "./group-box.js";
 import { renderEdge, renderArrowMarkerDefs } from "./edges.js";
 import { escapeXml } from "./svg-utils.js";
@@ -50,7 +50,7 @@ export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult): P
     .filter(Boolean);
 
   const nodeParts = [...layout.nodes.values()].map((box) =>
-    renderNodeCard(nodesById.get(box.id)!, box, theme, iconByNode.get(box.id) ?? null),
+    renderNode(nodesById.get(box.id)!, box, theme, iconByNode.get(box.id) ?? null),
   );
 
   const offsetX = CANVAS_MARGIN;

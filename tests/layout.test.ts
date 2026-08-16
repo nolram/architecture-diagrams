@@ -1,7 +1,8 @@
 import { describe, test } from "node:test";
 import assert from "node:assert/strict";
 import { loadSpecFromText } from "../src/spec/index.js";
-import { layoutSpec } from "../src/layout/index.js";
+import { layoutSpec, estimateNodeSize } from "../src/layout/index.js";
+import type { DiagramNode } from "../src/spec/schema.js";
 
 function parseOrThrow(yaml: string) {
   const result = loadSpecFromText(yaml);
@@ -264,6 +265,36 @@ edges:
 `);
       const layout = await layoutSpec(spec);
       assert.equal(layout.direction, "right", "direction explícita não deveria ser sobrescrita pela heurística");
+    });
+  });
+
+  describe("estimateNodeSize por shape", () => {
+    const base: DiagramNode = {
+      id: "n",
+      label: "PostgreSQL",
+      category: "generic",
+      shape: "card",
+    };
+
+    test("shape 'database' reserva altura extra em relação a 'card' (tampas do cilindro)", () => {
+      const card = estimateNodeSize({ ...base, shape: "card" });
+      const database = estimateNodeSize({ ...base, shape: "database" });
+      assert.equal(database.width, card.width, "largura não deveria mudar, só a altura");
+      assert.ok(database.height > card.height);
+    });
+
+    test("shape 'actor' tem layout diferente (ícone em cima, label embaixo) — mais alto, não necessariamente mais largo", () => {
+      const card = estimateNodeSize({ ...base, shape: "card" });
+      const actor = estimateNodeSize({ ...base, shape: "actor" });
+      assert.ok(actor.height > card.height);
+    });
+
+    test("labels mais longos aumentam a largura em todos os shapes", () => {
+      for (const shape of ["card", "database", "actor", "cloud"] as const) {
+        const short = estimateNodeSize({ ...base, shape, label: "DB" });
+        const long = estimateNodeSize({ ...base, shape, label: "Amazon Relational Database Service" });
+        assert.ok(long.width >= short.width, `shape ${shape} deveria ficar mais largo com label maior`);
+      }
     });
   });
 });

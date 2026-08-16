@@ -25,12 +25,18 @@ nodes:
     sublabel: Node.js         # opcional, texto secundário menor abaixo do label
     icon: aws:lambda          # opcional, chave do catálogo (ver icon-catalog.md). Omitir = card sem ícone.
     category: compute         # opcional, padrão "generic". Ver valores abaixo — define a cor do ícone/badge quando não há ícone de marca.
-    shape: card                # opcional, padrão "card" (única opção suportada por enquanto)
+    shape: card                # opcional, padrão "card". Ver valores abaixo.
     group: vpc                  # opcional, id de um group definido em `groups` — aninha o node visualmente dentro dele
 ```
 
 `category` (afeta a cor do badge de ícones genéricos e do fallback quando o ícone não é encontrado):
 `compute` `storage` `database` `network` `security` `messaging` `external` `generic`
+
+`shape`:
+- `card` (padrão) — retângulo arredondado com ícone à esquerda, label/sublabel à direita. Serve pra praticamente qualquer serviço/componente.
+- `database` — cilindro (tampas elípticas no topo e na base). Use para bancos de dados, data warehouses, qualquer coisa que semanticamente seja "um banco".
+- `actor` — sem card/retângulo: só o ícone num badge circular com o label centralizado embaixo. Use para pessoas, usuários, ou sistemas externos que só aparecem como ponto de entrada/saída do diagrama (não como um serviço "encaixotado").
+- `cloud` — silhueta de nuvem. Use para representar "a internet"/rede pública, ou um serviço externo de terceiros fora do seu controle.
 
 ## `groups`
 
@@ -75,4 +81,4 @@ edges:
 
 ## Exemplo completo
 
-Ver `reference/patterns.md` para exemplos prontos (web 3 camadas, microsserviços com fila, VPC multi-AZ, pipeline de dados, backend com fan-out) que também servem de ponto de partida.
+Ver `reference/patterns.md` para exemplos prontos (os 4 shapes de node juntos, web 3 camadas, microsserviços com fila, VPC multi-AZ, pipeline de dados, backend com fan-out) que também servem de ponto de partida.

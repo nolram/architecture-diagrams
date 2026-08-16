@@ -15,7 +15,7 @@ Base para poder mexer no resto com segurança.
 
 ## v0.3 — Qualidade visual
 
-- [ ] **Mais shapes de node** — hoje só existe `shape: card` (retangular). Adicionar cilindro (banco de dados), ator (pessoa/sistema externo) e nuvem (serviço externo/internet) — mais próximo do padrão visual AWS/Azure/GCP real.
+- [x] **Mais shapes de node** — o schema já reservava `shape: "database" | "actor"` desde o v0.1, mas o renderer nunca implementava a diferenciação visual (todo node virava o mesmo card). Agora `render/node-card.ts` despacha por shape de verdade: `database` (cilindro, com tampas elípticas), `actor` (sem card — ícone circular + label embaixo, para pessoas/sistemas externos) e `cloud` (silhueta de nuvem reaproveitando o path do mdi "cloud", novo no schema). `layout/geometry.ts` tem sizing próprio por shape. Exemplo dedicado em `examples/node-shapes.yaml`.
 - [ ] **Legenda automática** — gerar um bloco de legenda explicando as cores por `category` e por `style` de group quando o diagrama tiver muitos elementos distintos.
 - [ ] **Expandir o catálogo de ícones** — o catálogo curado tem ~94 entradas hoje; crescer cobertura de serviços AWS/Azure/GCP comuns que ainda faltam.
 - [ ] **Comando de busca de ícone no CLI** — `arch-diagram icons <termo>` para a IA (ou humano) encontrar a chave certa no terminal em vez de abrir `icon-catalog.md` inteiro. Fica natural de implementar junto da expansão do catálogo.

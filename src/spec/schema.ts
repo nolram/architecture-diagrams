@@ -14,7 +14,7 @@ export const NodeSchema = z.object({
   category: z
     .enum(["compute", "storage", "database", "network", "security", "messaging", "external", "generic"])
     .default("generic"),
-  shape: z.enum(["card", "database", "actor"]).default("card"),
+  shape: z.enum(["card", "database", "actor", "cloud"]).default("card"),
   group: z.string().optional(),
 });
 export type DiagramNode = z.infer<typeof NodeSchema>;

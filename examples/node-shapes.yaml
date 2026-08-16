@@ -1,0 +1,37 @@
+version: '1'
+title: Shapes de Node
+theme: clean-light
+nodes:
+  - id: user
+    label: Usuário
+    shape: actor
+    icon: generic:user
+    category: external
+  - id: internet
+    label: Internet
+    sublabel: DNS público
+    shape: cloud
+    icon: generic:cloud
+    category: external
+  - id: api
+    label: API Service
+    sublabel: Node.js
+    shape: card
+    icon: brand:nodejs
+    category: compute
+  - id: db
+    label: PostgreSQL
+    sublabel: Banco principal
+    shape: database
+    icon: brand:postgresql
+    category: database
+edges:
+  - from: user
+    to: internet
+    label: HTTPS
+  - from: internet
+    to: api
+    label: HTTPS
+  - from: api
+    to: db
+    label: SQL

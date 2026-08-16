@@ -40,7 +40,6 @@
   <rect x="14" y="19" width="40" height="40" rx="10" fill="#475569" fill-opacity="0.14" stroke="#475569" stroke-opacity="0.35"/>
   <svg x="22" y="27" width="24" height="24" viewBox="0 0 24 24"><path fill="#475569" d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Cliente</text>
-  
 </g>
 <g transform="translate(454, 100)">
   <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -60,7 +59,6 @@
   </g>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#059669" stroke-opacity="0.25"/>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">API Gateway</text>
-  
 </g>
 <g transform="translate(1420.8, 190.33333333333331)">
   <rect x="0" y="0" width="190" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -71,8 +69,7 @@
 </path>    </g></svg>
   </g>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#9333ea" stroke-opacity="0.25"/>
-  <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Kafka</text>
-  <text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Event bus</text>
+  <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Kafka</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Event bus</text>
 </g>
 <g transform="translate(1134.8, 70.33333333333333)">
   <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -83,7 +80,6 @@
   </g>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Orders DB</text>
-  
 </g>
 <g transform="translate(1134.8, 322.3333333333333)">
   <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -94,7 +90,6 @@
   </g>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Payments DB</text>
-  
 </g>
 <g transform="translate(797, 76)">
   <rect x="0" y="0" width="196.8" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -104,8 +99,7 @@
     <svg x="17" y="33" width="34" height="34" viewBox="0 0 64 64"><defs><linearGradient id="a" x1="68.188%" x2="27.823%" y1="17.487%" y2="89.755%"><stop offset="0%" stop-color="#41873F"/><stop offset="32.88%" stop-color="#418B3D"/><stop offset="63.52%" stop-color="#419637"/><stop offset="93.19%" stop-color="#3FA92D"/><stop offset="100%" stop-color="#3FAE2A"/></linearGradient><linearGradient id="c" x1="43.277%" x2="159.245%" y1="55.169%" y2="-18.306%"><stop offset="13.76%" stop-color="#41873F"/><stop offset="40.32%" stop-color="#54A044"/><stop offset="71.36%" stop-color="#66B848"/><stop offset="90.81%" stop-color="#6CC04A"/></linearGradient><linearGradient id="f" x1="-4.389%" x2="101.499%" y1="49.997%" y2="49.997%"><stop offset="9.192%" stop-color="#6CC04A"/><stop offset="28.64%" stop-color="#66B848"/><stop offset="59.68%" stop-color="#54A044"/><stop offset="86.24%" stop-color="#41873F"/></linearGradient><path id="b" d="M134.923 1.832c-4.344-2.443-9.502-2.443-13.846 0L6.787 67.801C2.443 70.244 0 74.859 0 79.745v132.208c0 4.887 2.715 9.502 6.787 11.945l114.29 65.968c4.344 2.444 9.502 2.444 13.846 0l114.29-65.968c4.344-2.443 6.787-7.058 6.787-11.945V79.745c0-4.886-2.715-9.501-6.787-11.944L134.923 1.832Z"/><path id="e" d="M134.923 1.832c-4.344-2.443-9.502-2.443-13.846 0L6.787 67.801C2.443 70.244 0 74.859 0 79.745v132.208c0 4.887 2.715 9.502 6.787 11.945l114.29 65.968c4.344 2.444 9.502 2.444 13.846 0l114.29-65.968c4.344-2.443 6.787-7.058 6.787-11.945V79.745c0-4.886-2.715-9.501-6.787-11.944L134.923 1.832Z"/></defs><path fill="url(#a)" d="M134.923 1.832c-4.344-2.443-9.502-2.443-13.846 0L6.787 67.801C2.443 70.244 0 74.859 0 79.745v132.208c0 4.887 2.715 9.502 6.787 11.945l114.29 65.968c4.344 2.444 9.502 2.444 13.846 0l114.29-65.968c4.344-2.443 6.787-7.058 6.787-11.945V79.745c0-4.886-2.715-9.501-6.787-11.944L134.923 1.832Z"/><mask id="d" fill="#fff"><use xlink:href="#b"/></mask><path fill="url(#c)" d="M249.485 67.8 134.65 1.833c-1.086-.542-2.443-1.085-3.529-1.357L2.443 220.912c1.086 1.357 2.444 2.443 3.8 3.258l114.834 65.968c3.258 1.9 7.059 2.443 10.588 1.357L252.47 70.515c-.815-1.086-1.9-1.9-2.986-2.714Z" mask="url(#d)"/><mask id="g" fill="#fff"><use xlink:href="#e"/></mask><path fill="url(#f)" d="M249.756 223.898c3.258-1.9 5.701-5.158 6.787-8.687L130.579.204c-3.258-.543-6.787-.272-9.773 1.628L6.786 67.53l122.979 224.238c1.628-.272 3.529-.815 5.158-1.63l114.833-66.239Z" mask="url(#g)"/></svg>
   </g>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
-  <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Orders Service</text>
-  <text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Node.js</text>
+  <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Orders Service</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Node.js</text>
 </g>
 <g transform="translate(787.4, 196)">
   <rect x="0" y="0" width="211.2" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -115,15 +109,13 @@
     <svg x="17" y="33" width="34" height="34" viewBox="0 0 64 64"><path fill="url(#a)" d="M31.885 16c-8.124 0-7.617 3.523-7.617 3.523l.01 3.65h7.752v1.095H21.197S16 23.678 16 31.876c0 8.196 4.537 7.906 4.537 7.906h2.708v-3.804s-.146-4.537 4.465-4.537h7.688s4.32.07 4.32-4.175v-7.019S40.374 16 31.885 16zm-4.275 2.454a1.394 1.394 0 1 1 0 2.79 1.393 1.393 0 0 1-1.395-1.395c0-.771.624-1.395 1.395-1.395z"/><path fill="url(#b)" d="M32.115 47.833c8.124 0 7.617-3.523 7.617-3.523l-.01-3.65H31.97v-1.095h10.832S48 40.155 48 31.958c0-8.197-4.537-7.906-4.537-7.906h-2.708v3.803s.146 4.537-4.465 4.537h-7.688s-4.32-.07-4.32 4.175v7.019s-.656 4.247 7.833 4.247zm4.275-2.454a1.393 1.393 0 0 1-1.395-1.395 1.394 1.394 0 1 1 1.395 1.395z"/><defs><linearGradient id="a" x1="19.075" x2="34.898" y1="18.782" y2="34.658" gradientUnits="userSpaceOnUse"><stop stop-color="#387EB8"/><stop offset="1" stop-color="#366994"/></linearGradient><linearGradient id="b" x1="28.809" x2="45.803" y1="28.882" y2="45.163" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE052"/><stop offset="1" stop-color="#FFC331"/></linearGradient></defs></svg>
   </g>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
-  <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Payments Service</text>
-  <text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Python</text>
+  <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Payments Service</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Python</text>
 </g>
 <g transform="translate(773, 316)">
   <rect x="0" y="0" width="232.8" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="#ea580c" fill-opacity="0.14" stroke="#ea580c" stroke-opacity="0.35"/>
   <svg x="22" y="27" width="24" height="24" viewBox="0 0 24 24"><path fill="#ea580c" d="M12 8a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 2a2 2 0 0 0-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2m-2 12c-.25 0-.46-.18-.5-.42l-.37-2.65c-.63-.25-1.17-.59-1.69-.99l-2.49 1.01c-.22.08-.49 0-.61-.22l-2-3.46a.493.493 0 0 1 .12-.64l2.11-1.66L4.5 12l.07-1l-2.11-1.63a.493.493 0 0 1-.12-.64l2-3.46c.12-.22.39-.31.61-.22l2.49 1c.52-.39 1.06-.73 1.69-.98l.37-2.65c.04-.24.25-.42.5-.42h4c.25 0 .46.18.5.42l.37 2.65c.63.25 1.17.59 1.69.98l2.49-1c.22-.09.49 0 .61.22l2 3.46c.13.22.07.49-.12.64L19.43 11l.07 1l-.07 1l2.11 1.63c.19.15.25.42.12.64l-2 3.46c-.12.22-.39.31-.61.22l-2.49-1c-.52.39-1.06.73-1.69.98l-.37 2.65c-.04.24-.25.42-.5.42zm1.25-18l-.37 2.61c-1.2.25-2.26.89-3.03 1.78L5.44 7.35l-.75 1.3L6.8 10.2a5.55 5.55 0 0 0 0 3.6l-2.12 1.56l.75 1.3l2.43-1.04c.77.88 1.82 1.52 3.01 1.76l.37 2.62h1.52l.37-2.61c1.19-.25 2.24-.89 3.01-1.77l2.43 1.04l.75-1.3l-2.12-1.55c.4-1.17.4-2.44 0-3.61l2.11-1.55l-.75-1.3l-2.41 1.04a5.42 5.42 0 0 0-3.03-1.77L12.75 4z"/></svg>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Notification Worker</text>
-  
 </g>
 </g>
 </svg>
