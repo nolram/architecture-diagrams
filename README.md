@@ -1,5 +1,7 @@
 # architecture-diagrams
 
+[![Release](https://img.shields.io/github/v/release/nolram/architecture-diagrams?label=release)](https://github.com/nolram/architecture-diagrams/releases/latest) [![CI](https://github.com/nolram/architecture-diagrams/actions/workflows/ci.yml/badge.svg)](https://github.com/nolram/architecture-diagrams/actions/workflows/ci.yml)
+
 Gera diagramas de arquitetura de software/infraestrutura **visualmente ricos e profissionais** a partir de uma spec YAML estruturada — pensado para ser usado por uma IA (ex: como uma Claude Skill), não desenhado à mão.
 
 A motivação: diagramas gerados por IA hoje em dia costumam sair em Mermaid — funcionais, mas visualmente pobres (caixas simples, sem ícones, sem hierarquia visual). Este projeto troca a sintaxe do Mermaid por uma spec estruturada e um motor de renderização próprio, com ícones reais de marca (AWS/Azure/GCP/Kubernetes/tecnologias), cards com sombra e cantos arredondados, e boundaries aninhados (VPC/subnet/AZ), mantendo o layout 100% automático.
@@ -89,10 +91,12 @@ Guia completo da spec, catálogo de ícones disponíveis e mais padrões prontos
 
 ## Uso como Claude Skill
 
-O diretório [`architecture-diagrams/`](architecture-diagrams/) é uma [Claude Skill](https://www.anthropic.com/news/skills) autocontida: `SKILL.md` + guias de referência + um script de renderização, para que uma IA leia a documentação, escreva a spec e gere o diagrama sozinha. Para empacotar como `.skill` instalável:
+O diretório [`architecture-diagrams/`](architecture-diagrams/) é uma [Claude Skill](https://www.anthropic.com/news/skills) autocontida: `SKILL.md` + guias de referência + um script de renderização, para que uma IA leia a documentação, escreva a spec e gere o diagrama sozinha.
+
+Baixe o `.skill` já empacotado na [página de releases](https://github.com/nolram/architecture-diagrams/releases/latest) — cada release é gerado automaticamente pela pipeline (`.github/workflows/release.yml`) a partir do código-fonte, então o artefato nunca fica dessincronizado do conteúdo da skill. Para empacotar uma versão local manualmente:
 
 ```bash
-cd architecture-diagrams && zip -r ../architecture-diagrams.skill . -x '*.DS_Store'
+npm run package:skill
 ```
 
 ## Estrutura do projeto
