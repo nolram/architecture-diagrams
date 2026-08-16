@@ -12,6 +12,7 @@
     "render": "tsx src/cli.ts",
     "typecheck": "tsc --noEmit",
     "validate:skill": "node scripts/validate-skill.mjs",
+    "validate:icons": "tsx scripts/validate-icon-catalog.mts",
     "package:skill": "rm -f architecture-diagrams.skill && cd architecture-diagrams && zip -rq ../architecture-diagrams.skill . -x '*.DS_Store' && cd .."
   },
   "license": "MIT",

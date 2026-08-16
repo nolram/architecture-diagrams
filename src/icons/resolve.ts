@@ -48,12 +48,19 @@ export async function resolveIcon(key: string, accentColor?: string): Promise<Ic
   }
 
   if (entry.source === "thesvg") {
-    const mod = (await import(`thesvg/${entry.ref}`)) as { svg: string; hex?: string };
-    const body = extractSvgInner(mod.svg);
-    return {
-      ok: true,
-      icon: { body, viewBox: "0 0 64 64", brandHex: mod.hex ? `#${mod.hex}` : undefined },
-    };
+    try {
+      const mod = (await import(`thesvg/${entry.ref}`)) as { svg: string; hex?: string };
+      const body = extractSvgInner(mod.svg);
+      return {
+        ok: true,
+        icon: { body, viewBox: "0 0 64 64", brandHex: mod.hex ? `#${mod.hex}` : undefined },
+      };
+    } catch {
+      // slug não existe mais no pacote thesvg instalado (ex: renomeado numa atualização) —
+      // degrada para o mesmo caminho de fallback gracioso das outras chaves ausentes,
+      // em vez de propagar a exceção do import() e derrubar o render inteiro.
+      return { ok: false, key, suggestions: findSimilarKeys(key) };
+    }
   }
 
   const set = await loadMdiSet();
