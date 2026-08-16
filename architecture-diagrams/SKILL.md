@@ -21,7 +21,7 @@ Renderer próprio (ELK.js para layout + ícones reais via `thesvg`/Iconify + SVG
    ```bash
    bash <caminho-desta-skill>/scripts/render.sh diagrama.yaml --png -o diagrama.svg
    ```
-   Isso gera `diagrama.svg` e `diagrama.png` lado a lado. Use `--png` sempre que for necessário visualizar o resultado (ex: com a ferramenta de leitura de imagem) — SVG puro não é visualizado como imagem por todas as ferramentas.
+   Isso gera `diagrama.svg` e `diagrama.png` lado a lado. Use `--png` sempre que for necessário visualizar o resultado (ex: com a ferramenta de leitura de imagem) — SVG puro não é visualizado como imagem por todas as ferramentas. Use `--pdf` em vez de (ou além de) `--png` se o usuário quiser um arquivo pronto pra imprimir/anexar (a página do PDF sai do tamanho exato do diagrama).
 6. **Leia a saída do comando antes de considerar a tarefa concluída:**
    - Se a spec for inválida, o comando falha (exit code 1) e imprime os erros exatos (campo + motivo). Corrija a spec e rode de novo — não adivinhe o que está errado, o erro já diz.
    - Avisos de ícone não encontrado aparecem em `Avisos:` no stderr mas **não** fazem o comando falhar (um badge genérico com a inicial do nome é usado no lugar). Se aparecer um aviso, troque a chave do ícone por uma real do catálogo e rode de novo antes de entregar o resultado.
@@ -30,6 +30,10 @@ Renderer próprio (ELK.js para layout + ícones reais via `thesvg`/Iconify + SVG
 ## Temas disponíveis
 
 `clean-light` (padrão, fundo claro) e `midnight-dark` (fundo escuro) — escolha via campo `theme` na spec, conforme o contexto (ex: apresentação em slide escuro, ou documentação clara).
+
+## Modo watch (uso humano, não para a IA)
+
+`--watch` re-renderiza sozinho a cada save do arquivo de spec — útil se o usuário estiver editando a spec manualmente ao seu lado e quiser ver o resultado atualizar ao vivo. Não faz sentido usar `--watch` no fluxo normal da IA (que gera a spec de uma vez e roda uma renderização só).
 
 ## Primeira execução
 

@@ -61,6 +61,12 @@ Roda tudo isso (mais um smoke test renderizando `examples/`) em CI a cada push.
 node dist/cli.js diagrama.yaml --png -o diagrama.svg
 # gera diagrama.svg e diagrama.png (equivalente a `node dist/cli.js render diagrama.yaml ...`)
 
+node dist/cli.js diagrama.yaml --pdf
+# gera também um PDF de página única, do tamanho exato do diagrama
+
+node dist/cli.js diagrama.yaml --watch
+# re-renderiza sozinho a cada save do arquivo de spec
+
 node dist/cli.js icons postgres
 # busca no catálogo de ícones por key, label ou category
 ```

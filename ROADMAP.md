@@ -22,8 +22,8 @@ Base para poder mexer no resto com segurança.
 
 ## v0.4 — Integração
 
-- [ ] **Export para PDF** — via a mesma rasterização (`@resvg/resvg-js` já suporta o pipeline; avaliar se um passo extra de conversão SVG→PDF resolve ou se precisa de outra lib).
-- [ ] **CLI `--watch`** — re-renderiza automaticamente ao salvar a spec, para iterar mais rápido durante o desenvolvimento do diagrama.
+- [x] **Export para PDF** — `--pdf` no CLI (`src/export/pdf.ts`, via `pdfkit`). Decisão de design: em vez de converter o SVG pra PDF vetorialmente (arriscado — nosso SVG usa `feDropShadow`, `<svg>` aninhado com viewBox e `clip-path`, que conversores simples de SVG→PDF costumam renderizar errado), a página do PDF sai do tamanho exato do diagrama (1 unidade SVG = 1 ponto PDF) com a arte embutida como PNG de alta resolução (`--scale`, reaproveita o mesmo pipeline de rasterização). Verificado byte a byte: `/MediaBox` bate com width/height do SVG, imagem embutida bate com a resolução esperada em 2x.
+- [x] **CLI `--watch`** — observa o diretório do arquivo de spec (não o arquivo diretamente — mais robusto contra editores que salvam via rename/truncate atômico) e re-renderiza com debounce a cada mudança. Verificado manualmente ponta a ponta (editar a spec com o watch rodando e confirmar que o SVG de saída reflete a mudança).
 - [ ] **Ícone customizado** — permitir que a spec referencie um SVG local (`icon: file:./logo.svg`) para marcas fora do catálogo, com as devidas checagens de sanitização do SVG recebido.
 
 ## Backlog (maior escopo — reavaliar depois das fases acima)

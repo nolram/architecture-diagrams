@@ -1,6 +1,12 @@
 import { Resvg } from "@resvg/resvg-js";
 
-export function svgToPng(svg: string, scale = 2): Buffer {
+export interface RenderedPng {
+  buffer: Buffer;
+  width: number;
+  height: number;
+}
+
+export function renderPng(svg: string, scale = 2): RenderedPng {
   const resvg = new Resvg(svg, {
     font: {
       loadSystemFonts: true,
@@ -9,5 +15,10 @@ export function svgToPng(svg: string, scale = 2): Buffer {
     },
     fitTo: { mode: "zoom", value: scale },
   });
-  return resvg.render().asPng();
+  const image = resvg.render();
+  return { buffer: image.asPng(), width: image.width, height: image.height };
+}
+
+export function svgToPng(svg: string, scale = 2): Buffer {
+  return renderPng(svg, scale).buffer;
 }
