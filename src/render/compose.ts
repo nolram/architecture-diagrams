@@ -5,6 +5,7 @@ import { getTheme } from "./theme.js";
 import { renderNode } from "./node-card.js";
 import { renderGroupBox } from "./group-box.js";
 import { renderEdge, renderArrowMarkerDefs } from "./edges.js";
+import { shouldShowLegend, computeLegendEntries, renderLegend } from "./legend.js";
 import { escapeXml } from "./svg-utils.js";
 
 export interface ComposeResult {
@@ -56,10 +57,17 @@ export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult): P
   const offsetX = CANVAS_MARGIN;
   const offsetY = CANVAS_MARGIN + (spec.title ? TITLE_HEIGHT : 0);
   const width = layout.width + CANVAS_MARGIN * 2;
-  const height = layout.height + offsetY + CANVAS_MARGIN;
+
+  const legend = shouldShowLegend(spec) ? renderLegend(computeLegendEntries(spec, theme), layout.width, theme) : null;
+  const legendGap = legend && legend.height > 0 ? 24 : 0;
+  const height = layout.height + offsetY + legendGap + (legend?.height ?? 0) + CANVAS_MARGIN;
 
   const title = spec.title
     ? `<text x="${CANVAS_MARGIN}" y="${CANVAS_MARGIN + 26}" font-family='${theme.fontFamily}' font-size="24" font-weight="700" fill="${theme.titleColor}">${escapeXml(spec.title)}</text>`
+    : "";
+
+  const legendBlock = legend?.svg
+    ? `<g transform="translate(${offsetX}, ${offsetY + layout.height + legendGap})">${legend.svg}</g>`
     : "";
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
@@ -76,6 +84,7 @@ ${groupParts.join("\n")}
 ${edgeParts.join("\n")}
 ${nodeParts.join("\n")}
 </g>
+${legendBlock}
 </svg>`;
 
   return { svg, warnings };

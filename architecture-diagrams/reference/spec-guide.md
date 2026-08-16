@@ -14,6 +14,8 @@ groups: [ ... ]                # opcional
 edges: [ ... ]                # opcional
 ```
 
+Uma legenda explicando as cores de `category` e de `style` de group aparece automaticamente embaixo do diagrama quando há variedade suficiente pra valer a pena (2+ styles de group distintos ou 3+ categories distintas). Não precisa configurar nada — e não desenhe sua própria legenda manualmente como um node, o renderer já cuida disso.
+
 ## `nodes`
 
 Cada node é uma caixa/card no diagrama.
