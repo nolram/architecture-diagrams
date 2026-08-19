@@ -6,6 +6,7 @@ import type { ComposeResult } from "../../render/compose.js";
 import {
   UML_BOX_PAD_X,
   UML_COMPARTMENT_PAD,
+  UML_EDGE_LABEL_CHAR_WIDTH,
   UML_LINE_HEIGHT,
   attributeLine,
   methodLine,
@@ -171,7 +172,11 @@ function renderUmlEdgeLabels(
     const bx = from.x + 28 * fromDir.x + 12 * perp.x;
     const by = from.y + 28 * fromDir.y + 12 * perp.y;
     fromParts.forEach((text, i) => {
-      out += `<text x="${bx}" y="${by + i * 12}" font-family='${theme.fontFamily}' font-size="${fontSize}" fill="${theme.edgeLabelColor}">${escapeXml(text)}</text>`;
+      const baselineY = by + i * 12;
+      const pillW = text.length * UML_EDGE_LABEL_CHAR_WIDTH + 10;
+      const pillH = fontSize + 6;
+      out += `<rect x="${bx - 5}" y="${baselineY - 10}" width="${pillW}" height="${pillH}" rx="4" fill="${theme.edgeLabelBg}" stroke="${theme.cardBorder}" stroke-width="1"/>`;
+      out += `<text x="${bx}" y="${baselineY}" font-family='${theme.fontFamily}' font-size="${fontSize}" fill="${theme.edgeLabelColor}">${escapeXml(text)}</text>`;
     });
   }
 
@@ -181,7 +186,11 @@ function renderUmlEdgeLabels(
     const bx = to.x - 28 * toDir.x + 12 * perp.x;
     const by = to.y - 28 * toDir.y + 12 * perp.y;
     toParts.forEach((text, i) => {
-      out += `<text x="${bx}" y="${by + i * 12}" font-family='${theme.fontFamily}' font-size="${fontSize}" fill="${theme.edgeLabelColor}">${escapeXml(text)}</text>`;
+      const baselineY = by + i * 12;
+      const pillW = text.length * UML_EDGE_LABEL_CHAR_WIDTH + 10;
+      const pillH = fontSize + 6;
+      out += `<rect x="${bx - 5}" y="${baselineY - 10}" width="${pillW}" height="${pillH}" rx="4" fill="${theme.edgeLabelBg}" stroke="${theme.cardBorder}" stroke-width="1"/>`;
+      out += `<text x="${bx}" y="${baselineY}" font-family='${theme.fontFamily}' font-size="${fontSize}" fill="${theme.edgeLabelColor}">${escapeXml(text)}</text>`;
     });
   }
 

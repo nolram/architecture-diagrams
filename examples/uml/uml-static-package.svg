@@ -9,7 +9,7 @@
 <g transform="translate(32, 88)">
 <path d="M801.6,204 L801.6,236 L504.35,236 L504.35,288" fill="none" stroke="#94a3b8" stroke-width="2"/><polygon points="0,0 -12,-6 -12,6" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(504.35 300) rotate(90)"/>
 <path d="M452.1,204 L452.1,288" fill="none" stroke="#94a3b8" stroke-width="2"/><polygon points="0,0 -12,-6 -12,6" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(452.1 300) rotate(90)"/>
-<path d="M143.3,204 L143.3,236 L399.85,236 L399.85,292" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><path d="M-8,-3.5 L0,0 L-8,3.5" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(399.85 300) rotate(90)"/><text x="131.3" y="232" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">renders</text>
+<path d="M143.3,204 L143.3,236 L399.85,236 L399.85,292" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><path d="M-8,-3.5 L0,0 L-8,3.5" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(399.85 300) rotate(90)"/><rect x="126.30000000000001" y="222" width="53.4" height="16" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/><text x="131.3" y="232" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">renders</text>
 <g transform="translate(347.6, 300)">
 <rect x="0" y="0" width="209" height="160" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
 <text x="104.5" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#64748b">«abstract»</text>

@@ -167,6 +167,35 @@ describe("uml-class render", () => {
     assert.ok(svg.includes(">*<"), "toMultiplicity should appear");
   });
 
+  test("renders a background pill behind each edge role/multiplicity label", async () => {
+    const svg = await renderUml({
+      type: "uml-class",
+      version: "1",
+      classes: [
+        { id: "a", name: "A" },
+        { id: "b", name: "B" },
+      ],
+      relationships: [
+        {
+          from: "a",
+          to: "b",
+          kind: "association",
+          fromRole: "has",
+          toMultiplicity: "*",
+        },
+      ],
+    });
+    assert.ok(svg.includes(">has<"), "fromRole should appear");
+    assert.ok(svg.includes(">*<"), "toMultiplicity should appear");
+    // pill = rounded rect with the theme edgeLabelBg fill + cardBorder stroke (distinct from the class-box rect)
+    const pills = (svg.match(/<rect [^>]*rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"\/>/g) ?? []).length;
+    assert.equal(pills, 2, "one pill per edge label expected");
+    // pill must be emitted before its label text so the text renders on top
+    const pillIdx = svg.indexOf('rx="4" fill="#ffffff"');
+    const textIdx = svg.indexOf(">has<");
+    assert.ok(pillIdx !== -1 && textIdx !== -1 && pillIdx < textIdx, "pill should precede the label text");
+  });
+
   test("escapes a class name with special characters", async () => {
     const svg = await renderUml({
       type: "uml-class",

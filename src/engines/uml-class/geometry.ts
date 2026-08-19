@@ -9,6 +9,8 @@ export const UML_NAME_CHAR_WIDTH = 9.3;
 export const UML_STEREOTYPE_CHAR_WIDTH = 6.5;
 /** attribute/method lines: 12px, regular (same style as the architecture sublabel) */
 export const UML_MEMBER_CHAR_WIDTH = 7.4;
+/** edge role/multiplicity labels: 10px, regular */
+export const UML_EDGE_LABEL_CHAR_WIDTH = 6.2;
 
 export const UML_LINE_HEIGHT = 20;
 export const UML_COMPARTMENT_PAD = 10;
