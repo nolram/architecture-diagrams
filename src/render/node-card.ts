@@ -2,6 +2,12 @@ import type { DiagramNode } from "../spec/schema.js";
 import type { AbsoluteBox } from "../layout/run-layout.js";
 import type { Theme } from "./theme.js";
 import type { ResolvedIcon } from "../icons/resolve.js";
+import {
+  NODE_LABEL_CHAR_WIDTH,
+  NODE_SUBLABEL_CHAR_WIDTH,
+  ACTOR_LABEL_CHAR_WIDTH,
+  ACTOR_SUBLABEL_CHAR_WIDTH,
+} from "../layout/geometry.js";
 import { escapeXml, truncateToWidth } from "./svg-utils.js";
 
 const BADGE_SIZE = 40;
@@ -28,9 +34,9 @@ export function renderNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, ic
 
 function labelBlock(node: DiagramNode, textX: number, textMaxWidth: number, box: AbsoluteBox, theme: Theme): string {
   const labelY = node.sublabel ? box.height / 2 - 5 : box.height / 2 + 5;
-  const label = `<text x="${textX}" y="${labelY}" font-family='${theme.fontFamily}' font-size="15" font-weight="600" fill="${theme.labelColor}">${escapeXml(truncateToWidth(node.label, textMaxWidth))}</text>`;
+  const label = `<text x="${textX}" y="${labelY}" font-family='${theme.fontFamily}' font-size="15" font-weight="600" fill="${theme.labelColor}">${escapeXml(truncateToWidth(node.label, textMaxWidth, NODE_LABEL_CHAR_WIDTH))}</text>`;
   const sublabel = node.sublabel
-    ? `<text x="${textX}" y="${box.height / 2 + 17}" font-family='${theme.fontFamily}' font-size="12" fill="${theme.sublabelColor}">${escapeXml(truncateToWidth(node.sublabel, textMaxWidth))}</text>`
+    ? `<text x="${textX}" y="${box.height / 2 + 17}" font-family='${theme.fontFamily}' font-size="12" fill="${theme.sublabelColor}">${escapeXml(truncateToWidth(node.sublabel, textMaxWidth, NODE_SUBLABEL_CHAR_WIDTH))}</text>`
     : "";
   return label + sublabel;
 }
@@ -90,9 +96,9 @@ function renderActorNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, icon
   const badge = renderIconBadge(icon, accent, clipId, badgeX, badgeY, size, /* full circle */ size / 2);
 
   const labelY = badgeY + size + 20;
-  const label = `<text x="${box.width / 2}" y="${labelY}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="14" font-weight="600" fill="${theme.labelColor}">${escapeXml(truncateToWidth(node.label, box.width))}</text>`;
+  const label = `<text x="${box.width / 2}" y="${labelY}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="14" font-weight="600" fill="${theme.labelColor}">${escapeXml(truncateToWidth(node.label, box.width, ACTOR_LABEL_CHAR_WIDTH))}</text>`;
   const sublabel = node.sublabel
-    ? `<text x="${box.width / 2}" y="${labelY + 17}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="11" fill="${theme.sublabelColor}">${escapeXml(truncateToWidth(node.sublabel, box.width))}</text>`
+    ? `<text x="${box.width / 2}" y="${labelY + 17}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="11" fill="${theme.sublabelColor}">${escapeXml(truncateToWidth(node.sublabel, box.width, ACTOR_SUBLABEL_CHAR_WIDTH))}</text>`
     : "";
 
   // No card/background rect -- just the badge (with its own shadow) and the

@@ -1,6 +1,12 @@
 import type { ElkNode, ElkExtendedEdge } from "elkjs/lib/elk-api.js";
 import type { DiagramSpec, DiagramEdge } from "../spec/schema.js";
-import { GROUP_PADDING, estimateNodeSize, estimateEdgeLabelSize } from "./geometry.js";
+import {
+  GROUP_PADDING,
+  GROUP_CHIP_MARGIN,
+  estimateNodeSize,
+  estimateEdgeLabelSize,
+  estimateGroupChipWidth,
+} from "./geometry.js";
 import { resolveDirection } from "./direction.js";
 
 interface GroupNode {
@@ -58,6 +64,7 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
   const groupTree = buildGroupTree(spec);
   const containment = buildContainmentPaths(spec);
   const nodesById = new Map(spec.nodes.map((n) => [n.id, n]));
+  const groupsById = new Map(spec.groups.map((g) => [g.id, g]));
 
   const edgesByContainer = new Map<string | undefined, { edge: DiagramEdge; specIndex: number }[]>();
   spec.edges.forEach((edge, specIndex) => {
@@ -105,10 +112,25 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
 
   function buildGroupContainer(groupId: string): ElkNode {
     const edges = (edgesByContainer.get(groupId) ?? []).map(toElkEdge);
+    // The title chip sits on top of the container's left edge -- if the
+    // container ends up narrower than the chip (e.g. a group with few/small
+    // children but a long label), the chip would spill past the box's own
+    // border. Giving ELK a minimum width matching the chip keeps the box
+    // itself growing to fit its title instead of just clipping/truncating it.
+    const chipWidth = estimateGroupChipWidth(groupsById.get(groupId)!.label);
+    const minWidth = chipWidth + GROUP_CHIP_MARGIN * 2;
+    // elkjs's layered algorithm computes DOWN layouts by rotating the graph
+    // 90°, laying it out as if it were RIGHT, then rotating back -- but
+    // "elk.nodeSize.minimum" is read *before* the un-rotation, so for DOWN
+    // graphs the (width, height) pair has to be given pre-swapped or the
+    // minimum lands on the wrong axis. Confirmed with a minimal elkjs repro.
+    const minimumSize = direction === "down" ? `(0, ${minWidth})` : `(${minWidth}, 0)`;
     return {
       id: groupId,
       layoutOptions: {
         "elk.padding": `[top=${GROUP_PADDING.top},left=${GROUP_PADDING.left},bottom=${GROUP_PADDING.bottom},right=${GROUP_PADDING.right}]`,
+        "elk.nodeSize.constraints": "MINIMUM_SIZE",
+        "elk.nodeSize.minimum": minimumSize,
       },
       children: buildContainerChildren(groupId),
       edges: edges.length > 0 ? edges : undefined,

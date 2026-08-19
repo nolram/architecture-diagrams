@@ -1,36 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1698.8" height="696" viewBox="0 0 1698.8 696">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1757.3" height="696" viewBox="0 0 1757.3 696">
 <defs>
   <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
     <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
   </filter>
 </defs>
-<rect x="0" y="0" width="1698.8" height="696" fill="#f8fafc"/>
+<rect x="0" y="0" width="1757.3" height="696" fill="#f8fafc"/>
 <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Microservices with Event Queue</text>
 <g transform="translate(32, 88)">
 <g>
-  <rect x="745" y="24" width="288.8" height="398" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
-  <rect x="761" y="11" width="76.8" height="26" rx="13" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
-  <text x="799.4" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#334155">SERVICES</text>
+  <rect x="755.3" y="24" width="328.70000000000005" height="398" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="771.3" y="11" width="86.4" height="26" rx="13" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+  <text x="814.5" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#334155">SERVICES</text>
 </g>
-<path d="M214,139 L454,139" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(454 139) rotate(0)"/><g>
-    <rect x="310" y="152" width="48" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="334" y="166" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
+<path d="M214,139 L456,139" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(456 139) rotate(0)"/><g>
+    <rect x="310" y="152" width="50" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="335" y="166" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
   </g>
-<path d="M644,126 L797,126" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(797 126) rotate(0)"/>
-<path d="M644,152 L676,152 L676,246 L787.4,246" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(787.4 246) rotate(0)"/>
-<path d="M993.8,109.33333333333333 L1134.8,109.33333333333333" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1134.8 109.33333333333333) rotate(0)"/>
-<path d="M998.6,262.66666666666663 L1070.8,262.66666666666663 L1070.8,361.3333333333333 L1134.8,361.3333333333333" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1134.8 361.3333333333333) rotate(0)"/>
-<path d="M993.8,142.66666666666666 L1080.8,142.66666666666666 L1080.8,229.33333333333331 L1356.8,229.33333333333331 L1356.8,215.33333333333331 L1420.8,215.33333333333331" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1420.8 215.33333333333331) rotate(0)"/><g>
-    <rect x="1180.2" y="196.33333333333331" width="99.2" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="1229.8" y="210.33333333333331" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">order.created</text>
+<path d="M654.3,126 L814.3,126" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(814.3 126) rotate(0)"/>
+<path d="M654.3,152 L686.3,152 L686.3,246 L801.9,246" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(801.9 246) rotate(0)"/>
+<path d="M1040.5,109.33333333333333 L1185,109.33333333333333" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1185 109.33333333333333) rotate(0)"/>
+<path d="M1046.7,262.66666666666663 L1121,262.66666666666663 L1121,361.3333333333333 L1185,361.3333333333333" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1185 361.3333333333333) rotate(0)"/>
+<path d="M1040.5,142.66666666666666 L1131,142.66666666666666 L1131,229.33333333333331 L1415.3,229.33333333333331 L1415.3,215.33333333333331 L1479.3,215.33333333333331" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1479.3 215.33333333333331) rotate(0)"/><g>
+    <rect x="1231.95" y="196.33333333333331" width="104.39999999999999" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="1284.15" y="210.33333333333331" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">order.created</text>
   </g>
-<path d="M998.6,229.33333333333331 L1070.8,229.33333333333331 L1070.8,240.33333333333331 L1420.8,240.33333333333331" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1420.8 240.33333333333331) rotate(0)"/><g>
-    <rect x="1167.3999999999999" y="253.33333333333331" width="124.80000000000001" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="1229.8" y="267.3333333333333" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">payment.completed</text>
+<path d="M1046.7,229.33333333333331 L1121,229.33333333333331 L1121,240.33333333333331 L1479.3,240.33333333333331" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1479.3 240.33333333333331) rotate(0)"/><g>
+    <rect x="1218.35" y="253.33333333333331" width="131.6" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="1284.1499999999999" y="267.3333333333333" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">payment.completed</text>
   </g>
-<path d="M1420.8,265.3333333333333 L1356.8,265.3333333333333 L1356.8,470 L676,470 L676,355 L773,355" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(773 355) rotate(0)"/><g>
-    <rect x="859" y="483" width="60.800000000000004" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="889.4" y="497" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">consume</text>
+<path d="M1479.3,265.3333333333333 L1415.3,265.3333333333333 L1415.3,470 L686.3,470 L686.3,355 L783.3,355" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(783.3 355) rotate(0)"/><g>
+    <rect x="887.8499999999999" y="483" width="63.6" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="919.6499999999999" y="497" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">consume</text>
   </g>
 <g transform="translate(24, 100)">
   <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
@@ -38,8 +38,8 @@
   <svg x="22" y="27" width="24" height="24" viewBox="0 0 24 24"><path fill="#475569" d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Client</text>
 </g>
-<g transform="translate(454, 100)">
-  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<g transform="translate(456, 100)">
+  <rect x="0" y="0" width="198.3" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-gateway"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
   <g clip-path="url(#clip-badge-gateway)">
@@ -57,7 +57,7 @@
   <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#059669" stroke-opacity="0.25"/>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">API Gateway</text>
 </g>
-<g transform="translate(1420.8, 190.33333333333331)">
+<g transform="translate(1479.3, 190.33333333333331)">
   <rect x="0" y="0" width="190" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-kafka"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
@@ -68,7 +68,7 @@
   <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#9333ea" stroke-opacity="0.25"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Kafka</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Event bus</text>
 </g>
-<g transform="translate(1134.8, 70.33333333333333)">
+<g transform="translate(1185, 70.33333333333333)">
   <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-ordersdb"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
@@ -78,8 +78,8 @@
   <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Orders DB</text>
 </g>
-<g transform="translate(1134.8, 322.3333333333333)">
-  <rect x="0" y="0" width="190" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<g transform="translate(1185, 322.3333333333333)">
+  <rect x="0" y="0" width="198.3" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-paymentsdb"><rect x="14" y="19" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="#ffffff"/>
   <g clip-path="url(#clip-badge-paymentsdb)">
@@ -88,8 +88,8 @@
   <rect x="14" y="19" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Payments DB</text>
 </g>
-<g transform="translate(797, 76)">
-  <rect x="0" y="0" width="196.8" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<g transform="translate(814.3, 76)">
+  <rect x="0" y="0" width="226.20000000000002" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-orders"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
   <g clip-path="url(#clip-badge-orders)">
@@ -98,8 +98,8 @@
   <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Orders Service</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Node.js</text>
 </g>
-<g transform="translate(787.4, 196)">
-  <rect x="0" y="0" width="211.2" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<g transform="translate(801.9, 196)">
+  <rect x="0" y="0" width="244.8" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-payments"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
   <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
   <g clip-path="url(#clip-badge-payments)">
@@ -108,8 +108,8 @@
   <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Payments Service</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Python</text>
 </g>
-<g transform="translate(773, 316)">
-  <rect x="0" y="0" width="232.8" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<g transform="translate(783.3, 316)">
+  <rect x="0" y="0" width="272.70000000000005" height="78" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <rect x="14" y="19" width="40" height="40" rx="10" fill="#ea580c" fill-opacity="0.14" stroke="#ea580c" stroke-opacity="0.35"/>
   <svg x="22" y="27" width="24" height="24" viewBox="0 0 24 24"><path fill="#ea580c" d="M12 8a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 2a2 2 0 0 0-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2m-2 12c-.25 0-.46-.18-.5-.42l-.37-2.65c-.63-.25-1.17-.59-1.69-.99l-2.49 1.01c-.22.08-.49 0-.61-.22l-2-3.46a.493.493 0 0 1 .12-.64l2.11-1.66L4.5 12l.07-1l-2.11-1.63a.493.493 0 0 1-.12-.64l2-3.46c.12-.22.39-.31.61-.22l2.49 1c.52-.39 1.06-.73 1.69-.98l.37-2.65c.04-.24.25-.42.5-.42h4c.25 0 .46.18.5.42l.37 2.65c.63.25 1.17.59 1.69.98l2.49-1c.22-.09.49 0 .61.22l2 3.46c.13.22.07.49-.12.64L19.43 11l.07 1l-.07 1l2.11 1.63c.19.15.25.42.12.64l-2 3.46c-.12.22-.39.31-.61.22l-2.49-1c-.52.39-1.06.73-1.69.98l-.37 2.65c-.04.24-.25.42-.5.42zm1.25-18l-.37 2.61c-1.2.25-2.26.89-3.03 1.78L5.44 7.35l-.75 1.3L6.8 10.2a5.55 5.55 0 0 0 0 3.6l-2.12 1.56l.75 1.3l2.43-1.04c.77.88 1.82 1.52 3.01 1.76l.37 2.62h1.52l.37-2.61c1.19-.25 2.24-.89 3.01-1.77l2.43 1.04l.75-1.3l-2.12-1.55c.4-1.17.4-2.44 0-3.61l2.11-1.55l-.75-1.3l-2.41 1.04a5.42 5.42 0 0 0-3.03-1.77L12.75 4z"/></svg>
   <text x="66" y="44" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Notification Worker</text>
