@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1049.6" height="604" viewBox="0 0 1049.6 604">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="1049.6" height="604" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Geometry library -- static members and package visibility</text>
+<g transform="translate(32, 88)">
+<path d="M801.6,204 L801.6,236 L504.35,236 L504.35,288" fill="none" stroke="#94a3b8" stroke-width="2"/><polygon points="0,0 -12,-6 -12,6" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(504.35 300) rotate(90)"/>
+<path d="M452.1,204 L452.1,288" fill="none" stroke="#94a3b8" stroke-width="2"/><polygon points="0,0 -12,-6 -12,6" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(452.1 300) rotate(90)"/>
+<path d="M143.3,204 L143.3,236 L399.85,236 L399.85,292" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><path d="M-8,-3.5 L0,0 L-8,3.5" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(399.85 300) rotate(90)"/><text x="131.3" y="232" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">renders</text>
+<g transform="translate(347.6, 300)">
+<rect x="0" y="0" width="209" height="160" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="104.5" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#64748b">«abstract»</text>
+<text x="104.5" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" font-style="italic" fill="#0f172a">Shape</text>
+<line x1="0" y1="60" x2="209" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">~ areaCache: double</text>
+<line x1="0" y1="100" x2="209" y2="100" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="124.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">+ computeArea(): double</text>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">~ invalidateCache(): void</text>
+</g>
+<g transform="translate(641.6, 44)">
+<rect x="0" y="0" width="320" height="160" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="160" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Circle</text>
+<line x1="0" y1="40" x2="320" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a"># PI: double</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">- radius: double</text>
+<line x1="0" y1="100" x2="320" y2="100" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="124.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">+ area(): double</text>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">+ fromDiameter(diameter: double): Circle</text>
+</g>
+<g transform="translate(310.6, 24)">
+<rect x="0" y="0" width="283" height="180" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="141.5" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Rectangle</text>
+<line x1="0" y1="40" x2="283" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">+ DEFAULT_SCALE: double</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">- width: double</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">- height: double</text>
+<line x1="0" y1="120" x2="283" y2="120" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">+ area(): double</text>
+<text x="12" y="164.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">+ scaled(factor: double): Rectangle</text>
+</g>
+<g transform="translate(24, 84)">
+<rect x="0" y="0" width="238.60000000000002" height="120" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="119.30000000000001" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#64748b">«control»</text>
+<text x="119.30000000000001" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">ShapeRenderer</text>
+<line x1="0" y1="60" x2="238.60000000000002" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">+ draw(shape: Shape): void</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">+ toSvg(shape: Shape): string</text>
+</g>
+</g>
+</svg>

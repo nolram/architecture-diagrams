@@ -1,7 +1,7 @@
 import { parse as parseYaml } from "yaml";
-import { validateSpec, type SpecValidationResult } from "./schema.js";
+import { validateSpec, type DiagramSpec, type SpecValidationResult } from "./schema.js";
 
-export function loadSpecFromText(text: string): SpecValidationResult {
+export function loadSpecFromText(text: string): SpecValidationResult<DiagramSpec> {
   let raw: unknown;
   try {
     raw = parseYaml(text);

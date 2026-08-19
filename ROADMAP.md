@@ -26,8 +26,40 @@ Foundation for touching everything else safely.
 - [x] **CLI `--watch`** -- watches the spec file's directory (not the file directly -- more robust against editors that save via atomic rename/truncate) and re-renders with debounce on every change. Verified manually end to end (editing the spec with watch running and confirming the output SVG reflects the change).
 - [x] **Custom icon** -- `icon: file:./logo.svg`, resolved relative to the spec's directory. Sanitization is all-or-nothing (not partial): any `<script>`, `on*=` handler, `javascript:`, `<foreignObject>`, or `<iframe>/<embed>/<object>` rejects the whole file, falling back to the same graceful fallback badge used for a missing catalog key -- simpler to guarantee correct than trying to clean and reuse part of a potentially hostile SVG. 200KB limit. `baseDir` (the spec's directory) is now threaded through `resolveIcon`/`composeDiagram`/CLI. Verified manually with a valid SVG, a malicious one (`<script>`+`onload=`), and a non-existent path -- all three degrade correctly without an exception.
 
+## v0.5 -- UML (multi-engine foundation + class diagrams)
+
+First step toward supporting diagram families beyond architecture. The spec gains a
+`type` field (optional, defaults to `architecture` -- fully backward-compatible) and
+a thin `DiagramEngine` interface (validate → layout → render), so each diagram family
+is an isolated engine that reuses the shared export (PNG/PDF), theme, SVG utils, and
+icon infra. The UML class format is already specified in
+`architecture-diagrams/reference/uml-class-spec.md` and
+`architecture-diagrams/reference/uml-class.example.yaml`.
+
+- [x] **Multi-engine foundation** -- `type` field in the spec + `DiagramEngine`
+  interface + registry + CLI dispatch. The existing architecture pipeline is wrapped
+  (not rewritten) as the `architecture` engine; all 6 examples must render
+  byte-identical (regression gate) and the existing test suite stays green. Done:
+  `src/engines/` (types/architecture/registry), `type` added to the schema (optional,
+  default `architecture`), CLI dispatches on `type` before validation, and
+  `SpecValidationResult` generalized to `SpecValidationResult<T>` so each engine
+  carries its own spec shape. All 6 examples verified byte-identical; suite green.
+- [x] **UML class diagram** -- `type: uml-class`. Classes with up to 3
+  compartments (name / attributes / methods), stereotypes («entity», «interface»...),
+  abstract classes (italic name), member visibility (+ - # ~), and the 6 UML
+  relationships: association, aggregation (hollow diamond), composition (filled
+  diamond), inheritance (hollow triangle), dependency (dashed + open arrow),
+  realization (dashed + hollow triangle) -- with multiplicity and role labels at each
+  end. ELK layered layout (inheritance flows top-down). Example in
+  `architecture-diagrams/reference/uml-class.example.yaml`, tests, README + skill docs.
+  Done: `src/engines/uml-class/` (schema/layout/geometry/render) reusing the shared
+  ELK runner (`runElkLayout`), theme, and SVG utils; `auto` resolves to `down`;
+  27 new tests (spec/layout/render); example renders all six markers, italic abstract
+  name, stereotypes, and visibility symbols.
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 
 - [ ] **MCP server** -- a thin layer on top of the same rendering engine, to work in AI clients besides Claude Code. Considered since the project's original plan; deferred because it's, in practice, a new distribution product, not a tweak to what already exists.
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.
+- [ ] **More UML diagram types** -- sequence (lifelines + time axis, needs its own layout), use case, activity, state machine, component/deployment/package. Each is a new engine on the v0.5 multi-engine foundation.

@@ -1,0 +1,131 @@
+# UML class diagram spec (type: uml-class)
+#
+# Visual-validation example: DIRECTION = right (explicit left->right flow,
+# instead of the default top-down). The request should read naturally
+# left to right: Client -> Controller -> Service -> Repository, with the
+# concrete repository realizing the interface the service depends on.
+
+type: uml-class
+version: '1'
+title: Order API -- request flow (left to right)
+theme: clean-light
+direction: right
+
+classes:
+  - id: client
+    name: Client
+    stereotype: actor
+    methods:
+      - name: submitOrder
+        params: "order: Order"
+        return: void
+        visibility: public
+
+  - id: order-controller
+    name: OrderController
+    stereotype: control
+    attributes:
+      - name: rateLimiter
+        type: RateLimiter
+        visibility: private
+    methods:
+      - name: handle
+        params: "request: HttpRequest"
+        return: HttpResponse
+        visibility: public
+      - name: validate
+        params: "request: HttpRequest"
+        return: boolean
+        visibility: protected
+
+  - id: order-service
+    name: OrderService
+    stereotype: service
+    methods:
+      - name: placeOrder
+        params: "order: Order"
+        return: OrderId
+        visibility: public
+      - name: cancelOrder
+        params: "orderId: OrderId"
+        return: void
+        visibility: public
+
+  - id: order-repository
+    name: OrderRepository
+    stereotype: interface
+    methods:
+      - name: save
+        params: "order: Order"
+        return: void
+        visibility: public
+      - name: findById
+        params: "id: OrderId"
+        return: Order
+        visibility: public
+
+  - id: postgres-order-repository
+    name: PostgresOrderRepository
+    stereotype: persistence
+    attributes:
+      - name: connection
+        type: Pool
+        visibility: private
+    methods:
+      - name: save
+        params: "order: Order"
+        return: void
+        visibility: public
+      - name: findById
+        params: "id: OrderId"
+        return: Order
+        visibility: public
+
+  - id: order
+    name: Order
+    stereotype: entity
+    attributes:
+      - name: id
+        type: OrderId
+        visibility: private
+      - name: total
+        type: decimal
+        visibility: private
+    methods:
+      - name: place
+        return: void
+        visibility: public
+
+relationships:
+  # association: Client sends requests to the Controller
+  - from: client
+    to: order-controller
+    kind: association
+    fromMultiplicity: '*'
+    toMultiplicity: '1'
+    fromRole: sends
+
+  # association: Controller delegates to the Service
+  - from: order-controller
+    to: order-service
+    kind: association
+    fromMultiplicity: '1'
+    toMultiplicity: '1'
+    fromRole: delegates
+
+  # dependency: Service depends on the OrderRepository interface (dashed + open arrow)
+  - from: order-service
+    to: order-repository
+    kind: dependency
+    fromRole: uses
+
+  # realization: PostgresOrderRepository implements OrderRepository (dashed + hollow triangle)
+  - from: postgres-order-repository
+    to: order-repository
+    kind: realization
+
+  # dependency: Service works with the Order entity
+  - from: order-service
+    to: order
+    kind: dependency
+    fromRole: builds

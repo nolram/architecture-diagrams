@@ -1,11 +1,18 @@
 ---
 name: architecture-diagrams
-description: Generates rich, visually professional software/infrastructure architecture diagrams (real AWS/Azure/GCP/Kubernetes/brand icons, cards with shadows, boundaries like VPC/subnet, automatic layout) -- far more elaborate than a standard Mermaid diagram. Use whenever the user asks for an architecture diagram, system diagram, infrastructure/cloud diagram, or explicitly asks for something "prettier"/"more professional" than Mermaid to represent software components and how they connect.
+description: Generates rich, visually professional software/infrastructure architecture diagrams (real AWS/Azure/GCP/Kubernetes/brand icons, cards with shadows, boundaries like VPC/subnet, automatic layout) and UML class diagrams (classes with attributes/methods, all six relationship kinds) -- far more elaborate than a standard Mermaid diagram. Use whenever the user asks for an architecture diagram, system diagram, infrastructure/cloud diagram, a UML class diagram / domain model, or explicitly asks for something "prettier"/"more professional" than Mermaid to represent software components and how they connect.
 ---
 
 # Architecture Diagrams
 
 A custom renderer (ELK.js for layout + real icons via `thesvg`/Iconify + hand-drawn SVG with shadow/gradient/rounded corners) that turns a structured YAML spec into a presentation-ready architecture diagram. You (the AI) write the spec; the renderer handles 100% of the design.
+
+## Diagram families
+
+Two families share the same renderer, selected by the spec's `type` field:
+
+- **Architecture** (default -- omit `type` or set `type: architecture`): components, boundaries, connections. Rules in `reference/spec-guide.md`.
+- **UML class** (`type: uml-class`): classes with attributes/methods plus the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Rules in `reference/uml-class-spec.md`, runnable example in `reference/uml-class.example.yaml`. The workflow below is the same for both families.
 
 ## Workflow
 

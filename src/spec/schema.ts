@@ -41,6 +41,8 @@ export type DiagramEdge = z.infer<typeof EdgeSchema>;
 
 export const DiagramSpecSchema = z
   .object({
+    /** which diagram engine should handle this spec (defaults to "architecture") */
+    type: z.literal("architecture").default("architecture"),
     version: z.literal("1"),
     title: z.string().optional(),
     theme: z.enum(["clean-light", "midnight-dark"]).default("clean-light"),
@@ -155,11 +157,11 @@ export interface SpecValidationError {
   message: string;
 }
 
-export type SpecValidationResult =
-  | { ok: true; spec: DiagramSpec }
+export type SpecValidationResult<T = unknown> =
+  | { ok: true; spec: T }
   | { ok: false; errors: SpecValidationError[] };
 
-export function validateSpec(raw: unknown): SpecValidationResult {
+export function validateSpec(raw: unknown): SpecValidationResult<DiagramSpec> {
   const result = DiagramSpecSchema.safeParse(raw);
   if (result.success) {
     return { ok: true, spec: result.data };

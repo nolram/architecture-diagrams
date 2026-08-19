@@ -2,9 +2,8 @@
 import { readFileSync, writeFileSync, watch } from "node:fs";
 import { extname, basename, dirname, join } from "node:path";
 import { Command } from "commander";
-import { loadSpecFromText } from "./spec/index.js";
-import { layoutSpec } from "./layout/index.js";
-import { composeDiagram } from "./render/index.js";
+import { parse as parseYaml } from "yaml";
+import { getEngine, engineTypes } from "./engines/index.js";
 import { svgToPng, svgToPdf } from "./export/index.js";
 import { searchCatalog } from "./icons/index.js";
 
@@ -19,6 +18,15 @@ interface RenderOptions {
   scale: string;
 }
 
+/** reads the spec's `type` discriminator from a raw object, defaulting to "architecture" */
+function readType(raw: unknown): string {
+  if (typeof raw === "object" && raw !== null && "type" in raw) {
+    const t = (raw as { type: unknown }).type;
+    if (typeof t === "string") return t;
+  }
+  return "architecture";
+}
+
 /** runs the full pipeline once; returns false if the spec was invalid (so the caller can decide the exit code) */
 async function renderOnce(specPath: string, opts: RenderOptions): Promise<boolean> {
   let text: string;
@@ -29,7 +37,24 @@ async function renderOnce(specPath: string, opts: RenderOptions): Promise<boolea
     return false;
   }
 
-  const result = loadSpecFromText(text);
+  let raw: unknown;
+  try {
+    raw = parseYaml(text);
+  } catch (err) {
+    console.error(`Invalid spec in "${specPath}":\n`);
+    console.error(`  - Invalid YAML: ${(err as Error).message}`);
+    return false;
+  }
+
+  const type = readType(raw);
+  const engine = getEngine(type);
+  if (!engine) {
+    console.error(`Invalid spec in "${specPath}":\n`);
+    console.error(`  - unknown diagram type "${type}". Allowed types: ${engineTypes().join(", ")}`);
+    return false;
+  }
+
+  const result = engine.validate(raw);
   if (!result.ok) {
     console.error(`Invalid spec in "${specPath}":\n`);
     for (const error of result.errors) {
@@ -38,11 +63,12 @@ async function renderOnce(specPath: string, opts: RenderOptions): Promise<boolea
     return false;
   }
 
-  const layout = await layoutSpec(result.spec);
-  if (result.spec.direction === "auto") {
+  const layout = await engine.layout(result.spec);
+  const spec = result.spec as { direction?: string };
+  if (spec.direction === "auto") {
     console.error(`Layout direction auto-selected: ${layout.direction}`);
   }
-  const { svg, warnings } = await composeDiagram(result.spec, layout, dirname(specPath));
+  const { svg, warnings } = await engine.render(result.spec, layout, dirname(specPath));
 
   if (warnings.length > 0) {
     console.error("Warnings:");

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1214.1" height="880" viewBox="0 0 1214.1 880">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(0, 0, 0, 0.45)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="1214.1" height="880" fill="#0b1220"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#f1f5f9">Team messaging -- domain model (dark theme)</text>
+<g transform="translate(32, 88)">
+<path d="M448.4,480 L448.4,564" fill="none" stroke="#64748b" stroke-width="2"/><polygon points="0,0 -12,-6 -12,6" fill="none" stroke="#64748b" stroke-width="2" transform="translate(448.4 576) rotate(90)"/>
+<path d="M727.5999999999999,480 L727.5999999999999,512 L479.84000000000003,512 L479.84000000000003,564" fill="none" stroke="#64748b" stroke-width="2"/><polygon points="0,0 -12,-6 -12,6" fill="none" stroke="#64748b" stroke-width="2" transform="translate(479.84000000000003 576) rotate(90)"/>
+<path d="M999.4,494 L999.4,522 L511.28,522 L511.28,576" fill="none" stroke="#64748b" stroke-width="2"/><polygon points="0,0 7,-7 14,0 7,7" fill="#64748b" stroke="#64748b" stroke-width="2" transform="translate(999.4 480) rotate(90)"/><text x="987.4" y="508" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">has</text><text x="987.4" y="520" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">1</text><text x="499.28" y="548" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">history</text><text x="499.28" y="560" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">*</text>
+<path d="M999.4,204 L999.4,300" fill="none" stroke="#64748b" stroke-width="2"/><text x="987.4" y="232" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">member of</text><text x="987.4" y="244" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">*</text><text x="987.4" y="272" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">members</text><text x="987.4" y="284" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">*</text>
+<path d="M147,480 L147,512 L416.96,512 L416.96,568" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="7 5"/><path d="M-8,-3.5 L0,0 L-8,3.5" fill="none" stroke="#64748b" stroke-width="2" transform="translate(416.96 576) rotate(90)"/><text x="135" y="508" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#cbd5e1">persists</text>
+<g transform="translate(385.52, 576)">
+<rect x="0" y="0" width="157.20000000000002" height="160" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="78.60000000000001" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#94a3b8">«entity»</text>
+<text x="78.60000000000001" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" font-style="italic" fill="#f1f5f9">Message</text>
+<line x1="0" y1="60" x2="157.20000000000002" y2="60" stroke="#334155" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- id: UUID</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- sentAt: datetime</text>
+<line x1="0" y1="120" x2="157.20000000000002" y2="120" stroke="#334155" stroke-width="1"/>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ deliver(): void</text>
+</g>
+<g transform="translate(318, 340)">
+<rect x="0" y="0" width="260.8" height="140" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="130.4" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#94a3b8">«entity»</text>
+<text x="130.4" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#f1f5f9">TextMessage</text>
+<line x1="0" y1="60" x2="260.8" y2="60" stroke="#334155" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- body: string</text>
+<line x1="0" y1="100" x2="260.8" y2="100" stroke="#334155" stroke-width="1"/>
+<text x="12" y="124.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ preview(maxChars: int): string</text>
+</g>
+<g transform="translate(626.8, 300)">
+<rect x="0" y="0" width="201.60000000000002" height="180" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="100.80000000000001" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#94a3b8">«entity»</text>
+<text x="100.80000000000001" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#f1f5f9">ImageMessage</text>
+<line x1="0" y1="60" x2="201.60000000000002" y2="60" stroke="#334155" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- url: string</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- width: int</text>
+<text x="12" y="124.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- height: int</text>
+<line x1="0" y1="140" x2="201.60000000000002" y2="140" stroke="#334155" stroke-width="1"/>
+<text x="12" y="164.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ thumbnailUrl(): string</text>
+</g>
+<g transform="translate(876.4, 300)">
+<rect x="0" y="0" width="246" height="180" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="123" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#94a3b8">«entity»</text>
+<text x="123" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#f1f5f9">Channel</text>
+<line x1="0" y1="60" x2="246" y2="60" stroke="#334155" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- name: string</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- topic: string</text>
+<line x1="0" y1="120" x2="246" y2="120" stroke="#334155" stroke-width="1"/>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ send(message: Message): void</text>
+<text x="12" y="164.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ members(): List&lt;User&gt;</text>
+</g>
+<g transform="translate(872.6999999999999, 24)">
+<rect x="0" y="0" width="253.4" height="180" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="126.7" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#94a3b8">«entity»</text>
+<text x="126.7" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#f1f5f9">User</text>
+<line x1="0" y1="60" x2="253.4" y2="60" stroke="#334155" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- displayName: string</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- online: boolean</text>
+<line x1="0" y1="120" x2="253.4" y2="120" stroke="#334155" stroke-width="1"/>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ join(channel: Channel): void</text>
+<text x="12" y="164.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ leave(channel: Channel): void</text>
+</g>
+<g transform="translate(24, 320)">
+<rect x="0" y="0" width="246" height="160" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="123" y="23.85" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-style="italic" fill="#94a3b8">«control»</text>
+<text x="123" y="45.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#f1f5f9">MessageStore</text>
+<line x1="0" y1="60" x2="246" y2="60" stroke="#334155" stroke-width="1"/>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">- retentionDays: int</text>
+<line x1="0" y1="100" x2="246" y2="100" stroke="#334155" stroke-width="1"/>
+<text x="12" y="124.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ save(message: Message): void</text>
+<text x="12" y="144.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#f1f5f9">+ load(id: UUID): Message</text>
+</g>
+</g>
+</svg>

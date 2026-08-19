@@ -1,0 +1,182 @@
+# UML class diagram spec (type: uml-class)
+#
+# Renders classes with attributes/methods and the 6 UML relationship kinds.
+# This is the runnable spec for the v0.5 "UML class diagram" engine -- the
+# .svg/.png next to it are produced by the renderer once that engine lands.
+# Full format: ./uml-class-spec.md
+
+type: uml-class
+version: '1'
+title: Order System -- domain model
+theme: clean-light
+direction: auto          # generalization/inheritance flows top-down by default
+
+classes:
+  - id: abstract-order
+    name: AbstractOrder
+    stereotype: entity
+    abstract: true
+    attributes:
+      - name: id
+        type: UUID
+        visibility: protected
+      - name: status
+        type: OrderStatus
+    methods:
+      - name: validate
+        return: boolean
+        visibility: public
+
+  - id: order
+    name: Order
+    stereotype: entity
+    attributes:
+      - name: id
+        type: UUID
+        visibility: private
+      - name: placedAt
+        type: datetime
+        visibility: private
+      - name: total
+        type: decimal
+        visibility: private
+    methods:
+      - name: place
+        params: "items: List<LineItem>"
+        return: void
+        visibility: public
+      - name: cancel
+        return: void
+        visibility: public
+
+  - id: line-item
+    name: LineItem
+    stereotype: entity
+    attributes:
+      - name: quantity
+        type: int
+        visibility: private
+      - name: unitPrice
+        type: decimal
+        visibility: private
+    methods:
+      - name: subtotal
+        return: decimal
+        visibility: public
+
+  - id: product
+    name: Product
+    stereotype: entity
+    attributes:
+      - name: name
+        type: string
+        visibility: private
+      - name: price
+        type: decimal
+        visibility: private
+    methods:
+      - name: inStock
+        return: boolean
+        visibility: public
+
+  - id: customer
+    name: Customer
+    stereotype: entity
+    attributes:
+      - name: email
+        type: string
+        visibility: private
+    methods:
+      - name: orders
+        return: List<Order>
+        visibility: public
+
+  - id: payment
+    name: Payment
+    stereotype: entity
+    attributes:
+      - name: amount
+        type: decimal
+        visibility: private
+      - name: paidAt
+        type: datetime
+        visibility: private
+    methods:
+      - name: capture
+        return: void
+        visibility: public
+      - name: refund
+        return: void
+        visibility: public
+
+  - id: payable
+    name: Payable
+    stereotype: interface
+    methods:
+      - name: capture
+        return: void
+        visibility: public
+      - name: refund
+        return: void
+        visibility: public
+
+  - id: order-processor
+    name: OrderProcessor
+    stereotype: control
+    methods:
+      - name: process
+        params: "order: Order"
+        return: void
+        visibility: public
+
+relationships:
+  # inheritance: Order extends AbstractOrder (hollow triangle at the superclass = "to")
+  - from: order
+    to: abstract-order
+    kind: inheritance
+
+  # composition: Order is composed of LineItems (filled diamond at the "whole" = "from")
+  - from: order
+    to: line-item
+    kind: composition
+    fromMultiplicity: '1'
+    toMultiplicity: '*'
+    fromRole: has
+    toRole: items
+
+  # association: LineItem references a Product (plain line, multiplicity at both ends)
+  - from: line-item
+    to: product
+    kind: association
+    fromMultiplicity: '*'
+    toMultiplicity: '1'
+    fromRole: references
+    toRole: product
+
+  # association: Customer places Orders
+  - from: customer
+    to: order
+    kind: association
+    fromMultiplicity: '1'
+    toMultiplicity: '*'
+    fromRole: places
+    toRole: orders
+
+  # aggregation: Order aggregates a Payment (hollow diamond at the "whole" = "from")
+  - from: order
+    to: payment
+    kind: aggregation
+    fromMultiplicity: '1'
+    toMultiplicity: '0..1'
+    fromRole: settles
+    toRole: payment
+
+  # realization: Payment implements the Payable interface (dashed + hollow triangle at the interface = "to")
+  - from: payment
+    to: payable
+    kind: realization
+
+  # dependency: OrderProcessor depends on Order (dashed + open arrow at the target = "to")
+  - from: order-processor
+    to: order
+    kind: dependency

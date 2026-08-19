@@ -37,8 +37,12 @@ export interface LayoutResult {
 
 const elk = new ElkCtor();
 
-export async function layoutSpec(spec: DiagramSpec): Promise<LayoutResult> {
-  const { elkGraph, direction } = buildElkGraph(spec);
+/**
+ * Runs ELK on an already-built graph and normalizes the result into absolute
+ * node/group boxes + edge routes. Engine-agnostic: any engine that builds an
+ * ElkNode (with the same id conventions) can reuse it.
+ */
+export async function runElkLayout(elkGraph: ElkNode, direction: "right" | "down"): Promise<LayoutResult> {
   const laidOut = (await elk.layout(elkGraph)) as ElkNode;
 
   const nodes = new Map<string, AbsoluteBox>();
@@ -100,4 +104,9 @@ export async function layoutSpec(spec: DiagramSpec): Promise<LayoutResult> {
     groups,
     edges,
   };
+}
+
+export async function layoutSpec(spec: DiagramSpec): Promise<LayoutResult> {
+  const { elkGraph, direction } = buildElkGraph(spec);
+  return runElkLayout(elkGraph, direction);
 }

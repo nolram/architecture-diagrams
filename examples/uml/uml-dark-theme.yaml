@@ -1,0 +1,153 @@
+# UML class diagram spec (type: uml-class)
+#
+# Visual-validation example: the MIDNIGHT-DARK theme (canvas #0b1220,
+# cards #1e293b, light text). Check contrast of labels, stereotype
+# guillemets, edge colors, and multiplicity/role labels on the dark
+# background.
+#
+# Domain: a small team-messaging model.
+
+type: uml-class
+version: '1'
+title: Team messaging -- domain model (dark theme)
+theme: midnight-dark
+direction: auto
+
+classes:
+  - id: message
+    name: Message
+    stereotype: entity
+    abstract: true
+    attributes:
+      - name: id
+        type: UUID
+        visibility: private
+      - name: sentAt
+        type: datetime
+        visibility: private
+    methods:
+      - name: deliver
+        return: void
+        visibility: public
+
+  - id: text-message
+    name: TextMessage
+    stereotype: entity
+    attributes:
+      - name: body
+        type: string
+        visibility: private
+    methods:
+      - name: preview
+        params: "maxChars: int"
+        return: string
+        visibility: public
+
+  - id: image-message
+    name: ImageMessage
+    stereotype: entity
+    attributes:
+      - name: url
+        type: string
+        visibility: private
+      - name: width
+        type: int
+        visibility: private
+      - name: height
+        type: int
+        visibility: private
+    methods:
+      - name: thumbnailUrl
+        return: string
+        visibility: public
+
+  - id: channel
+    name: Channel
+    stereotype: entity
+    attributes:
+      - name: name
+        type: string
+        visibility: private
+      - name: topic
+        type: string
+        visibility: private
+    methods:
+      - name: send
+        params: "message: Message"
+        return: void
+        visibility: public
+      - name: members
+        return: List<User>
+        visibility: public
+
+  - id: user
+    name: User
+    stereotype: entity
+    attributes:
+      - name: displayName
+        type: string
+        visibility: private
+      - name: online
+        type: boolean
+        visibility: private
+    methods:
+      - name: join
+        params: "channel: Channel"
+        return: void
+        visibility: public
+      - name: leave
+        params: "channel: Channel"
+        return: void
+        visibility: public
+
+  - id: message-store
+    name: MessageStore
+    stereotype: control
+    attributes:
+      - name: retentionDays
+        type: int
+        visibility: private
+    methods:
+      - name: save
+        params: "message: Message"
+        return: void
+        visibility: public
+      - name: load
+        params: "id: UUID"
+        return: Message
+        visibility: public
+
+relationships:
+  # inheritance: TextMessage extends Message (hollow triangle at the superclass)
+  - from: text-message
+    to: message
+    kind: inheritance
+
+  # inheritance: ImageMessage extends Message
+  - from: image-message
+    to: message
+    kind: inheritance
+
+  # composition: Channel owns its Messages (filled diamond at the whole = "from")
+  - from: channel
+    to: message
+    kind: composition
+    fromMultiplicity: '1'
+    toMultiplicity: '*'
+    fromRole: has
+    toRole: history
+
+  # association: User membership in a Channel
+  - from: user
+    to: channel
+    kind: association
+    fromMultiplicity: '*'
+    toMultiplicity: '*'
+    fromRole: member of
+    toRole: members
+
+  # dependency: MessageStore persists Messages (dashed + open arrow at the target)
+  - from: message-store
+    to: message
+    kind: dependency
+    fromRole: persists

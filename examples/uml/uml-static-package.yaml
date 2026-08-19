@@ -1,0 +1,105 @@
+# UML class diagram spec (type: uml-class)
+#
+# Visual-validation example: STATIC members (rendered underlined) and
+# PACKAGE visibility (~). Everything else (inheritance, stereotypes,
+# abstract class) is already covered by reference/uml-class.example.yaml.
+#
+# Look for:
+#   - underlined "PI", "DEFAULT_SCALE" (static attributes)
+#   - underlined "fromDiameter(...)" (static method)
+#   - "~ areaCache" and "~ invalidateCache()" (package visibility)
+
+type: uml-class
+version: '1'
+title: Geometry library -- static members and package visibility
+theme: clean-light
+direction: auto
+
+classes:
+  - id: shape
+    name: Shape
+    stereotype: abstract
+    abstract: true
+    attributes:
+      - name: areaCache
+        type: double
+        visibility: package
+    methods:
+      - name: computeArea
+        return: double
+        visibility: public
+      - name: invalidateCache
+        return: void
+        visibility: package
+
+  - id: circle
+    name: Circle
+    attributes:
+      - name: PI
+        type: double
+        visibility: protected
+        static: true
+      - name: radius
+        type: double
+        visibility: private
+    methods:
+      - name: area
+        return: double
+        visibility: public
+      - name: fromDiameter
+        params: "diameter: double"
+        return: Circle
+        visibility: public
+        static: true
+
+  - id: rectangle
+    name: Rectangle
+    attributes:
+      - name: DEFAULT_SCALE
+        type: double
+        visibility: public
+        static: true
+      - name: width
+        type: double
+        visibility: private
+      - name: height
+        type: double
+        visibility: private
+    methods:
+      - name: area
+        return: double
+        visibility: public
+      - name: scaled
+        params: "factor: double"
+        return: Rectangle
+        visibility: public
+
+  - id: shape-renderer
+    name: ShapeRenderer
+    stereotype: control
+    methods:
+      - name: draw
+        params: "shape: Shape"
+        return: void
+        visibility: public
+      - name: toSvg
+        params: "shape: Shape"
+        return: string
+        visibility: public
+
+relationships:
+  # inheritance: Circle extends Shape (hollow triangle at the superclass = "to")
+  - from: circle
+    to: shape
+    kind: inheritance
+
+  # inheritance: Rectangle extends Shape
+  - from: rectangle
+    to: shape
+    kind: inheritance
+
+  # dependency: ShapeRenderer depends on Shape (dashed + open arrow at the target)
+  - from: shape-renderer
+    to: shape
+    kind: dependency
+    fromRole: renders
