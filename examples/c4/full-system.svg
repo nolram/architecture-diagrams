@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="559.6" height="1443" viewBox="0 0 559.6 1443">
+ <defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+ </defs>
+ <rect x="0" y="0" width="559.6" height="1443" fill="#f8fafc"/>
+ <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Online Shop — full stack (all element types)</text>
+ <g transform="translate(32, 88)">
+ <g transform="translate(24, 379)">
+  <rect x="0" y="0" width="447.6" height="543" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="16" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#1e40af">Online Shop</text>
+  <text x="16" y="46" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#1e40af">Sells products online (Node.js)</text>
+</g>
+<g transform="translate(134, 583)">
+  <rect x="0" y="0" width="313.6" height="310" rx="12" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="16" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#065f46">Shop API</text>
+  <text x="16" y="46" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#065f46">Business logic (Node.js)</text>
+</g>
+ <path d="M158,162 L158,441" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(158 441) rotate(90)"/><g>
+    <rect x="102.8" y="258" width="43.2" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="124.4" y="272" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">uses</text>
+  </g>
+<path d="M158,523 L158,583" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(158 583) rotate(90)"/><g>
+    <rect x="51.60000000000001" y="543" width="104.39999999999999" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="103.80000000000001" y="557" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">calls (HTTPS)</text>
+  </g>
+<path d="M302.6,727 L302.6,787" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(302.6 787) rotate(90)"/><g>
+    <rect x="169" y="747" width="131.6" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="234.8" y="761" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">looks up products</text>
+  </g>
+<path d="M247.6,727 L247.6,737 L158,737 L158,1139" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(158 1139) rotate(90)"/><g>
+    <rect x="28" y="1023" width="118" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="87" y="1037" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">charges (HTTPS)</text>
+  </g>
+<path d="M357.6,727 L357.6,737 L422.6,737 L422.6,959 L231.33333333333334,959 L231.33333333333334,1139" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(231.33333333333334 1139) rotate(90)"/><g>
+    <rect x="244.33333333333334" y="1023" width="63.6" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="276.1333333333333" y="1037" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">refunds</text>
+  </g>
+ <g transform="translate(110, 24)">
+  <circle cx="48" cy="24" r="14" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <path d="M22 94 L22 58 Q22 46 48 46 Q74 46 74 58 L74 94 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="48" y="112" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="14" font-weight="600" fill="#0c4a6e">Web User</text>
+  <text x="48" y="128" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" fill="#0c4a6e">Shops for p…</text>
+</g>
+<g transform="translate(48, 441)">
+  <rect x="0" y="0" width="220" height="82" rx="10" fill="#d1fae5" stroke="#059669" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="110" y="36" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#065f46">Web App</text>
+  <text x="110" y="58" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#065f46">Customer-facing UI (React)</text>
+</g>
+<g transform="translate(192.6, 645)">
+  <rect x="0" y="0" width="220" height="82" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="110" y="36" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#5b21b6">Orders</text>
+  <text x="110" y="58" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#5b21b6">Order lifecycle</text>
+</g>
+<g transform="translate(192.6, 787)">
+  <rect x="0" y="0" width="220" height="82" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="110" y="36" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#5b21b6">Catalog</text>
+  <text x="110" y="58" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#5b21b6">Product catalog</text>
+</g>
+<g transform="translate(84.66666666666666, 1139)">
+  <rect x="0" y="0" width="220" height="82" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 5" filter="url(#card-shadow)"/>
+  <text x="110" y="36" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#334155">Stripe</text>
+  <text x="110" y="58" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#334155">Payment processing (SaaS)</text>
+</g>
+ </g>
+ <g transform="translate(32, 1357)"><g><text x="0" y="14" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="13" font-weight="700" fill="#64748b">Component</text>
+<g transform="translate(0, 30)"><g><rect x="0" y="6" width="12" height="12" rx="3" fill="#0284c7"/>
+<text x="20" y="16" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Person</text>
+<rect x="79.2" y="6" width="12" height="12" rx="3" fill="#2563eb"/>
+<text x="99.2" y="16" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">System</text>
+<rect x="158.4" y="6" width="12" height="12" rx="3" fill="#64748b"/>
+<text x="178.4" y="16" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">External system</text>
+<rect x="293.4" y="6" width="12" height="12" rx="3" fill="#059669"/>
+<text x="313.4" y="16" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Container</text>
+<rect x="391.2" y="6" width="12" height="12" rx="3" fill="#7c3aed"/>
+<text x="411.2" y="16" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Component</text></g></g></g></g>
+ </svg>

@@ -1,0 +1,64 @@
+# C4 diagram spec (type: c4)
+#
+# Visual-validation example: CONTAINER level (level: container).
+# One system with three containers nested inside it (via `group`),
+# plus an external system.
+#
+# Look for:
+#   - a boundary box around the "Online Shop" system containing its
+#     containers (Web App, Shop API, Database)
+#   - a hand-drawn person silhouette for "Web User"
+#   - a dashed rounded box for the external system (Stripe)
+#   - edge labels with technology in parentheses, e.g. "calls (HTTPS)"
+
+type: c4
+version: '1'
+level: container
+title: Online Shop — Containers
+direction: auto
+
+elements:
+  - id: user
+    name: Web User
+    type: person
+  - id: shop
+    name: Online Shop
+    type: system
+    description: Sells products online
+  - id: web
+    name: Web App
+    type: container
+    group: shop
+    description: Customer-facing UI
+    technology: React
+  - id: api
+    name: Shop API
+    type: container
+    group: shop
+    description: Business logic
+    technology: Node.js
+  - id: db
+    name: Database
+    type: container
+    group: shop
+    description: Orders and catalog
+    technology: PostgreSQL
+  - id: stripe
+    name: Stripe
+    type: external-system
+    description: Payments
+
+relationships:
+  - from: user
+    to: web
+    description: uses
+  - from: web
+    to: api
+    description: calls
+    technology: HTTPS
+  - from: api
+    to: db
+    description: reads/writes
+  - from: api
+    to: stripe
+    description: charges

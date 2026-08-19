@@ -1,0 +1,78 @@
+# C4 diagram spec (type: c4)
+#
+# Visual-validation example: a DEEP, multi-level diagram that exercises every
+# element type and three levels of nesting at once (person -> system ->
+# container -> component), plus parallel edges (two relationships sharing the
+# same source/target) and an explicit direction (down, instead of the default
+# auto -> right).
+#
+# Look for:
+#   - the person silhouette (no box) for "Web User"
+#   - a system boundary containing a container boundary containing components
+#   - dashed external-system boxes (Stripe)
+#   - two edges leaving "orders" (parallel-edge label spacing)
+#   - the legend headed "Component" (level: component), listing all five types
+
+type: c4
+version: '1'
+level: component
+title: Online Shop — full stack (all element types)
+direction: down
+
+elements:
+  - id: user
+    name: Web User
+    type: person
+    description: Shops for products
+  - id: shop
+    name: Online Shop
+    type: system
+    description: Sells products online
+    technology: Node.js
+  - id: web
+    name: Web App
+    type: container
+    group: shop
+    description: Customer-facing UI
+    technology: React
+  - id: api
+    name: Shop API
+    type: container
+    group: shop
+    description: Business logic
+    technology: Node.js
+  - id: orders
+    name: Orders
+    type: component
+    group: api
+    description: Order lifecycle
+  - id: catalog
+    name: Catalog
+    type: component
+    group: api
+    description: Product catalog
+  - id: stripe
+    name: Stripe
+    type: external-system
+    description: Payment processing
+    technology: SaaS
+
+relationships:
+  - from: user
+    to: web
+    description: uses
+  - from: web
+    to: api
+    description: calls
+    technology: HTTPS
+  - from: orders
+    to: catalog
+    description: looks up products
+  # parallel edges: two relationships leaving "orders" toward Stripe
+  - from: orders
+    to: stripe
+    description: charges
+    technology: HTTPS
+  - from: orders
+    to: stripe
+    description: refunds

@@ -1,0 +1,48 @@
+# C4 diagram spec (type: c4)
+#
+# Visual-validation example: SYSTEM CONTEXT level (level: context).
+# A person, the system, and two external systems.
+#
+# Look for:
+#   - a hand-drawn person silhouette (no box) for "Web User"
+#   - a solid rounded box for the "Online Shop" system
+#   - dashed rounded boxes for the external systems (Stripe, SendGrid)
+#   - edge labels with technology in parentheses, e.g. "charges cards (HTTPS)"
+
+type: c4
+version: '1'
+level: context
+title: Online Shop — System Context
+direction: auto
+
+elements:
+  - id: user
+    name: Web User
+    type: person
+    description: Shops for products
+  - id: shop
+    name: Online Shop
+    type: system
+    description: Sells products online
+    technology: Node.js
+  - id: stripe
+    name: Stripe
+    type: external-system
+    description: Payment processing
+    technology: SaaS
+  - id: sendgrid
+    name: SendGrid
+    type: external-system
+    description: Email delivery
+
+relationships:
+  - from: user
+    to: shop
+    description: browses and buys
+  - from: shop
+    to: stripe
+    description: charges cards
+    technology: HTTPS
+  - from: shop
+    to: sendgrid
+    description: sends receipts

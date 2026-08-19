@@ -1,0 +1,56 @@
+# C4 diagram spec (type: c4)
+#
+# Visual-validation example: COMPONENT level (level: component).
+# One container with three components nested inside it (via `group`),
+# plus an external system.
+#
+# Look for:
+#   - a boundary box around the "Shop API" container holding its
+#     components (Orders, Catalog, Auth)
+#   - a dashed rounded box for the external system (Stripe)
+#   - edge labels with technology in parentheses, e.g. "charges (HTTPS)"
+
+type: c4
+version: '1'
+level: component
+title: Shop API — Components
+direction: auto
+
+elements:
+  - id: api
+    name: Shop API
+    type: container
+    description: Business logic
+    technology: Node.js
+  - id: orders
+    name: Orders
+    type: component
+    group: api
+    description: Order lifecycle
+  - id: catalog
+    name: Catalog
+    type: component
+    group: api
+    description: Product catalog
+  - id: auth
+    name: Auth
+    type: component
+    group: api
+    description: Login and sessions
+    technology: JWT
+  - id: stripe
+    name: Stripe
+    type: external-system
+    description: Payments
+
+relationships:
+  - from: orders
+    to: catalog
+    description: looks up products
+  - from: orders
+    to: stripe
+    description: charges
+    technology: HTTPS
+  - from: auth
+    to: orders
+    description: guards

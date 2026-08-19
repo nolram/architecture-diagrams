@@ -57,6 +57,38 @@ icon infra. The UML class format is already specified in
   27 new tests (spec/layout/render); example renders all six markers, italic abstract
   name, stereotypes, and visibility symbols.
 
+## v0.6 -- C4 diagrams
+
+Third diagram family on the v0.5 multi-engine foundation: `type: c4` selects the
+C4 engine, which reuses the shared ELK layout, theme, SVG utils, and PNG/PDF
+export. The format is specified in `architecture-diagrams/reference/c4-spec.md`
+with a reference example in `architecture-diagrams/reference/c4.example.yaml`.
+
+- [x] **C4 engine (context / container / component)** -- `type: c4` + `level`
+  (`context` default, `container`, `component`); typed `elements`
+  (`person`, `system`, `external-system`, `container`, `component`) with `group`
+  nesting (only `system`/`container` can be parents; a `person` is never nested),
+  and `relationships` with optional `description`/`technology` rendered combined
+  as `"description (technology)"`. Validation: unique ids, no self-relationships,
+  `group` must point at an existing `system`/`container`, relationship endpoints
+  must exist. Reuses the shared ELK runner, theme, and SVG utils; `auto` resolves
+  to `right`.
+- [x] **Person silhouette** -- `person` elements render as a hand-drawn silhouette
+  (no box), the C4 convention for users/actors.
+- [x] **External-system dashed boxes** -- `external-system` renders with a dashed
+  border; a `system`/`container` that has children renders as a boundary box
+  around them (with its `description (technology)` under the title).
+- [x] **Legend** -- a color key for the element types present, headed by the
+  `level` title ("System Context" / "Container" / "Component"); this is what makes
+  `level` visible in the output.
+- [x] **5 examples** -- runnable examples in `examples/c4/` (context, container,
+  component, a dark-theme variant, and a full 5-type / 3-level diagram) plus the
+  reference example `architecture-diagrams/reference/c4.example.yaml`.
+- [x] **Tests** -- spec validation, layout, and render tests for the C4 engine
+  (including boundary description, legend, and `level` heading).
+- [x] **Docs** -- `architecture-diagrams/reference/c4-spec.md` finalized (draft
+  status removed), SKILL.md and README updated with the C4 family.
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 
 - [ ] **MCP server** -- a thin layer on top of the same rendering engine, to work in AI clients besides Claude Code. Considered since the project's original plan; deferred because it's, in practice, a new distribution product, not a tweak to what already exists.

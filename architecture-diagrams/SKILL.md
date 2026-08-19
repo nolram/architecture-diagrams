@@ -1,6 +1,6 @@
 ---
 name: architecture-diagrams
-description: Generates rich, visually professional software/infrastructure architecture diagrams (real AWS/Azure/GCP/Kubernetes/brand icons, cards with shadows, boundaries like VPC/subnet, automatic layout) and UML class diagrams (classes with attributes/methods, all six relationship kinds) -- far more elaborate than a standard Mermaid diagram. Use whenever the user asks for an architecture diagram, system diagram, infrastructure/cloud diagram, a UML class diagram / domain model, or explicitly asks for something "prettier"/"more professional" than Mermaid to represent software components and how they connect.
+description: Generates rich, visually professional software/infrastructure architecture diagrams (real AWS/Azure/GCP/Kubernetes/brand icons, cards with shadows, boundaries like VPC/subnet, automatic layout), UML class diagrams (classes with attributes/methods, all six relationship kinds), and C4 diagrams (System Context / Container / Component -- people, systems, external systems, containers, components) -- far more elaborate than a standard Mermaid diagram. Use whenever the user asks for an architecture diagram, system diagram, infrastructure/cloud diagram, a UML class diagram / domain model, a C4 diagram, or explicitly asks for something "prettier"/"more professional" than Mermaid to represent software components and how they connect.
 ---
 
 # Architecture Diagrams
@@ -9,10 +9,17 @@ A custom renderer (ELK.js for layout + real icons via `thesvg`/Iconify + hand-dr
 
 ## Diagram families
 
-Two families share the same renderer, selected by the spec's `type` field:
+Three families share the same renderer, selected by the spec's `type` field:
 
 - **Architecture** (default -- omit `type` or set `type: architecture`): components, boundaries, connections. Rules in `reference/spec-guide.md`.
-- **UML class** (`type: uml-class`): classes with attributes/methods plus the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Rules in `reference/uml-class-spec.md`, runnable example in `reference/uml-class.example.yaml`. The workflow below is the same for both families.
+- **UML class** (`type: uml-class`): classes with attributes/methods plus the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Rules in `reference/uml-class-spec.md`, runnable example in `reference/uml-class.example.yaml`.
+- **C4** (`type: c4`): System Context / Container / Component diagrams -- people, systems, external systems, containers, and components with directed relationships. Rules in `reference/c4-spec.md`, runnable example in `reference/c4.example.yaml`.
+
+The workflow below is the same for all three families.
+
+### C4
+
+Three zoom levels, selected with `level` (default `context`): `context` (the system, its users, and the external systems it talks to), `container` (one system and the containers inside it), and `component` (one container and the components inside it). Element types: `person`, `system`, `external-system`, `container`, `component`; nesting is expressed with `group` (a `container` inside a `system`, a `component` inside a `container` -- only `system`/`container` can be parents, and a `person` is never nested). A `person` renders as a hand-drawn silhouette (no box), an `external-system` as a dashed box, and a `system`/`container` with children as a boundary box. `description` + `technology` render combined as `"description (technology)"`.
 
 ## Workflow
 

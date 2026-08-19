@@ -13,9 +13,9 @@ dispatch, reusing the shared ELK layout / theme / SVG / export infra) turns "add
 diagram family" from a big project into a bounded task: schema + layout + render.
 That is the main reason the items below are now realistic.
 
-- 🟢 **C4 diagrams** (System Context / Container / Component) -- the de-facto
+- ✅ **C4 diagrams** (System Context / Container / Component) -- the de-facto
   standard for software architecture; fits the core use case and reuses a lot of
-  what we already have. Draft spec: `architecture-diagrams/reference/c4-spec.md`.
+  what we already have. Implemented in v0.6. Spec: `architecture-diagrams/reference/c4-spec.md`.
 - 💡 **UML sequence** -- the most-requested UML diagram after class; complements the
   class engine. Needs its own layout (lifelines + time axis).
 - 💡 **ER (entity-relationship)** -- sibling of the class diagram; reuses boxes with
