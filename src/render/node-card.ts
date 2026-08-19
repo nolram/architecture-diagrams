@@ -135,7 +135,7 @@ function renderCloudNode(node: DiagramNode, box: AbsoluteBox, theme: Theme, icon
 </g>`;
 }
 
-function renderIconBadge(
+export function renderIconBadge(
   icon: ResolvedIcon | null,
   accent: string,
   clipId: string,

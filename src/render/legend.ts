@@ -25,6 +25,8 @@ const GROUP_STYLE_LABELS: Record<GroupStyleVariant, string> = {
 export interface LegendEntry {
   color: string;
   label: string;
+  /** draw the swatch as a dashed line instead of a solid rect (used for "dashed = non-active status") */
+  dashed?: boolean;
 }
 
 /**
@@ -85,8 +87,13 @@ export function renderLegend(entries: LegendEntry[], maxWidth: number, theme: Th
       y += ROW_HEIGHT;
     }
     const swatchY = y + (ROW_HEIGHT - SWATCH_SIZE) / 2;
+    const swatch = entry.dashed
+      // "4 4" matches the C4 non-active status dash (STATUS_DASH in engines/c4/render.ts);
+      // not imported to avoid a circular import back into the C4 engine
+      ? `<line x1="${x}" y1="${y + ROW_HEIGHT / 2}" x2="${x + SWATCH_SIZE}" y2="${y + ROW_HEIGHT / 2}" stroke="${entry.color}" stroke-width="2.5" stroke-dasharray="4 4"/>`
+      : `<rect x="${x}" y="${swatchY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" rx="3" fill="${entry.color}"/>`;
     parts.push(
-      `<rect x="${x}" y="${swatchY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" rx="3" fill="${entry.color}"/>`,
+      swatch,
       `<text x="${x + SWATCH_SIZE + 8}" y="${y + ROW_HEIGHT / 2 + 4}" font-family='${theme.fontFamily}' font-size="12" fill="${theme.sublabelColor}">${escapeXml(entry.label)}</text>`,
     );
     x += entryWidth + ENTRY_GAP;

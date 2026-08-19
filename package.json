@@ -1,6 +1,6 @@
 {
   "name": "architecture-diagrams",
-  "version": "0.1.0",
+  "version": "0.7.0",
   "description": "Rich, professional software architecture diagram engine, built to be used by an AI",
   "type": "module",
   "bin": {

@@ -217,4 +217,82 @@ describe("c4 spec validation", () => {
     }
     assert.equal(validateC4Spec({ ...base, level: "module" }).ok, false);
   });
+
+  test("accepts a valid icon key on an element", () => {
+    const result = validateC4Spec({
+      type: "c4",
+      version: "1",
+      elements: [{ id: "a", name: "A", type: "system", icon: "brand:nodejs" }],
+    });
+    assert.equal(result.ok, true, result.ok ? undefined : JSON.stringify(result.errors));
+  });
+
+  test("accepts a file: icon reference", () => {
+    const result = validateC4Spec({
+      type: "c4",
+      version: "1",
+      elements: [{ id: "a", name: "A", type: "system", icon: "file:./logo.svg" }],
+    });
+    assert.equal(result.ok, true, result.ok ? undefined : JSON.stringify(result.errors));
+  });
+
+  test("rejects a malformed icon key, naming the field", () => {
+    const result = validateC4Spec({
+      type: "c4",
+      version: "1",
+      elements: [{ id: "a", name: "A", type: "system", icon: "not a valid key" }],
+    });
+    const paths = errorPaths(result);
+    assert.ok(paths.includes("elements.0.icon"), `expected elements.0.icon in ${JSON.stringify(paths)}`);
+  });
+
+  test("accepts every status value on elements and relationships", () => {
+    for (const status of ["active", "deprecated", "suspended", "planned"] as const) {
+      const el = validateC4Spec({
+        type: "c4",
+        version: "1",
+        elements: [{ id: "a", name: "A", type: "system", status }],
+      });
+      assert.equal(el.ok, true, `expected element status "${status}" to be accepted`);
+
+      const rel = validateC4Spec({
+        type: "c4",
+        version: "1",
+        elements: [
+          { id: "a", name: "A", type: "system" },
+          { id: "b", name: "B", type: "system" },
+        ],
+        relationships: [{ from: "a", to: "b", status }],
+      });
+      assert.equal(rel.ok, true, `expected relationship status "${status}" to be accepted`);
+    }
+  });
+
+  test("rejects an unknown status, listing the allowed values", () => {
+    const result = validateC4Spec({
+      type: "c4",
+      version: "1",
+      elements: [{ id: "a", name: "A", type: "system", status: "retired" }],
+    });
+    const messages = errorMessages(result);
+    assert.ok(
+      messages.some((m) => m.includes("active") && m.includes("planned")),
+      `error should list the allowed statuses: ${JSON.stringify(messages)}`,
+    );
+  });
+
+  test("applies the wrap.maxLines default of 4", () => {
+    const result = validateC4Spec(base);
+    assert.equal(result.ok, true);
+    if (!result.ok) return;
+    assert.equal(result.spec.wrap.maxLines, 4);
+  });
+
+  test("accepts an explicit wrap.maxLines and rejects out-of-range values", () => {
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 1 } }).ok, true);
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 12 } }).ok, true);
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 0 } }).ok, false);
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 13 } }).ok, false);
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 2.5 } }).ok, false);
+  });
 });

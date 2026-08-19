@@ -19,7 +19,9 @@ The workflow below is the same for all three families.
 
 ### C4
 
-Three zoom levels, selected with `level` (default `context`): `context` (the system, its users, and the external systems it talks to), `container` (one system and the containers inside it), and `component` (one container and the components inside it). Element types: `person`, `system`, `external-system`, `container`, `component`; nesting is expressed with `group` (a `container` inside a `system`, a `component` inside a `container` -- only `system`/`container` can be parents, and a `person` is never nested). A `person` renders as a hand-drawn silhouette (no box), an `external-system` as a dashed box, and a `system`/`container` with children as a boundary box. `description` + `technology` render combined as `"description (technology)"`.
+Three zoom levels, selected with `level` (default `context`): `context` (the system, its users, and the external systems it talks to), `container` (one system and the containers inside it), and `component` (one container and the components inside it). Element types: `person`, `system`, `external-system`, `container`, `component`; nesting is expressed with `group` (a `container` inside a `system`, a `component` inside a `container` -- only `system`/`container` can be parents, and a `person` is never nested; a `system`/`container` can itself be grouped inside another for sub-boundaries). A `person` renders as a hand-drawn silhouette (no box), an `external-system` as a dashed box, and a `system`/`container` with children as a boundary box. `description` + `technology` render combined as `"description (technology)"`.
+
+Optional extras (all backward-compatible): an element `icon` (same catalog as the architecture family -- a `person` ignores it), a lifecycle `status` on elements and relationships (`active` default | `deprecated` | `suspended` | `planned`, rendered dashed + dimmed + tagged), and a top-level `wrap.maxLines` (default 4) that wraps long descriptions/labels onto multiple lines instead of truncating them.
 
 ## Workflow
 

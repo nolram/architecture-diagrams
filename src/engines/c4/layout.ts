@@ -70,7 +70,7 @@ export function buildC4ElkGraph(spec: C4Spec): BuiltC4Graph {
     // final composition collide, because ELK didn't know it had to space the
     // edges apart.
     const text = combineDescription(rel.description, rel.technology);
-    const labelSize = edgeLabelSize(rel);
+    const labelSize = edgeLabelSize(rel, spec.wrap.maxLines);
     return {
       // stable id = index of the relationship in spec.relationships, used to
       // reconnect computed routes back to the original spec at render time
@@ -83,15 +83,15 @@ export function buildC4ElkGraph(spec: C4Spec): BuiltC4Graph {
 
   function buildElementNode(id: string): ElkNode {
     const el = elementsById.get(id)!;
-    const size = estimateElementSize(el);
     const childIds = childrenOf.get(id) ?? [];
+    const size = estimateElementSize(el, spec.wrap.maxLines, childIds.length > 0);
     if (childIds.length === 0) {
       return { id, width: size.width, height: size.height };
     }
 
     const edges = (edgesByContainer.get(id) ?? []).map(toElkEdge);
     // extra top padding leaves room for the boundary's title (and, when present,
-    // its description line) so children never overlap the header text
+    // its single-line description) so children never overlap the header text
     const hasDesc = combineDescription(el.description, el.technology).length > 0;
     const topPad = 44 + (hasDesc ? 18 : 0);
     // ELK sizes a container to its children + padding and would otherwise clip a

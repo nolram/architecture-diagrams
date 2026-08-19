@@ -3,6 +3,8 @@ version: "1"
 level: context
 title: "Online Shop — System Context"
 direction: auto
+wrap:
+  maxLines: 4
 elements:
   - id: user
     name: "Web User"
@@ -13,15 +15,19 @@ elements:
     type: system
     description: "Sells products online"
     technology: "Node.js"
+    icon: "brand:nodejs"
   - id: stripe
     name: "Stripe"
     type: external-system
     description: "Payment processing"
     technology: "SaaS"
+    icon: "brand:stripe"
   - id: sendgrid
     name: "SendGrid"
     type: external-system
     description: "Email delivery"
+    icon: "generic:notification"
+    status: deprecated
 relationships:
   - from: user
     to: shop
@@ -33,3 +39,4 @@ relationships:
   - from: shop
     to: sendgrid
     description: "sends receipts"
+    status: suspended

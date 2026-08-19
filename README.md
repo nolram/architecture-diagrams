@@ -12,7 +12,7 @@ Three diagram families share the same validation → layout → render pipeline,
 
 - **Architecture diagrams** (default -- omit `type` or set `type: architecture`): components, boundaries, and connections with real brand icons.
 - **UML class diagrams** (`type: uml-class`): classes with attributes/methods and the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Format: [`architecture-diagrams/reference/uml-class-spec.md`](architecture-diagrams/reference/uml-class-spec.md); runnable example: [`architecture-diagrams/reference/uml-class.example.yaml`](architecture-diagrams/reference/uml-class.example.yaml).
-- **C4 diagrams** (`type: c4`): System Context / Container / Component -- people, systems, external systems, containers, and components with directed relationships. Format: [`architecture-diagrams/reference/c4-spec.md`](architecture-diagrams/reference/c4-spec.md); runnable example: [`architecture-diagrams/reference/c4.example.yaml`](architecture-diagrams/reference/c4.example.yaml).
+- **C4 diagrams** (`type: c4`): System Context / Container / Component -- people, systems, external systems, containers, and components with directed relationships. Supports element `icon`s, sub-boundaries (nested `system`/`container`), a lifecycle `status` (`deprecated`/`suspended`/`planned`) on elements and relationships, and `wrap.maxLines` for multi-line descriptions/labels. Format: [`architecture-diagrams/reference/c4-spec.md`](architecture-diagrams/reference/c4-spec.md); runnable examples: [`architecture-diagrams/reference/c4.example.yaml`](architecture-diagrams/reference/c4.example.yaml) and [`examples/c4/batch-payments.yaml`](examples/c4/batch-payments.yaml).
 
 ## Examples
 

@@ -2,8 +2,18 @@ import { z } from "zod";
 import type { SpecValidationResult, SpecValidationError } from "../../spec/schema.js";
 
 const idPattern = /^[a-zA-Z0-9_-]+$/;
+// same key grammar as the architecture family (src/spec/schema.ts) so a single
+// icon catalog serves both: "vendor:name" or "file:path/to/icon.svg".
+const iconPattern = /^([a-z0-9_-]+:[a-z0-9_-]+|file:.+\.svg)$/i;
 
 export const C4_ELEMENT_TYPES = ["person", "system", "external-system", "container", "component"] as const;
+
+export const C4_STATUSES = ["active", "deprecated", "suspended", "planned"] as const;
+
+/** `status` is optional and absent means "active" */
+export function isActive(status?: string): boolean {
+  return status === undefined || status === "active";
+}
 
 export const C4ElementSchema = z.object({
   id: z.string().regex(idPattern, "id must only contain letters, numbers, '-' or '_'"),
@@ -14,6 +24,16 @@ export const C4ElementSchema = z.object({
   description: z.string().optional(),
   technology: z.string().optional(),
   group: z.string().optional(),
+  icon: z
+    .string()
+    .regex(iconPattern, "icon must be a catalog key like 'vendor:name' or a 'file:path/to/icon.svg' reference")
+    .optional(),
+  // optional; absent means "active". Kept optional (not defaulted) so the
+  // inferred type stays constructible without it (e.g. in tests and partial
+  // element literals).
+  status: z.enum(C4_STATUSES, {
+    message: `status must be one of: ${C4_STATUSES.join(", ")}`,
+  }).optional(),
 });
 export type C4Element = z.infer<typeof C4ElementSchema>;
 
@@ -22,8 +42,20 @@ export const C4RelationshipSchema = z.object({
   to: z.string(),
   description: z.string().optional(),
   technology: z.string().optional(),
+  status: z.enum(C4_STATUSES, {
+    message: `status must be one of: ${C4_STATUSES.join(", ")}`,
+  }).optional(),
 });
 export type C4Relationship = z.infer<typeof C4RelationshipSchema>;
+
+export const C4WrapSchema = z
+  .object({
+    // maximum number of wrapped lines for element descriptions and
+    // relationship labels before the overflow is folded into an ellipsis.
+    maxLines: z.number().int().min(1).max(12).default(4),
+  })
+  .default({ maxLines: 4 });
+export type C4Wrap = z.infer<typeof C4WrapSchema>;
 
 export const C4SpecSchema = z
   .object({
@@ -33,6 +65,7 @@ export const C4SpecSchema = z
     title: z.string().optional(),
     theme: z.enum(["clean-light", "midnight-dark"]).default("clean-light"),
     direction: z.enum(["auto", "right", "down"]).default("auto"),
+    wrap: C4WrapSchema,
     elements: z.array(C4ElementSchema).min(1, "the diagram needs at least one element"),
     relationships: z.array(C4RelationshipSchema).default([]),
   })

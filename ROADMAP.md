@@ -89,6 +89,45 @@ with a reference example in `architecture-diagrams/reference/c4.example.yaml`.
 - [x] **Docs** -- `architecture-diagrams/reference/c4-spec.md` finalized (draft
   status removed), SKILL.md and README updated with the C4 family.
 
+## v0.7 -- C4 expressiveness
+
+Four additive, fully backward-compatible features for the C4 family (all optional;
+a spec that omits them renders exactly as before). The format is documented in
+`architecture-diagrams/reference/c4-spec.md` and exercised by the runnable example
+`examples/c4/batch-payments.yaml`.
+
+- [x] **Element `icon`** -- an optional `icon` on any C4 element, reusing the same
+  catalog as the architecture family (`brand:nodejs`, `aws:rds`, `generic:database`,
+  ... or `file:./logo.svg`). Rendered as a small badge in the top-left of the card,
+  tinted with the element's accent color. A `person` keeps its silhouette and ignores
+  `icon`, and a boundary (a `system`/`container` with children) ignores `icon` too
+  (a warning is emitted, since boundaries render a title, not a badge); a key that
+  does not resolve falls back to a generic badge and a warning (the render still
+  succeeds). Sizing reserves room for the badge so text never overlaps it.
+- [x] **Sub-boundaries (2nd-level nesting)** -- a `system` or `container` can itself
+  be grouped inside another, drawing a boundary within a boundary to any depth
+  (e.g. a `Settlement` system nested inside a `Payment Core` system). Verified with a
+  3-boundary probe and a layout containment test.
+- [x] **Element & relationship `status`** -- an optional `status`
+  (`active` default | `deprecated` | `suspended` | `planned`) on both elements and
+  relationships. Non-active items render dashed, dimmed (opacity 0.62), and tagged
+  with a small uppercase pill; any non-active status present also adds a dashed entry
+  to the legend. `external-system` keeps its own (longer) dash.
+- [x] **`wrap.maxLines`** -- a top-level `wrap` block (default `maxLines: 4`, range
+  1..12) that wraps long element `description`s and relationship labels onto multiple
+  lines (word-boundary wrap, overflow folded into an ellipsis) instead of truncating
+  them to one line. The layout reserves the space for the wrapped lines so nothing
+  overlaps. `maxLines: 1` reproduces the old single-line behavior.
+- [x] **Tests** -- 15 new tests: schema validation for `icon`/`status`/`wrap`
+  (valid + invalid, with field paths and allowed-value lists), and render assertions
+  (icon badge, person ignores icon, non-active dashed/dimmed/tagged, active untagged,
+  non-active relationship dashed, multi-line wrap, `maxLines: 1` ellipsis, and the
+  missing-icon fallback + warning).
+- [x] **Docs** -- `architecture-diagrams/reference/c4-spec.md` documents the new
+  fields (structure, elements, relationships, a dedicated `wrap` section, common
+  errors, layout tips); `c4.example.yaml` and `examples/c4/batch-payments.yaml`
+  demonstrate them.
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 
 - [ ] **MCP server** -- a thin layer on top of the same rendering engine, to work in AI clients besides Claude Code. Considered since the project's original plan; deferred because it's, in practice, a new distribution product, not a tweak to what already exists.

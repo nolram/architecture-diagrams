@@ -25,6 +25,8 @@ title: Diagram title        # optional
 theme: clean-light          # optional: clean-light (default) | midnight-dark
 direction: auto             # optional: auto (default) | right (left→right) | down (top→bottom)
 level: container            # optional: context (default) | container | component
+wrap:                       # optional, see "wrap" below
+  maxLines: 4               #   optional: 1..12 (default 4) -- max wrapped lines before folding
 elements: [ ... ]           # required, at least 1
 relationships: [ ... ]      # optional
 ```
@@ -65,9 +67,11 @@ elements:
   - id: alice                 # required, unique (letters/numbers/-/_)
     name: Alice               # required, the displayed name
     type: person              # required: person | system | external-system | container | component
-    description: A shop customer   # optional, rendered as smaller text under the name
+    description: A shop customer   # optional, rendered as smaller text under the name (wraps, see "wrap")
     technology: Web browser        # optional, rendered in parentheses after the description
     group: shop               # optional, id of a parent element -- visually nests this element inside it
+    icon: generic:user        # optional, a catalog key ("vendor:name") or "file:path/to/icon.svg"
+    status: active            # optional: active (default) | deprecated | suspended | planned
 ```
 
 `type` and how it is drawn:
@@ -86,8 +90,22 @@ Notes:
   + `technology: PostgreSQL` → "Stores orders (PostgreSQL)".
 - `group` nests an element inside another (e.g. a `container` inside a `system`, a
   `component` inside a `container`). The parent must be an element that can contain
-  others (`system` or `container`).
+  others (`system` or `container`). Nesting is recursive -- a `system` or `container`
+  can itself be grouped inside another, giving sub-boundaries (a boundary within a
+  boundary) to any depth.
 - A `person` element has no box, so `group` does not apply to it.
+- `icon` (optional) draws a small badge with the icon in the top-left of the element's
+  card, using the same catalog as the architecture family (`brand:nodejs`,
+  `aws:rds`, `generic:database`, ... or `file:./logo.svg`). It is honored on
+  `system`/`external-system`/`container`/`component`; a `person` keeps its silhouette
+  and ignores `icon`, and a `system`/`container` with children (a boundary) ignores
+  `icon` too -- boundaries render a title, not a badge, so a warning is printed (the
+  render still succeeds). A key that does not resolve falls back to a generic badge
+  and a warning is printed (the render still succeeds).
+- `status` (optional, default `active`) marks the lifecycle of an element. `active`
+  is drawn normally; `deprecated`, `suspended`, and `planned` are drawn with a dashed
+  border, reduced opacity, and a small uppercase tag in the top-right corner. Any
+  non-active status present in the diagram also adds a dashed entry to the legend.
 
 ## `relationships`
 
@@ -97,18 +115,42 @@ Directed connections between two elements.
 relationships:
   - from: alice              # required, id of an existing element
     to: shop                 # required, id of an existing element
-    description: places an order   # optional, rendered as the edge label
+    description: places an order   # optional, rendered as the edge label (wraps, see "wrap")
     technology: HTTPS          # optional, rendered in parentheses after the description
+    status: active             # optional: active (default) | deprecated | suspended | planned
 ```
 
 Notes:
 - `from` → `to` is the reading direction (the arrow points at `to`).
 - `description` is the edge label; `technology` is appended in parentheses (C4
   convention), e.g. "places an order (HTTPS)".
+- `status` (optional, default `active`) marks the lifecycle of the connection.
+  `active` is drawn as a solid line; `deprecated`, `suspended`, and `planned` are
+  drawn dashed with reduced opacity (the same visual language as element status).
 - **Prefer one relationship per pair of elements.** If two elements talk in both
   directions, a single relationship with a combined description is usually clearer.
   Parallel edges (two relationships with the same `from`/`to`) are supported and
   their labels are spaced so they don't collide, but they can clutter a diagram.
+
+## `wrap`
+
+Long `description`s (on elements) and long relationship labels used to be truncated to
+a single line with an ellipsis. The `wrap` block opts into multi-line wrapping instead:
+
+```yaml
+wrap:
+  maxLines: 4     # optional: 1..12 (default 4)
+```
+
+- Text is wrapped on word boundaries to the element/label width. `maxLines` is the
+  maximum number of lines; any overflow beyond it is folded into a trailing ellipsis
+  (so a very long string can never blow up the layout).
+- It applies to element `description`s (cards and `person`) and to relationship
+  labels. Boundary descriptions stay single-line (truncated) by design -- they are a
+  group label and must never collide with the children below. `maxLines: 1`
+  reproduces the old single-line, truncated behavior.
+- The layout reserves the space for the wrapped lines, so boxes grow taller and labels
+  get a taller pill -- nothing overlaps.
 
 ## Layout tips
 
@@ -117,9 +159,12 @@ Notes:
   `auto` resolves to `right`.
 - **Set `level`** to match what you are drawing -- it heads the legend
   ("System Context" / "Container" / "Component").
-- Keep `description`s short; long edge labels collide. Move detail into the
-  element's `description` instead.
-- Nest containers inside their system with `group` so the boundary is drawn.
+- Long `description`s and edge labels now wrap (see `wrap`); if a label still looks
+  crowded, shorten it or raise `wrap.maxLines`.
+- Nest containers inside their system with `group` so the boundary is drawn; nest a
+  `system`/`container` inside another for sub-boundaries.
+- Use `status` to flag `deprecated`/`suspended`/`planned` elements and connections --
+  they render dashed and dimmed so the eye skips them.
 
 ## Common errors and how the renderer reacts
 
@@ -130,6 +175,12 @@ Notes:
 - **A `person` element with a `group`**: validation fails (people are not nested).
 - **A self-relationship** (`from` and `to` the same element): validation fails.
 - **`type` with an unknown value**: validation fails listing the allowed types.
+- **`status` with an unknown value**: validation fails listing the allowed statuses
+  (`active`, `deprecated`, `suspended`, `planned`).
+- **`icon` with a malformed key**: validation fails (it must be `vendor:name` or
+  `file:path/to/icon.svg`). A *well-formed* key that simply does not exist in the
+  catalog is not a validation error -- it falls back to a generic badge with a warning.
+- **`wrap.maxLines` out of range**: validation fails (it must be an integer 1..12).
 
 ## Full example
 
@@ -138,3 +189,9 @@ See `./c4.example.yaml` -- a System Context diagram of an online shop: a `person
 SendGrid), with the relationships between them. A runnable copy lives in
 `examples/c4/context.yaml`; render it with the usual workflow
 (`bash scripts/render.sh examples/c4/context.yaml --png`).
+
+A richer Container diagram that exercises the v0.7 features -- `icon` on every leaf
+element (boundaries have no icon), a sub-boundary (`Settlement` nested inside
+`Payment Core`), `status` on elements and relationships (`deprecated`/`suspended`/
+`planned`), and `wrap.maxLines` on long descriptions/labels -- lives in
+`examples/c4/batch-payments.yaml`.

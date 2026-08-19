@@ -1,0 +1,139 @@
+# C4 Container diagram exercising the v0.7 features:
+#   - `icon` on elements (catalog keys like "brand:nodejs", "generic:database")
+#   - sub-boundaries (a `system` nested inside another `system` via `group`)
+#   - `status` on elements and relationships (active | deprecated | suspended | planned)
+#   - `wrap.maxLines` controlling how long descriptions/labels wrap before folding
+type: c4
+version: "1"
+level: container
+title: "Fintech batch payment platform"
+direction: right
+wrap:
+  maxLines: 4
+
+elements:
+  - id: ops
+    name: "Ops Engineer"
+    type: person
+    description: "Monitors the batch pipeline, investigates failures, and approves manual re-runs when a batch is stuck."
+
+  - id: core
+    name: "Payment Core"
+    type: system
+    description: "Orchestrates batch payment processing, settlement, and reconciliation."
+
+  - id: api
+    name: "Batch API"
+    type: container
+    group: core
+    technology: "Node.js"
+    description: "Public REST API that accepts batch submissions, validates them, and enforces idempotency keys so duplicate uploads are safe."
+    icon: "brand:nodejs"
+
+  - id: engine
+    name: "Batch Engine"
+    type: container
+    group: core
+    technology: "Go"
+    description: "Splits a batch into per-recipient jobs, schedules them, retries transient failures with backoff, and emits progress events."
+    icon: "generic:automation"
+
+  - id: ledger
+    name: "Ledger"
+    type: container
+    group: core
+    technology: "PostgreSQL"
+    description: "Double-entry ledger of record for every debit and credit; the single source of truth for balances."
+    icon: "brand:postgresql"
+
+  - id: legacy
+    name: "Legacy Gateway"
+    type: container
+    group: core
+    technology: "Java"
+    description: "Deprecated SOAP gateway kept only for two enterprise clients that have not migrated to the new API yet."
+    icon: "brand:java"
+    status: deprecated
+
+  - id: cache
+    name: "Idempotency Cache"
+    type: container
+    group: core
+    technology: "Redis"
+    description: "Short-lived store of idempotency keys and in-flight batch state."
+    icon: "brand:redis"
+    status: suspended
+
+  - id: settle
+    name: "Settlement"
+    type: system
+    group: core
+    description: "Produces settlement files and pushes them to the acquiring network."
+
+  - id: filegen
+    name: "File Generator"
+    type: container
+    group: settle
+    technology: "Python"
+    description: "Renders ISO-20022 and proprietary settlement files from ledger entries."
+    icon: "brand:python"
+
+  - id: acquirer
+    name: "Acquirer Network"
+    type: external-system
+    description: "External card/acquiring network that settles the batch."
+    icon: "generic:cloud"
+    status: planned
+
+  - id: obs
+    name: "Observability"
+    type: system
+    description: "Metrics, logs, and traces for the batch pipeline."
+
+  - id: metrics
+    name: "Metrics"
+    type: container
+    group: obs
+    technology: "Prometheus"
+    description: "Scrapes batch engine and API metrics."
+    icon: "brand:prometheus"
+
+  - id: dash
+    name: "Dashboards"
+    type: container
+    group: obs
+    technology: "Grafana"
+    description: "Operator dashboards for batch throughput, failure rate, and settlement lag."
+    icon: "brand:grafana"
+
+relationships:
+  - from: ops
+    to: api
+    description: "submits batches and inspects status"
+  - from: api
+    to: engine
+    description: "enqueues batch jobs after validation and idempotency checks"
+  - from: engine
+    to: ledger
+    description: "writes double-entry postings for each recipient"
+  - from: engine
+    to: cache
+    description: "reads and writes idempotency keys"
+    status: suspended
+  - from: api
+    to: legacy
+    description: "forwards legacy SOAP calls"
+    status: deprecated
+  - from: settle
+    to: filegen
+    description: "triggers file generation at close of batch"
+  - from: filegen
+    to: acquirer
+    description: "pushes settlement files over SFTP"
+    status: planned
+  - from: engine
+    to: metrics
+    description: "emits throughput and failure metrics"
+  - from: dash
+    to: metrics
+    description: "queries metrics for dashboards"
