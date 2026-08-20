@@ -32,3 +32,35 @@ jobs:
           for spec in examples/*.yaml; do
             node dist/cli.js "$spec" --png --pdf -o /tmp/"$(basename "$spec" .yaml)".svg
           done
+
+      - name: MCP server smoke test
+        run: |
+          node -e '
+            const { spawn } = require("node:child_process");
+            const child = spawn(process.execPath, ["dist/cli.js", "mcp"], { stdio: ["pipe", "pipe", "pipe"] });
+            let buf = "";
+            const timer = setTimeout(() => { console.error("MCP smoke: timeout"); child.kill(); process.exit(1); }, 20000);
+            child.stdout.on("data", (d) => {
+              buf += d.toString();
+              let idx;
+              while ((idx = buf.indexOf("\n")) !== -1) {
+                const line = buf.slice(0, idx); buf = buf.slice(idx + 1);
+                if (!line.trim()) continue;
+                let msg; try { msg = JSON.parse(line); } catch { continue; }
+                if (msg.id === 2) {
+                  clearTimeout(timer);
+                  const names = (msg.result && msg.result.tools || []).map((t) => t.name);
+                  console.log("MCP tools:", names.join(", "));
+                  const need = ["render_diagram", "search_icons", "validate_spec", "list_diagram_types"];
+                  const missing = need.filter((n) => !names.includes(n));
+                  if (missing.length) { console.error("Missing tools:", missing.join(", ")); child.kill(); process.exit(1); }
+                  console.log("MCP smoke: OK");
+                  child.kill(); process.exit(0);
+                }
+              }
+            });
+            child.stderr.on("data", (d) => process.stderr.write(d));
+            child.stdin.write(JSON.stringify({ jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "smoke", version: "1.0.0" } } }) + "\n");
+            child.stdin.write(JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" }) + "\n");
+            child.stdin.write(JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }) + "\n");
+          '

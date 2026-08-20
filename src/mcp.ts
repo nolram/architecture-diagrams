@@ -1,0 +1,199 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, extname } from "node:path";
+import { createRequire } from "node:module";
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { ListToolsRequestSchema, CallToolRequestSchema } from "@modelcontextprotocol/sdk/types.js";
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import { renderSpec, validateSpecText, SpecError } from "./core/render.js";
+import type { RenderSpecResult } from "./core/render.js";
+import { searchCatalog } from "./icons/index.js";
+import { engineTypes, engineDescriptions } from "./engines/index.js";
+
+const pkg = createRequire(import.meta.url)("../package.json") as { version: string };
+
+const TOOLS = [
+  {
+    name: "render_diagram",
+    description: "Renders a diagram spec (YAML) to SVG, with optional PNG/PDF export. Pass the spec as a YAML string (`spec`) or a path to a spec file (`path`).",
+    inputSchema: {
+      type: "object",
+      properties: {
+        spec: { type: "string", description: "The diagram spec as a YAML string." },
+        path: { type: "string", description: "Path to a spec file (YAML/JSON). Alternative to `spec`." },
+        png: { type: "boolean", description: "Also generate a PNG (returned as base64 image content)." },
+        pdf: { type: "boolean", description: "Also generate a PDF (returned as base64 resource content)." },
+        scale: { type: "number", description: "PNG/PDF scale factor (default 2)." },
+        out: { type: "string", description: "Optional output path; if given, the SVG (and PNG/PDF) are also written to disk." },
+      },
+    },
+  },
+  {
+    name: "search_icons",
+    description: "Searches the icon catalog by term (matches against key, label, and category) so you can pick a valid icon key.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Search term, e.g. 'postgres', 'aws:s', 'database'." },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "validate_spec",
+    description: "Validates a diagram spec (YAML) and returns actionable, field-pathed errors without rendering. Fast iteration helper.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        spec: { type: "string", description: "The diagram spec as a YAML string." },
+        path: { type: "string", description: "Path to a spec file (YAML/JSON). Alternative to `spec`." },
+      },
+    },
+  },
+  {
+    name: "list_diagram_types",
+    description: "Lists the registered diagram engine types with a one-line description each.",
+    inputSchema: { type: "object", properties: {} },
+  },
+];
+
+export async function handleRenderDiagram(args: Record<string, unknown>): Promise<CallToolResult> {
+  const spec = typeof args.spec === "string" ? args.spec : undefined;
+  const path = typeof args.path === "string" ? args.path : undefined;
+
+  if (!spec && !path) {
+    return { content: [{ type: "text", text: "Provide either a 'spec' (YAML string) or a 'path' (spec file)." }], isError: true };
+  }
+
+  let specText: string;
+  let baseDir: string;
+  if (path) {
+    try {
+      specText = readFileSync(path, "utf-8");
+    } catch (err) {
+      return { content: [{ type: "text", text: `Could not read file "${path}": ${(err as Error).message}` }], isError: true };
+    }
+    baseDir = dirname(path);
+  } else {
+    specText = spec!;
+    baseDir = process.cwd();
+  }
+
+  const png = args.png === true;
+  const pdf = args.pdf === true;
+  const scale = typeof args.scale === "number" ? args.scale : undefined;
+  const out = typeof args.out === "string" ? args.out : undefined;
+
+  let result: RenderSpecResult;
+  try {
+    result = await renderSpec(specText, { png, pdf, scale, baseDir });
+  } catch (err) {
+    if (err instanceof SpecError) {
+      return { content: [{ type: "text", text: err.message }], isError: true };
+    }
+    return { content: [{ type: "text", text: `Render failed: ${(err as Error).message}` }], isError: true };
+  }
+
+  const content: CallToolResult["content"] = [];
+  content.push({ type: "text", text: result.svg });
+  if (result.png) content.push({ type: "image", data: result.png.toString("base64"), mimeType: "image/png" });
+  if (result.pdf) content.push({ type: "resource", resource: { uri: "diagram.pdf", mimeType: "application/pdf", blob: result.pdf.toString("base64") } });
+  if (result.warnings.length > 0) {
+    content.push({ type: "text", text: "Warnings:\n" + result.warnings.map((w) => `  - ${w}`).join("\n") });
+  }
+
+  if (out) {
+    const ext = extname(out).toLowerCase();
+    const base = ext === ".svg" || ext === ".png" || ext === ".pdf" ? out.slice(0, -ext.length) : out;
+    const svgPath = base + ".svg";
+    try {
+      writeFileSync(svgPath, result.svg, "utf-8");
+      if (result.png) writeFileSync(base + ".png", result.png, "utf-8");
+      if (result.pdf) writeFileSync(base + ".pdf", result.pdf, "utf-8");
+      content.push({ type: "text", text: `Written to ${svgPath}` });
+    } catch (err) {
+      content.push({ type: "text", text: `Failed to write output to "${out}": ${(err as Error).message}` });
+      return { content, isError: true };
+    }
+  }
+
+  return { content };
+}
+
+export function handleSearchIcons(args: Record<string, unknown>): CallToolResult {
+  const query = typeof args.query === "string" ? args.query : "";
+  if (!query) {
+    return { content: [{ type: "text", text: "Provide a 'query' to search for." }], isError: true };
+  }
+
+  const matches = searchCatalog(query);
+  if (matches.length === 0) {
+    return { content: [{ type: "text", text: `No icons found for "${query}".` }] };
+  }
+
+  const text = `${matches.length} icon(s) found:\n` + matches.map((e) => `  ${e.key}  ${e.label}  [${e.category}]`).join("\n");
+  return { content: [{ type: "text", text }] };
+}
+
+export function handleValidateSpec(args: Record<string, unknown>): CallToolResult {
+  const spec = typeof args.spec === "string" ? args.spec : "";
+  const path = typeof args.path === "string" ? args.path : "";
+  if (!spec && !path) {
+    return { content: [{ type: "text", text: "Provide a 'spec' (YAML string) or 'path' (spec file) to validate." }], isError: true };
+  }
+
+  let specText = spec;
+  if (path) {
+    try {
+      specText = readFileSync(path, "utf-8");
+    } catch (err) {
+      return { content: [{ type: "text", text: `Could not read file "${path}": ${(err as Error).message}` }], isError: true };
+    }
+  }
+
+  const result = validateSpecText(specText);
+  if (result.ok) {
+    return { content: [{ type: "text", text: "Spec is valid." }] };
+  }
+
+  const text = "Invalid spec:\n" + result.errors.map((e) => `  - ${e.path ? `[${e.path}] ` : ""}${e.message}`).join("\n");
+  return { content: [{ type: "text", text }], isError: true };
+}
+
+export function handleListDiagramTypes(): CallToolResult {
+  const descriptions = engineDescriptions();
+  const text = `Diagram types:\n` + engineTypes().map((t) => `  - ${t}: ${descriptions[t] ?? ""}`).join("\n");
+  return { content: [{ type: "text", text }] };
+}
+
+export function createServer(): Server {
+  const server = new Server({ name: "architecture-diagrams", version: pkg.version }, { capabilities: { tools: {} } });
+
+  server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
+
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    const name = request.params.name;
+    const args = request.params.arguments ?? {};
+    switch (name) {
+      case "render_diagram":
+        return handleRenderDiagram(args);
+      case "search_icons":
+        return handleSearchIcons(args);
+      case "validate_spec":
+        return handleValidateSpec(args);
+      case "list_diagram_types":
+        return handleListDiagramTypes();
+      default:
+        throw new Error(`Unknown tool: ${name}`);
+    }
+  });
+
+  return server;
+}
+
+export async function startMcpServer(): Promise<void> {
+  const server = createServer();
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("architecture-diagrams MCP server running on stdio");
+}

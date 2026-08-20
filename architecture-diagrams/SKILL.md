@@ -54,3 +54,7 @@ Optional extras (all backward-compatible): an element `icon` (same catalog as th
 ## First run
 
 If `scripts/render.sh` fails because `dist/cli.js` doesn't exist, it runs `npm install && npm run build` automatically on its own the first time -- this only happens once per project checkout.
+
+## MCP server (alternative)
+
+An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference.

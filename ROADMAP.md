@@ -128,9 +128,59 @@ a spec that omits them renders exactly as before). The format is documented in
   errors, layout tips); `c4.example.yaml` and `examples/c4/batch-payments.yaml`
   demonstrate them.
 
-## Backlog (larger scope -- re-evaluate after the phases above)
+## v0.8 -- MCP server
 
-- [ ] **MCP server** -- a thin layer on top of the same rendering engine, to work in AI clients besides Claude Code. Considered since the project's original plan; deferred because it's, in practice, a new distribution product, not a tweak to what already exists.
+A Model Context Protocol server that exposes the same rendering engine to any MCP
+client (Claude Desktop, Cursor, Windsurf, ...), complementing the existing Claude
+Skill (which targets Claude Code). It is a thin **distribution** layer over the
+pipeline that already exists -- no new rendering capability -- and reuses the exact
+same validate → layout → render → export code path as the CLI. Transport is **stdio**
+(the standard for local MCP servers: no network, no auth, spawned as a child process).
+
+Design decisions:
+- **Reuse, don't fork.** The core of `renderOnce` (read/parse/validate/layout/render/export)
+  moves into a shared module that both the CLI `render` command and the MCP server call, so
+  there is one code path to keep correct.
+- **Inline specs are primary.** The AI passes the spec as a YAML string (it already has it in
+  context); a file `path` is a convenience. Because an inline spec has no directory, `baseDir`
+  (used by `icon: file:./logo.svg`) defaults to the server's cwd and is documented.
+- **One bin, one subcommand.** `arch-diagram mcp` starts the server (consistent with the
+  existing `render`/`icons` subcommands), so MCP clients spawn `arch-diagram mcp`.
+
+- [x] **Shared render pipeline** -- extract the core of `renderOnce` from `src/cli.ts` into
+  `src/core/render.ts`: `renderSpec(specText, { out?, png?, pdf?, scale?, baseDir? })` returning
+  `{ svg, png?, pdf?, warnings, direction }`. The CLI `render` command becomes a thin wrapper
+  over it. Regression gate: all examples still render byte-identical and the existing test
+  suite stays green.
+- [x] **MCP server (stdio)** -- `src/mcp.ts` + an `arch-diagram mcp` subcommand, built on
+  `@modelcontextprotocol/sdk`. Exposes four tools:
+  - `render_diagram` -- `spec` (YAML string) or `path`; options `png`/`pdf`/`scale`/`out`.
+    Returns the SVG text, base64 PNG/PDF when requested, and any warnings.
+  - `search_icons` -- `query`; returns matching icon `key`/`label`/`category` (wraps
+    `searchCatalog`) so the AI can pick a valid icon key.
+  - `validate_spec` -- `spec`; returns the actionable, field-pathed validation errors (wraps
+    `engine.validate`) without rendering, for fast iteration.
+  - `list_diagram_types` -- the registered engine types with a one-line description each.
+- [x] **Inline-spec `baseDir` handling** -- define and document `baseDir` for inline specs
+  (default: server cwd); ensure `icon: file:` resolves against it and that a missing/undefined
+  `baseDir` degrades gracefully (fallback badge + warning) instead of crashing.
+- [x] **Tests** -- node:test, fully offline: unit tests for each tool handler (render a sample
+  `architecture`, `c4`, and `uml-class` spec and assert the SVG is present and warnings are
+  surfaced; `search_icons` returns the expected keys; `validate_spec` returns field-pathed
+  errors for a bad spec). One integration test that spawns `arch-diagram mcp`, speaks MCP over
+  stdio (`initialize` → `tools/list` → `tools/call render_diagram`), and asserts a valid SVG
+  comes back.
+- [x] **Build + CI** -- add `@modelcontextprotocol/sdk` to dependencies; ensure `tsc` emits
+  `dist/mcp.js`; add the MCP integration test to `npm test`; add a CI smoke step that starts
+  the server and lists its tools.
+- [x] **Docs** -- README "Using it as an MCP server" section (Claude Desktop / Cursor config
+  snippets); a `reference/mcp.md` with setup + a tool reference; a SKILL.md note that an MCP
+  server is available as an alternative to the render script.
+
+Sets up the AI-native features (codebase → diagram, natural language → diagram) to later be
+exposed as additional MCP tools on the same server.
+
+## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.
 - [ ] **More UML diagram types** -- sequence (lifelines + time axis, needs its own layout), use case, activity, state machine, component/deployment/package. Each is a new engine on the v0.5 multi-engine foundation.

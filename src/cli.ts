@@ -2,10 +2,9 @@
 import { readFileSync, writeFileSync, watch } from "node:fs";
 import { extname, basename, dirname, join } from "node:path";
 import { Command } from "commander";
-import { parse as parseYaml } from "yaml";
-import { getEngine, engineTypes } from "./engines/index.js";
-import { svgToPng, svgToPdf } from "./export/index.js";
+import { renderSpec, SpecError } from "./core/render.js";
 import { searchCatalog } from "./icons/index.js";
+import { startMcpServer } from "./mcp.js";
 
 const program = new Command();
 
@@ -18,15 +17,6 @@ interface RenderOptions {
   scale: string;
 }
 
-/** reads the spec's `type` discriminator from a raw object, defaulting to "architecture" */
-function readType(raw: unknown): string {
-  if (typeof raw === "object" && raw !== null && "type" in raw) {
-    const t = (raw as { type: unknown }).type;
-    if (typeof t === "string") return t;
-  }
-  return "architecture";
-}
-
 /** runs the full pipeline once; returns false if the spec was invalid (so the caller can decide the exit code) */
 async function renderOnce(specPath: string, opts: RenderOptions): Promise<boolean> {
   let text: string;
@@ -37,62 +27,42 @@ async function renderOnce(specPath: string, opts: RenderOptions): Promise<boolea
     return false;
   }
 
-  let raw: unknown;
-  try {
-    raw = parseYaml(text);
-  } catch (err) {
-    console.error(`Invalid spec in "${specPath}":\n`);
-    console.error(`  - Invalid YAML: ${(err as Error).message}`);
-    return false;
-  }
-
-  const type = readType(raw);
-  const engine = getEngine(type);
-  if (!engine) {
-    console.error(`Invalid spec in "${specPath}":\n`);
-    console.error(`  - unknown diagram type "${type}". Allowed types: ${engineTypes().join(", ")}`);
-    return false;
-  }
-
-  const result = engine.validate(raw);
-  if (!result.ok) {
-    console.error(`Invalid spec in "${specPath}":\n`);
-    for (const error of result.errors) {
-      console.error(`  - ${error.path ? `[${error.path}] ` : ""}${error.message}`);
-    }
-    return false;
-  }
-
-  const layout = await engine.layout(result.spec);
-  const spec = result.spec as { direction?: string };
-  if (spec.direction === "auto") {
-    console.error(`Layout direction auto-selected: ${layout.direction}`);
-  }
-  const { svg, warnings } = await engine.render(result.spec, layout, dirname(specPath));
-
-  if (warnings.length > 0) {
-    console.error("Warnings:");
-    for (const w of warnings) console.error(`  - ${w}`);
-  }
-
   const outPath = opts.out ?? join(dirname(specPath), `${basename(specPath, extname(specPath))}.svg`);
   const ext = extname(outPath).toLowerCase();
   const svgPath = ext === ".png" || ext === ".pdf" ? outPath.replace(/\.(png|pdf)$/i, ".svg") : outPath;
   const wantsPng = opts.png || ext === ".png";
   const wantsPdf = opts.pdf || ext === ".pdf";
 
-  writeFileSync(svgPath, svg, "utf-8");
+  let result;
+  try {
+    result = await renderSpec(text, { png: wantsPng, pdf: wantsPdf, scale: Number(opts.scale), baseDir: dirname(specPath) });
+  } catch (err) {
+    if (err instanceof SpecError) console.error(`Invalid spec in "${specPath}":\n${err.message}`);
+    else console.error(`Render failed: ${(err as Error).message}`);
+    return false;
+  }
+
+  if (result.directionAuto) {
+    console.error(`Layout direction auto-selected: ${result.direction}`);
+  }
+
+  if (result.warnings.length > 0) {
+    console.error("Warnings:");
+    for (const w of result.warnings) console.error(`  - ${w}`);
+  }
+
+  writeFileSync(svgPath, result.svg, "utf-8");
   console.error(`SVG written to ${svgPath}`);
 
-  if (wantsPng) {
+  if (result.png) {
     const pngPath = svgPath.replace(/\.svg$/i, ".png");
-    writeFileSync(pngPath, svgToPng(svg, Number(opts.scale)));
+    writeFileSync(pngPath, result.png, "utf-8");
     console.error(`PNG written to ${pngPath}`);
   }
 
-  if (wantsPdf) {
+  if (result.pdf) {
     const pdfPath = svgPath.replace(/\.svg$/i, ".pdf");
-    writeFileSync(pdfPath, await svgToPdf(svg, Number(opts.scale)));
+    writeFileSync(pdfPath, result.pdf, "utf-8");
     console.error(`PDF written to ${pdfPath}`);
   }
 
@@ -150,6 +120,13 @@ program
     for (const e of matches) {
       console.log(`  ${e.key.padEnd(keyWidth)}  ${e.label.padEnd(labelWidth)}  [${e.category}]`);
     }
+  });
+
+program
+  .command("mcp")
+  .description("starts the Model Context Protocol server on stdio (for MCP clients like Claude Desktop / Cursor)")
+  .action(async () => {
+    await startMcpServer();
   });
 
 program.parseAsync();

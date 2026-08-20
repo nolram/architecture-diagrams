@@ -1,6 +1,6 @@
 {
   "name": "architecture-diagrams",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Rich, professional software architecture diagram engine, built to be used by an AI",
   "type": "module",
   "bin": {
@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@iconify-json/mdi": "^1.2.3",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "@resvg/resvg-js": "^2.6.2",
     "commander": "^15.0.0",
     "elkjs": "^0.12.0",

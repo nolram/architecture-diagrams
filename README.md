@@ -56,6 +56,7 @@ Stack: Node.js + TypeScript. No dependency on Mermaid, D2, or Graphviz -- the la
 | [zod](https://zod.dev) | MIT | Spec schema validation |
 | [yaml](https://eemeli.org/yaml/) | ISC | YAML parsing |
 | [commander](https://github.com/tj/commander.js) | MIT | CLI argument parsing |
+| [@modelcontextprotocol/sdk](https://modelcontextprotocol.io) | MIT | MCP server (stdio) exposing the render engine as tools |
 | [@resvg/resvg-js](https://github.com/thx/resvg-js) | MPL-2.0 | SVG rasterization to PNG |
 | [pdfkit](https://pdfkit.org) | MIT | PDF generation |
 | [typescript](https://www.typescriptlang.org) | Apache-2.0 | Language / build |
@@ -149,6 +150,49 @@ Download the already-packaged `.skill` from the [releases page](https://github.c
 npm run package:skill
 ```
 
+## Using it as an MCP server
+
+The same render engine is also exposed as an [MCP (Model Context Protocol) server](https://modelcontextprotocol.io), so any MCP client (Claude Desktop, Cursor, Windsurf, ...) can call it -- this complements the Claude Skill above, which targets Claude Code. Start it with:
+
+```bash
+node dist/cli.js mcp
+```
+
+It speaks JSON-RPC 2.0 over stdio (newline-delimited), which is exactly what MCP clients expect. To register it, point the client at that command. Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "architecture-diagrams": {
+      "command": "node",
+      "args": ["/absolute/path/to/architecture-diagrams/dist/cli.js", "mcp"]
+    }
+  }
+}
+```
+
+Cursor (`.cursor/mcp.json`) uses the same shape:
+
+```json
+{
+  "mcpServers": {
+    "architecture-diagrams": {
+      "command": "node",
+      "args": ["/absolute/path/to/architecture-diagrams/dist/cli.js", "mcp"]
+    }
+  }
+}
+```
+
+Four tools are exposed:
+
+- `render_diagram` -- renders a spec (an inline YAML string, or a file `path`) to SVG, with optional PNG/PDF and an optional `out` path to also write the files to disk.
+- `search_icons` -- searches the icon catalog by `query` and returns the matching `key`/`label`/`category`.
+- `validate_spec` -- validates a YAML spec (inline `spec` or `path`) and returns actionable, field-pathed errors without rendering.
+- `list_diagram_types` -- lists the registered engine types (`architecture`, `uml-class`, `c4`) with a one-line description each.
+
+Inline specs are primary -- pass the YAML as a string. For inline specs, `icon: file:` resolves relative to the server's cwd (there is no spec file directory); use `path` to resolve it relative to the spec file instead.
+
 ## Project structure
 
 ```text
@@ -158,7 +202,10 @@ src/
   layout/   ELK.js integration (hierarchical graph → absolute positions) + automatic direction
   render/   design tokens (themes) + SVG composition (node shapes, groups, edges, legend)
   export/   PNG rasterization + PDF generation
-  cli.ts    CLI (`arch-diagram`: render + icons)
+  core/     shared render pipeline (validate → layout → render → export) used by CLI + MCP
+  engines/  diagram engines (architecture, uml-class, c4) + registry
+  cli.ts    CLI (`arch-diagram`: render + icons + mcp)
+  mcp.ts    MCP server (stdio) exposing the render engine as tools
 examples/                    already-rendered example specs
 architecture-diagrams/       the Claude Skill (SKILL.md + reference/ + scripts/)
 ```

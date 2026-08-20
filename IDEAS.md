@@ -28,8 +28,8 @@ That is the main reason the items below are now realistic.
   "better than Mermaid" motivation: people with existing Mermaid diagrams can
   "upgrade" them. Start with `flowchart` only.
 - 💡 **Export to draw.io / Excalidraw** -- manually editable output (ROADMAP backlog).
-- 💡 **MCP server** -- a thin layer over the same engine, to work in AI clients
-  besides Claude Code (ROADMAP backlog; low effort, high reach).
+- ✅ **MCP server** -- a thin layer over the same engine, to work in AI clients
+  besides Claude Code (shipped as ROADMAP **v0.8**; low effort, high reach).
 
 ## AI-native features (the real differentiator)
 
