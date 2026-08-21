@@ -281,18 +281,18 @@ describe("c4 spec validation", () => {
     );
   });
 
-  test("applies the wrap.maxLines default of 4", () => {
+  test("applies the wrap.maxLines default of 6", () => {
     const result = validateC4Spec(base);
     assert.equal(result.ok, true);
     if (!result.ok) return;
-    assert.equal(result.spec.wrap.maxLines, 4);
+    assert.equal(result.spec.wrap.maxLines, 6);
   });
 
   test("accepts an explicit wrap.maxLines and rejects out-of-range values", () => {
     assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 1 } }).ok, true);
-    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 12 } }).ok, true);
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 16 } }).ok, true);
     assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 0 } }).ok, false);
-    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 13 } }).ok, false);
+    assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 17 } }).ok, false);
     assert.equal(validateC4Spec({ ...base, wrap: { maxLines: 2.5 } }).ok, false);
   });
 });

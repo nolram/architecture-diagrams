@@ -18,7 +18,13 @@ export const C4_DESC_CHAR_WIDTH = 7.4;
 
 export const C4_BASE_WIDTH = 220;
 export const C4_BASE_HEIGHT = 64;
-export const C4_MAX_WIDTH = 320;
+/**
+ * Generous width ceiling so C4 boxes grow to fit their text (names on one line,
+ * descriptions wrapped) instead of truncating -- C4 diagrams carry real
+ * descriptions. Still capped so a single very long string cannot blow up the
+ * layout; overflow beyond the cap wraps and is folded at `wrap.maxLines`.
+ */
+export const C4_MAX_WIDTH = 480;
 export const C4_DESC_LINE_HEIGHT = 18;
 export const C4_BOX_PAD_X = 12;
 
@@ -31,6 +37,8 @@ export const C4_ICON_SPACE = C4_ICON_BADGE_MARGIN + C4_ICON_BADGE_SIZE + C4_ICON
 
 /** the person silhouette box (head + shoulders + the name below) */
 export const PERSON_SIZE = { width: 96, height: 120 };
+/** horizontal padding kept on each side of a person's name/description text */
+export const PERSON_PAD_X = 8;
 
 /** C4 convention: technology is rendered in parentheses after the description */
 export function combineDescription(description?: string, technology?: string): string {
@@ -51,9 +59,24 @@ export function combineDescription(description?: string, technology?: string): s
 export function estimateElementSize(element: C4Element, maxLines = 4, isBoundary = false): C4ElementSize {
   if (element.type === "person") {
     const desc = combineDescription(element.description, element.technology);
-    if (!desc) return { width: PERSON_SIZE.width, height: PERSON_SIZE.height };
-    const lines = wrapText(desc, PERSON_SIZE.width - 16, C4_DESC_CHAR_WIDTH, maxLines);
-    return { width: PERSON_SIZE.width, height: PERSON_SIZE.height + lines.length * C4_DESC_LINE_HEIGHT };
+    // the person box grows to fit its name on one line (a person is the actor,
+    // its name should never be truncated). It also grows (up to the shared
+    // C4_MAX_WIDTH cap) so the description wraps to at most `maxLines` lines
+    // instead of being truncated -- a person carries the same real descriptions
+    // as a card, so it gets the same room to hold them.
+    const nameWidth = element.name.length * C4_NAME_CHAR_WIDTH + PERSON_PAD_X * 2;
+    if (!desc) return { width: Math.max(PERSON_SIZE.width, nameWidth), height: PERSON_SIZE.height };
+
+    let width = Math.max(PERSON_SIZE.width, nameWidth);
+    // wrapText clamps to maxLines (folding overflow into an ellipsis), so detect
+    // truncation by the ellipsis and widen the box until the description fits
+    // whole within maxLines -- or until the shared C4_MAX_WIDTH cap is reached.
+    let lines = wrapText(desc, width - PERSON_PAD_X * 2, C4_DESC_CHAR_WIDTH, maxLines);
+    while (lines.some((l) => l.includes("…")) && width < C4_MAX_WIDTH) {
+      width += 16;
+      lines = wrapText(desc, width - PERSON_PAD_X * 2, C4_DESC_CHAR_WIDTH, maxLines);
+    }
+    return { width, height: PERSON_SIZE.height + lines.length * C4_DESC_LINE_HEIGHT };
   }
 
   // a boundary renders a title, not a badge, so its icon (if any) is ignored and

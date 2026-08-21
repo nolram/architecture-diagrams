@@ -26,7 +26,7 @@ theme: clean-light          # optional: clean-light (default) | midnight-dark
 direction: auto             # optional: auto (default) | right (left→right) | down (top→bottom)
 level: container            # optional: context (default) | container | component
 wrap:                       # optional, see "wrap" below
-  maxLines: 4               #   optional: 1..12 (default 4) -- max wrapped lines before folding
+  maxLines: 6               #   optional: 1..16 (default 6) -- max wrapped lines before folding
 elements: [ ... ]           # required, at least 1
 relationships: [ ... ]      # optional
 ```
@@ -134,17 +134,20 @@ Notes:
 
 ## `wrap`
 
-Long `description`s (on elements) and long relationship labels used to be truncated to
-a single line with an ellipsis. The `wrap` block opts into multi-line wrapping instead:
+C4 diagrams carry real descriptions, so boxes **grow to fit their text** rather than
+truncating it: a card widens (up to a generous cap) and wraps its description onto as
+many lines as needed, and a `person` widens to fit both its name and its description.
+The `wrap` block only caps how many lines that wrapping may use:
 
 ```yaml
 wrap:
-  maxLines: 4     # optional: 1..12 (default 4)
+  maxLines: 6     # optional: 1..16 (default 6)
 ```
 
 - Text is wrapped on word boundaries to the element/label width. `maxLines` is the
   maximum number of lines; any overflow beyond it is folded into a trailing ellipsis
-  (so a very long string can never blow up the layout).
+  (so a single absurdly long string can never blow up the layout). With the default
+  of 6 and the wider boxes, typical C4 descriptions fit whole with no ellipsis.
 - It applies to element `description`s (cards and `person`) and to relationship
   labels. Boundary descriptions stay single-line (truncated) by design -- they are a
   group label and must never collide with the children below. `maxLines: 1`
@@ -159,8 +162,8 @@ wrap:
   `auto` resolves to `right`.
 - **Set `level`** to match what you are drawing -- it heads the legend
   ("System Context" / "Container" / "Component").
-- Long `description`s and edge labels now wrap (see `wrap`); if a label still looks
-  crowded, shorten it or raise `wrap.maxLines`.
+- Long `description`s and edge labels wrap and the boxes grow to fit them (see
+  `wrap`); if a label still looks crowded, shorten it or raise `wrap.maxLines`.
 - Nest containers inside their system with `group` so the boundary is drawn; nest a
   `system`/`container` inside another for sub-boundaries.
 - Use `status` to flag `deprecated`/`suspended`/`planned` elements and connections --
@@ -180,7 +183,7 @@ wrap:
 - **`icon` with a malformed key**: validation fails (it must be `vendor:name` or
   `file:path/to/icon.svg`). A *well-formed* key that simply does not exist in the
   catalog is not a validation error -- it falls back to a generic badge with a warning.
-- **`wrap.maxLines` out of range**: validation fails (it must be an integer 1..12).
+- **`wrap.maxLines` out of range**: validation fails (it must be an integer 1..16).
 
 ## Full example
 

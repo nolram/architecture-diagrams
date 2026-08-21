@@ -386,11 +386,11 @@ describe("c4 render", () => {
     assert.ok(lines[0].length <= maxChars, `clamped line (${lines[0].length}) should fit within maxChars (${maxChars})`);
   });
 
-  test("wrap.maxLines: 12 renders (upper bound works)", async () => {
+  test("wrap.maxLines: 16 renders (upper bound works)", async () => {
     const svg = await renderC4Svg({
       type: "c4",
       version: "1",
-      wrap: { maxLines: 12 },
+      wrap: { maxLines: 16 },
       elements: [
         {
           id: "a",
@@ -404,6 +404,27 @@ describe("c4 render", () => {
     assert.ok(svg.includes("Widget"), "the element should render");
     const descLines = (svg.match(/font-size="12"[^>]*>/g) ?? []).length;
     assert.ok(descLines >= 2, `expected a wrapped (multi-line) description, got ${descLines} lines`);
+  });
+
+  test("a long name and description render whole (no ellipsis) at the default wrap", async () => {
+    // the agrow-style case that used to truncate: a 38-char name and a ~130-char
+    // description must both fit without an ellipsis now that boxes grow.
+    const svg = await renderC4Svg({
+      type: "c4",
+      version: "1",
+      elements: [
+        {
+          id: "a",
+          name: "Agrow Pay — Core Banking (WhatsMoney)",
+          type: "system",
+          description:
+            "Recebe, valida, processa e liquida os lotes de pagamento a fornecedores, decidindo a trilha por janela TED e IdParticipant.",
+          technology: ".NET / Azure",
+        },
+      ],
+    });
+    assert.ok(svg.includes("Agrow Pay — Core Banking (WhatsMoney)"), "the full name should render (not truncated)");
+    assert.ok(!svg.includes("…"), "no ellipsis should appear for a description that fits");
   });
 
   test("a status tag and a long name co-occur without overlapping", async () => {

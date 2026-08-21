@@ -2,6 +2,7 @@ import { describe, test } from "node:test";
 import assert from "node:assert/strict";
 import { validateC4Spec, layoutC4, estimateElementSize } from "../src/engines/c4/index.js";
 import type { C4Spec } from "../src/engines/c4/index.js";
+import { wrapText } from "../src/render/svg-utils.js";
 
 function specOrThrow(raw: unknown): C4Spec {
   const result = validateC4Spec(raw);
@@ -95,6 +96,29 @@ describe("c4 layout", () => {
     const plain = estimateElementSize({ id: "a", name: "A", type: "system" });
     const described = estimateElementSize({ id: "b", name: "B", type: "system", description: "does things" });
     assert.ok(described.height > plain.height, `expected ${described.height} > ${plain.height}`);
+  });
+
+  test("a person grows to fit a long name instead of truncating it", () => {
+    const short = estimateElementSize({ id: "a", name: "Alice", type: "person" });
+    const long = estimateElementSize({ id: "b", name: "ERP Senior (Olfar)", type: "person" });
+    assert.ok(long.width > short.width, `expected ${long.width} > ${short.width}`);
+    // the name must fit on one line: box width >= name width + padding
+    const nameWidth = "ERP Senior (Olfar)".length * 9.3;
+    assert.ok(long.width >= nameWidth, `person width ${long.width} should fit the name (${nameWidth}px)`);
+  });
+
+  test("a long description no longer truncates at the default maxLines", () => {
+    // 95 chars of description: at the old 320px cap + 4-line fold this was cut
+    // with an ellipsis; the wider box + higher default must fit it whole.
+    const el = {
+      id: "a",
+      name: "ERP Senior (Olfar)",
+      type: "person" as const,
+      description: "Cria a remessa de pagamento em lote via API direta; antes a entrada era por upload de planilha.",
+    };
+    const size = estimateElementSize(el, 6);
+    const lines = wrapText(el.description, size.width - 16, 7.4, 6);
+    assert.ok(!lines.some((l) => l.includes("…")), `description should not be truncated: ${JSON.stringify(lines)}`);
   });
 
   test("direction geometry: 'down' stacks source above target, 'right' puts source left of target", async () => {

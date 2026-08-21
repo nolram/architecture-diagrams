@@ -52,9 +52,11 @@ export const C4WrapSchema = z
   .object({
     // maximum number of wrapped lines for element descriptions and
     // relationship labels before the overflow is folded into an ellipsis.
-    maxLines: z.number().int().min(1).max(12).default(4),
+    // C4 diagrams carry real descriptions, so the default is generous and the
+    // ceiling high -- boxes grow to fit the text rather than truncating it.
+    maxLines: z.number().int().min(1).max(16).default(6),
   })
-  .default({ maxLines: 4 });
+  .default({ maxLines: 6 });
 export type C4Wrap = z.infer<typeof C4WrapSchema>;
 
 export const C4SpecSchema = z
