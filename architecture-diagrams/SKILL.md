@@ -69,6 +69,18 @@ bash <this-skill-path>/scripts/render.sh detect /path/to/repo --render -o detect
 
 Workflow: run `detect`, read the `detected` list (each entry has `tech`, `iconKey`, `confidence`, `source`), prune anything that's a false positive, add the semantic edges the detection can't infer, save the result as a spec, then render it as usual. Full reference: `reference/detect-spec.md`.
 
+## Consistency check (spec ↔ code)
+
+The inverse of `detect`: after you've written (or refined) an architecture spec, check it against a real codebase in both directions — **missing-evidence** (a node claims a technology the code shows no evidence for) and **undrawn** (the code shows evidence for a technology the diagram omits). It is deterministic and offline, reusing the same detection core.
+
+```bash
+bash <this-skill-path>/scripts/render.sh check diagram.yaml --repo /path/to/repo
+# prints matches, findings grouped by severity, and warnings;
+# exit 0 when no high/medium findings, 1 otherwise (--strict also fails on lows)
+```
+
+Findings are severity-ranked (`high`/`medium`/`low`), not a binary pass/fail: diagrams legitimately include external/managed systems with no local evidence, and codebases legitimately contain platform layers (docker/k8s/CI) a focused diagram omits. Read the findings, fix or justify the spec, and re-check. Full reference: `reference/check-spec.md`.
+
 ## MCP server (alternative)
 
-An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference. It exposes the same tools as the CLI, including `analyze_codebase` (the MCP form of `detect`: pass a `path`, get back the detected stack + a draft spec to refine and pass to `render_diagram`).
+An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference. It exposes the same tools as the CLI, including `analyze_codebase` (the MCP form of `detect`: pass a `path`, get back the detected stack + a draft spec to refine and pass to `render_diagram`) and `check_consistency` (the MCP form of `check`: pass a `spec`/`path` + `repo`, get back a severity-ranked report to verify the diagram against the code).

@@ -1,0 +1,15 @@
+type: architecture
+version: '1'
+nodes:
+  - id: app
+    label: App
+    icon: brand:nodejs
+  - id: db
+    label: Postgres
+    icon: brand:postgresql
+    category: database
+    shape: database
+  - id: s3
+    label: Object storage
+    icon: aws:s3
+    category: external

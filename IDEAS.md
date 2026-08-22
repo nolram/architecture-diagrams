@@ -37,8 +37,13 @@ That is the main reason the items below are now realistic.
   `docker-compose`, k8s, ...), and auto-generate the diagram with the right icons.
   Implemented in v0.9. Spec: `architecture-diagrams/reference/detect-spec.md`.
 - 💡 **Natural language → diagram** -- describe the system in prose, get a spec.
-- 💡 **Consistency / validation** -- check the diagram against the real code
-  ("you listed Redis but I don't see `redis` in the dependencies").
+  (Largely covered already: the skill + MCP server let the AI write the spec
+  directly from prose.)
+- 🟢 **Consistency / validation** -- check the diagram against the real code
+  ("you listed Redis but I don't see `redis` in the dependencies"). Chosen as
+  the next feature (v0.10): it is the inverse of v0.9's detect and reuses
+  `analyzeCodebase()` + `TECH_MAPPING`. Plan:
+  `docs/discovery-consistency-validation.md`.
 
 ### Codebase → diagram: known gaps (from stress-test `examples/detect-stress/`)
 
@@ -84,8 +89,15 @@ source at once (monorepo + compose + k8s + Dockerfile + CI). Ordered by severity
 - 💡 **Visual diagram diff** -- compare two specs (great for PRs; we already have the
   byte-identical gate pattern to build on).
 
-## Suggested next 3 (if we pick)
+## Suggested next (updated 2026-08-22)
 
-1. **C4** -- highest value for the "architecture" use case; the foundation makes it viable.
-2. **MCP server** -- extends reach with low effort.
-3. **Codebase → diagram** -- the AI differentiator that justifies the project.
+The original "next 3" are all shipped (C4 in v0.6, MCP in v0.8, codebase →
+diagram in v0.9). Current shortlist, in rough order of strategic value:
+
+1. **Consistency / validation** -- 🟢 chosen for v0.10 (see
+   `docs/discovery-consistency-validation.md`).
+2. **Import Mermaid (flowchart)** -- the "better than Mermaid" adoption story;
+   strong v0.11 candidate.
+3. **UML sequence** -- most-requested UML type; biggest engineering lift
+   (new lifeline/time-axis layout).
+4. **ER diagram** -- cheapest new engine (sibling of uml-class); quick win.

@@ -5,11 +5,12 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { ListToolsRequestSchema, CallToolRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { renderSpec, validateSpecText, SpecError } from "./core/render.js";
+import { renderSpec, validateSpecText, SpecError, formatErrors } from "./core/render.js";
 import type { RenderSpecResult } from "./core/render.js";
 import { searchCatalog } from "./icons/index.js";
 import { engineTypes, engineDescriptions } from "./engines/index.js";
-import { analyzeCodebase } from "./detect/index.js";
+import { analyzeCodebase, checkConsistency } from "./detect/index.js";
+import type { DiagramSpec } from "./spec/schema.js";
 
 const pkg = createRequire(import.meta.url)("../package.json") as { version: string };
 
@@ -65,6 +66,19 @@ const TOOLS = [
         path: { type: "string", description: "Path to the codebase (a directory)." },
       },
       required: ["path"],
+    },
+  },
+  {
+    name: "check_consistency",
+    description: "Checks an architecture spec against a real codebase in both directions: missing-evidence (a node claims a technology the code shows no evidence for) and undrawn (the code shows evidence for a technology the diagram omits). Returns a severity-ranked report (findings + matches + summary). The inverse of analyze_codebase.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        spec: { type: "string", description: "The architecture spec as a YAML string." },
+        path: { type: "string", description: "Path to a spec file (YAML/JSON). Alternative to `spec`." },
+        repo: { type: "string", description: "Path to the codebase (a directory) to check the diagram against." },
+      },
+      required: ["repo"],
     },
   },
 ];
@@ -203,6 +217,53 @@ export function handleAnalyzeCodebase(args: Record<string, unknown>): CallToolRe
   return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
 }
 
+export function handleCheckConsistency(args: Record<string, unknown>): CallToolResult {
+  const spec = typeof args.spec === "string" ? args.spec : undefined;
+  const path = typeof args.path === "string" ? args.path : undefined;
+  const repo = typeof args.repo === "string" ? args.repo : undefined;
+
+  if (!spec && !path) {
+    return { content: [{ type: "text", text: "Provide either a 'spec' (YAML string) or a 'path' (spec file)." }], isError: true };
+  }
+  if (!repo) {
+    return { content: [{ type: "text", text: "Provide a 'repo' path to the codebase (a directory)." }], isError: true };
+  }
+
+  let specText: string;
+  if (path) {
+    try {
+      specText = readFileSync(path, "utf-8");
+    } catch (err) {
+      return { content: [{ type: "text", text: `Could not read file "${path}": ${(err as Error).message}` }], isError: true };
+    }
+  } else {
+    specText = spec!;
+  }
+
+  const validation = validateSpecText(specText);
+  if (!validation.ok) {
+    return { content: [{ type: "text", text: `Invalid spec:\n${formatErrors(validation.errors)}` }], isError: true };
+  }
+
+  const type = (validation.spec as { type?: string }).type;
+  if (type !== "architecture") {
+    return { content: [{ type: "text", text: `check_consistency supports architecture specs only (got "${type}").` }], isError: true };
+  }
+
+  if (!existsSync(repo) || !statSync(repo).isDirectory()) {
+    return { content: [{ type: "text", text: `Path "${repo}" is not a directory.` }], isError: true };
+  }
+
+  let result;
+  try {
+    result = checkConsistency(validation.spec as DiagramSpec, analyzeCodebase(repo));
+  } catch (err) {
+    return { content: [{ type: "text", text: `Check failed: ${(err as Error).message}` }], isError: true };
+  }
+
+  return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+}
+
 export function createServer(): Server {
   const server = new Server({ name: "architecture-diagrams", version: pkg.version }, { capabilities: { tools: {} } });
 
@@ -222,6 +283,8 @@ export function createServer(): Server {
         return handleListDiagramTypes();
       case "analyze_codebase":
         return handleAnalyzeCodebase(args);
+      case "check_consistency":
+        return handleCheckConsistency(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }

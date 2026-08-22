@@ -51,7 +51,7 @@ Both spawn `node /absolute/path/to/architecture-diagrams/dist/cli.js mcp` -- rep
 
 ## Tools
 
-Four tools are exposed.
+Six tools are exposed.
 
 ### `render_diagram`
 
@@ -93,6 +93,26 @@ Lists the registered diagram engines.
 Arguments: none.
 
 Returns: the engine types (`architecture`, `uml-class`, `c4`) with a one-line description each.
+
+### `analyze_codebase`
+
+The MCP form of the CLI `detect` command: detect a codebase's stack and return a draft architecture spec to refine and pass to `render_diagram`.
+
+Arguments:
+- `path` (string) -- path to the repository to analyze.
+
+Returns: `{ detected, draftSpec, warnings }` -- the detected stack (each entry with `tech`, `iconKey`, `confidence`, `source`), a valid architecture spec ready to render, and any low-confidence/ambiguous warnings. See `reference/detect-spec.md`.
+
+### `check_consistency`
+
+The MCP form of the CLI `check` command: check an existing architecture spec against a codebase in both directions (missing-evidence + undrawn) and return a severity-ranked report.
+
+Arguments:
+- `spec` (string) -- the YAML spec, inline. Provide this **or** `path` (if both are given, `path` wins).
+- `path` (string) -- path to a spec file on disk. Provide this **or** `spec`.
+- `repo` (string) -- path to the repository to check against.
+
+Returns: a `CheckResult` -- `findings` (each with `kind`, `severity`, `message`, and the involved node/tech/evidence), `matches` (spec nodes confirmed by code evidence), `warnings`, and a `summary` count. Architecture specs only; a non-architecture spec is an error. See `reference/check-spec.md`.
 
 ## Notes
 

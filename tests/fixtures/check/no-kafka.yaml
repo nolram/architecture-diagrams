@@ -1,0 +1,14 @@
+type: architecture
+version: '1'
+nodes:
+  - id: app
+    label: App
+    icon: brand:nodejs
+  - id: db
+    label: Postgres
+    icon: brand:postgresql
+    category: database
+    shape: database
+  - id: cache
+    label: Redis cache
+    icon: brand:redis

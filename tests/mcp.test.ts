@@ -4,7 +4,7 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { handleRenderDiagram, handleSearchIcons, handleValidateSpec, handleListDiagramTypes, handleAnalyzeCodebase } from "../src/mcp.js";
+import { handleRenderDiagram, handleSearchIcons, handleValidateSpec, handleListDiagramTypes, handleAnalyzeCodebase, handleCheckConsistency } from "../src/mcp.js";
 
 const ARCHITECTURE = `
 version: '1'
@@ -184,6 +184,72 @@ test("analyze_codebase errors when no path is given", () => {
   assert.ok(textContent(result).includes("path"));
 });
 
+test("check_consistency returns matches + findings for a clean spec vs matching repo", () => {
+  const result = handleCheckConsistency({ path: "tests/fixtures/check/web-3tier.yaml", repo: "tests/fixtures/detect/node-express-pg-redis" });
+  assert.notEqual(result.isError, true);
+  const payload = JSON.parse(textContent(result)) as {
+    findings: Array<{ kind: string; severity: string }>;
+    matches: Array<{ tech: string; via: string }>;
+    summary: { matched: number; missingEvidence: number; undrawn: number };
+  };
+  assert.ok(Array.isArray(payload.findings), "findings should be an array");
+  assert.ok(Array.isArray(payload.matches), "matches should be an array");
+  assert.equal(payload.summary.matched, 3, `expected 3 matches, got ${payload.summary.matched}`);
+  assert.equal(payload.summary.missingEvidence, 0);
+  assert.equal(payload.summary.undrawn, 0);
+});
+
+test("check_consistency reports a missing-evidence finding for an unsupported node", () => {
+  const result = handleCheckConsistency({ path: "tests/fixtures/check/with-dynamodb.yaml", repo: "tests/fixtures/detect/node-express-pg-redis" });
+  assert.notEqual(result.isError, true);
+  const payload = JSON.parse(textContent(result)) as { findings: Array<{ kind: string; severity: string; tech?: string }> };
+  const me = payload.findings.find((f) => f.kind === "missing-evidence");
+  assert.ok(me, "expected a missing-evidence finding");
+  // aws:s3 is not a mapped tech icon and the node is category:external -> medium
+  assert.equal(me.severity, "medium");
+});
+
+test("check_consistency reports an undrawn finding for a detected tech with no node", () => {
+  const result = handleCheckConsistency({ path: "tests/fixtures/check/no-kafka.yaml", repo: "tests/fixtures/detect/microservices-gateway" });
+  assert.notEqual(result.isError, true);
+  const payload = JSON.parse(textContent(result)) as { findings: Array<{ kind: string; severity: string; tech?: string }> };
+  const undrawn = payload.findings.find((f) => f.kind === "undrawn" && f.tech === "kafka");
+  assert.ok(undrawn, "expected an undrawn kafka finding");
+  assert.equal(undrawn.severity, "high");
+});
+
+test("check_consistency accepts an inline spec string", () => {
+  const spec = `type: architecture\nversion: '1'\nnodes:\n  - id: app\n    label: App\n    icon: brand:nodejs\n`;
+  const result = handleCheckConsistency({ spec, repo: "tests/fixtures/detect/node-express-pg-redis" });
+  assert.notEqual(result.isError, true);
+  const payload = JSON.parse(textContent(result)) as { summary: { matched: number } };
+  assert.equal(payload.summary.matched, 1);
+});
+
+test("check_consistency errors when neither spec nor path is given", () => {
+  const result = handleCheckConsistency({ repo: "tests/fixtures/detect/node-express-pg-redis" });
+  assert.equal(result.isError, true);
+  assert.ok(textContent(result).includes("spec"));
+});
+
+test("check_consistency errors when no repo is given", () => {
+  const result = handleCheckConsistency({ path: "tests/fixtures/check/web-3tier.yaml" });
+  assert.equal(result.isError, true);
+  assert.ok(textContent(result).includes("repo"));
+});
+
+test("check_consistency rejects a non-architecture spec", () => {
+  const result = handleCheckConsistency({ path: "examples/c4/context.yaml", repo: "tests/fixtures/detect/empty" });
+  assert.equal(result.isError, true);
+  assert.ok(textContent(result).includes("architecture specs only"));
+});
+
+test("check_consistency errors when the repo is not a directory", () => {
+  const result = handleCheckConsistency({ path: "tests/fixtures/check/web-3tier.yaml", repo: "tests/fixtures/detect/empty/README.md" });
+  assert.equal(result.isError, true);
+  assert.ok(textContent(result).includes("not a directory"));
+});
+
 test("render_diagram writes SVG and PNG when out has no extension (regression)", async () => {
   const dir = mkdtempSync(join(tmpdir(), "mcp-out-"));
   const out = join(dir, "diagram"); // no extension
@@ -289,7 +355,7 @@ test("stdio integration: initialize, tools/list, tools/call", async () => {
     assert.equal(responses.get(1).result.serverInfo.name, "architecture-diagrams");
 
     const toolNames = responses.get(2).result.tools.map((t: any) => t.name);
-    for (const name of ["render_diagram", "search_icons", "validate_spec", "list_diagram_types", "analyze_codebase"]) {
+    for (const name of ["render_diagram", "search_icons", "validate_spec", "list_diagram_types", "analyze_codebase", "check_consistency"]) {
       assert.ok(toolNames.includes(name), `tools/list should include ${name}`);
     }
 

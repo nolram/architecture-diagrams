@@ -102,6 +102,10 @@ node dist/cli.js detect ./my-repo
 
 node dist/cli.js detect ./my-repo --render -o detected.svg
 # also renders the draft spec to SVG
+
+node dist/cli.js check diagram.yaml --repo ./my-repo
+# checks the diagram against the codebase (missing evidence + undrawn techs);
+# exit 0 when no high/medium findings, 1 otherwise (--strict also fails on lows)
 ```
 
 Or in dev mode (no build needed first):
@@ -191,13 +195,14 @@ Cursor (`.cursor/mcp.json`) uses the same shape:
 }
 ```
 
-Five tools are exposed:
+Six tools are exposed:
 
 - `render_diagram` -- renders a spec (an inline YAML string, or a file `path`) to SVG, with optional PNG/PDF and an optional `out` path to also write the files to disk.
 - `search_icons` -- searches the icon catalog by `query` and returns the matching `key`/`label`/`category`.
 - `validate_spec` -- validates a YAML spec (inline `spec` or `path`) and returns actionable, field-pathed errors without rendering.
 - `list_diagram_types` -- lists the registered engine types (`architecture`, `uml-class`, `c4`) with a one-line description each.
 - `analyze_codebase` -- detects the tech stack of a codebase (`path`) and returns the detected stack + a draft architecture spec, ready to refine and pass to `render_diagram`.
+- `check_consistency` -- checks an architecture spec (`spec` or `path`) against a codebase (`repo`) in both directions (missing-evidence + undrawn) and returns a severity-ranked report, so an AI can detect → refine → render → **verify** in one flow.
 
 Inline specs are primary -- pass the YAML as a string. For inline specs, `icon: file:` resolves relative to the server's cwd (there is no spec file directory); use `path` to resolve it relative to the spec file instead.
 
@@ -212,6 +217,18 @@ node dist/cli.js detect ./my-repo --render   # also render the draft spec to SVG
 
 The same capability is exposed as the MCP `analyze_codebase` tool (see above), so an AI can detect → refine → `render_diagram` in one flow. Full reference: [`architecture-diagrams/reference/detect-spec.md`](architecture-diagrams/reference/detect-spec.md); design notes: [`docs/discovery-codebase-to-diagram.md`](docs/discovery-codebase-to-diagram.md).
 
+## Consistency check (spec ↔ code)
+
+The inverse of `detect`: instead of code → draft spec, check an **existing architecture spec against a real codebase** in both directions — *missing-evidence* (a node claims a technology the code shows no evidence for) and *undrawn* (the code shows evidence for a technology the diagram omits). It reuses the same detection core, so it is deterministic and offline.
+
+```bash
+node dist/cli.js check diagram.yaml --repo ./my-repo
+# prints matches, findings grouped by severity, and warnings;
+# exit 0 when no high/medium findings, 1 otherwise (--strict also fails on lows)
+```
+
+Findings are severity-ranked (`high`/`medium`/`low`) rather than a binary pass/fail: diagrams legitimately include external/managed systems with no local evidence, and codebases legitimately contain platform layers (docker/k8s/CI) a focused diagram omits. The same capability is exposed as the MCP `check_consistency` tool, so an AI can detect → refine → render → **verify** in one flow. Full reference: [`architecture-diagrams/reference/check-spec.md`](architecture-diagrams/reference/check-spec.md); design notes: [`docs/discovery-consistency-validation.md`](docs/discovery-consistency-validation.md).
+
 ## Project structure
 
 ```text
@@ -224,8 +241,9 @@ src/
   core/     shared render pipeline (validate → layout → render → export) used by CLI + MCP
   engines/  diagram engines (architecture, uml-class, c4) + registry
   detect/   codebase → diagram (manifest readers + tech→icon mapping + spec builder)
-  cli.ts    CLI (`arch-diagram`: render + icons + detect + mcp)
-  mcp.ts    MCP server (stdio) exposing the render engine + analyze_codebase as tools
+            + consistency check (spec ↔ code comparator: `check.ts`)
+  cli.ts    CLI (`arch-diagram`: render + icons + detect + check + mcp)
+  mcp.ts    MCP server (stdio) exposing the render engine + analyze_codebase + check_consistency as tools
 examples/                    already-rendered example specs
 architecture-diagrams/       the Claude Skill (SKILL.md + reference/ + scripts/)
 ```

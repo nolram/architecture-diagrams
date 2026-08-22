@@ -208,6 +208,42 @@ prune false positives and add semantic edges before rendering. Design notes in
   `reference/detect-spec.md` (DetectionResult shape, mapping table, confidence levels, and the
   deterministic-vs-LLM edge boundary).
 
+## v0.10 -- Consistency / validation (spec ↔ code)
+
+The inverse of v0.9: instead of code → draft spec, check an existing
+**architecture spec against a real codebase** in both directions —
+*missing-evidence* (a node claims a technology the code shows no evidence for)
+and *undrawn* (the code shows evidence for a technology the diagram omits). It
+reuses `analyzeCodebase()` and `TECH_MAPPING` unchanged; the only new code is a
+pure comparator (`checkConsistency(spec, detected) → CheckResult`) plus two thin
+surfaces. Design notes in `docs/discovery-consistency-validation.md`.
+
+- [x] **Comparator core** -- `src/detect/check.ts`: finding/match types, reverse
+  iconKey→tech map over `TECH_MAPPING`, word-boundary name matcher (tech names +
+  `EVIDENCE_TO_TECH` evidence names), severity rules (icon-claim = high,
+  external/security = medium, generic/name-only = low; presence-based techs
+  docker/k8s/CI capped at low; no-manifests guard caps everything at low). A node
+  covers *every* tech its icon/name refers to (e.g. a `brand:nodejs` node covers
+  both `express` and `nodejs`), so shared-icon siblings are never reported undrawn.
+- [x] **CLI** -- `arch-diagram check <spec> --repo <path>` (+ `--strict`):
+  prints matches, findings grouped by severity, warnings; exit 0 when no
+  high/medium findings, 1 otherwise (`--strict` also fails on lows). Architecture
+  specs only (c4/uml-class rejected with a clear error).
+- [x] **Tests** -- unit tests for the comparator (`tests/check.test.ts`: icon
+  match, name match + word boundaries, severity rules, no-manifests guard,
+  icon-sharing coverage) and fixture-based integration tests
+  (`tests/check-cli.test.ts`) reusing `tests/fixtures/detect/` repos with
+  hand-written specs (`tests/fixtures/check/`): both finding directions, exit
+  codes, `--strict`, non-architecture rejection.
+- [x] **MCP** -- `check_consistency` tool (`spec | path` + `repo`) returning the
+  same structured `CheckResult`, so an AI can detect → refine → render → verify
+  in one flow. Tests in `tests/mcp.test.ts` (clean spec, missing-evidence,
+  undrawn, inline spec, error cases, non-architecture rejection, non-directory repo).
+- [x] **Docs** -- README (Usage + a "Consistency check" section + MCP tool list),
+  SKILL.md (a "Consistency check" section + MCP note), `reference/mcp.md`
+  (`check_consistency` tool), and `reference/check-spec.md` (finding kinds,
+  severity rules, deterministic-vs-LLM boundary, managed/external caveat).
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.

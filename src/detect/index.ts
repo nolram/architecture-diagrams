@@ -221,3 +221,4 @@ export * from "./types.js";
 export * from "./mapping.js";
 export * from "./manifests.js";
 export * from "./build.js";
+export * from "./check.js";

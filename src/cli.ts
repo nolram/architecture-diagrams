@@ -3,10 +3,12 @@ import { readFileSync, writeFileSync, watch, existsSync, statSync } from "node:f
 import { extname, basename, dirname, join } from "node:path";
 import { Command } from "commander";
 import { stringify } from "yaml";
-import { renderSpec, SpecError } from "./core/render.js";
+import { renderSpec, SpecError, validateSpecText, formatErrors } from "./core/render.js";
 import { searchCatalog } from "./icons/index.js";
 import { startMcpServer } from "./mcp.js";
 import { analyzeCodebase } from "./detect/index.js";
+import { checkConsistency } from "./detect/check.js";
+import type { DiagramSpec } from "./spec/schema.js";
 
 const program = new Command();
 
@@ -178,6 +180,83 @@ program
         process.exitCode = 1;
       }
     }
+  });
+
+program
+  .command("check")
+  .description("checks a diagram spec against a codebase (missing evidence + undrawn technologies)")
+  .argument("<spec>", "path to the spec file (YAML or JSON)")
+  .requiredOption("--repo <path>", "path to the codebase (directory) to check the diagram against")
+  .option("--strict", "also fail (exit 1) on low-severity findings")
+  .action((specPath: string, opts: { repo: string; strict?: boolean }) => {
+    let text: string;
+    try {
+      text = readFileSync(specPath, "utf-8");
+    } catch (err) {
+      console.error(`Could not read file "${specPath}": ${(err as Error).message}`);
+      process.exitCode = 1;
+      return;
+    }
+
+    const validation = validateSpecText(text);
+    if (!validation.ok) {
+      console.error(`Invalid spec in "${specPath}":\n${formatErrors(validation.errors)}`);
+      process.exitCode = 1;
+      return;
+    }
+
+    const type = (validation.spec as { type?: string }).type;
+    if (type !== "architecture") {
+      console.error(`check currently supports architecture specs only (got "${type}").`);
+      process.exitCode = 1;
+      return;
+    }
+
+    const repoPath = opts.repo;
+    if (!existsSync(repoPath) || !statSync(repoPath).isDirectory()) {
+      console.error(`Path "${repoPath}" is not a directory.`);
+      process.exitCode = 1;
+      return;
+    }
+
+    const result = checkConsistency(validation.spec as DiagramSpec, analyzeCodebase(repoPath));
+
+    console.log(`Checked "${specPath}" against ${repoPath}:\n`);
+
+    console.log("Matches:");
+    if (result.matches.length === 0) {
+      console.log("  (none)");
+    } else {
+      for (const m of result.matches) {
+        const icon = m.node.icon ? ` (${m.node.icon})` : "";
+        console.log(`  ${m.node.id} "${m.node.label}"${icon} -> ${m.tech} [via ${m.via}] ${m.source}`);
+      }
+    }
+
+    console.log("\nFindings:");
+    if (result.findings.length === 0) {
+      console.log("  No findings.");
+    } else {
+      for (const severity of ["high", "medium", "low"] as const) {
+        const group = result.findings.filter((f) => f.severity === severity);
+        if (group.length === 0) continue;
+        console.log(`  ${severity.charAt(0).toUpperCase() + severity.slice(1)}:`);
+        for (const f of group) console.log(`    - [${f.kind}] ${f.message}`);
+      }
+    }
+
+    if (result.warnings.length > 0) {
+      console.log("\nWarnings:");
+      for (const w of result.warnings) console.log(`  - ${w}`);
+    }
+
+    const s = result.summary;
+    console.log(`\nSummary: ${s.matched} matched, ${s.missingEvidence} missing evidence, ${s.undrawn} undrawn.`);
+
+    const failing =
+      result.findings.some((f) => f.severity === "high" || f.severity === "medium") ||
+      (Boolean(opts.strict) && result.findings.length > 0);
+    if (failing) process.exitCode = 1;
   });
 
 program
