@@ -1,0 +1,5 @@
+services:
+  worker:
+    image: my-internal-registry/worker:2.1
+  ledger:
+    image: some-proprietary-db

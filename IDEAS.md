@@ -33,12 +33,45 @@ That is the main reason the items below are now realistic.
 
 ## AI-native features (the real differentiator)
 
-- 💡 **Codebase → diagram** -- analyze a repo, detect the stack (`package.json`,
+- ✅ **Codebase → diagram** -- analyze a repo, detect the stack (`package.json`,
   `docker-compose`, k8s, ...), and auto-generate the diagram with the right icons.
-  High effort, very high value.
+  Implemented in v0.9. Spec: `architecture-diagrams/reference/detect-spec.md`.
 - 💡 **Natural language → diagram** -- describe the system in prose, get a spec.
 - 💡 **Consistency / validation** -- check the diagram against the real code
   ("you listed Redis but I don't see `redis` in the dependencies").
+
+### Codebase → diagram: known gaps (from stress-test `examples/detect-stress/`)
+
+Identified 2026-08-21 by running the detector against a repo that exercises every
+source at once (monorepo + compose + k8s + Dockerfile + CI). Ordered by severity.
+
+- 🟢 **Node deduplication** (HIGH) -- when the same service name appears in a
+  monorepo workspace, a compose service, *and* a k8s Deployment, the draft spec
+  emits three separate nodes (`api`, `api_2`, `api_3`). The detector should
+  recognize that these refer to the same logical service and merge them into a
+  single node (keeping the richest evidence: k8s Deployment > compose > workspace).
+  The `detected` array can still list all three sources for traceability.
+- 🟢 **Runtime node context** (MEDIUM) -- the Dockerfile `FROM` produces a
+  standalone `runtime` node with no edges. It should either (a) be attached to the
+  app node it belongs to (e.g. as a label suffix "node 20"), or (b) be suppressed
+  when the app node already carries the same runtime icon.
+- ✅ **Semantic edge inference** (MEDIUM) -- the detector only emits
+  high-confidence edges (compose `depends_on`, k8s Ingress→Service→Deployment,
+  app→datastore). It does not infer *semantic* edges like `web → api` (HTTP call)
+  or `api → broker` (producer). This is by design (LLM territory), but the
+  `detected` array now carries a `suggestsEdge` hint (e.g. `nextjs` → `api`) to
+  help the LLM. Implemented 2026-08-21.
+- ✅ **Runtime redundancy** (MEDIUM) -- when the same runtime is detected via
+  Dockerfile, k8s container image, *and* compose image, the `detected` array
+  lists it three times (e.g. `nodejs` ×3). The `detected` array now deduplicates
+  by `tech` and merges the `source` strings, keeping the highest confidence.
+  Implemented 2026-08-21.
+- 💡 **CI node context** (LOW) -- the CI node is standalone. It could be grouped
+  with the app or annotated with the CI system's role (build/deploy).
+- 💡 **Unknown image warning visibility** (LOW) -- an unrecognized compose image
+  (e.g. `mycompany/proprietary-service`) falls back to a generic icon with a
+  warning in the `detected` array, but the rendered diagram gives no visual cue
+  that this node is "unrecognized". A dashed border or a "?" badge would help.
 
 ## Quality / polish
 

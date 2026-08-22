@@ -1,0 +1,10 @@
+{
+  "name": "fullstack",
+  "version": "1.0.0",
+  "dependencies": {
+    "next": "^14.2.0",
+    "pg": "^8.11.0",
+    "stripe": "^14.2.0",
+    "auth0": "^2.49.0"
+  }
+}

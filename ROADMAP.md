@@ -180,6 +180,34 @@ Design decisions:
 Sets up the AI-native features (codebase → diagram, natural language → diagram) to later be
 exposed as additional MCP tools on the same server.
 
+## v0.9 -- Codebase → diagram
+
+The project's stated differentiator (`IDEAS.md`: "the AI differentiator that justifies the
+project") and the last open item in its own "Suggested next 3" (C4 in v0.6, MCP in v0.8). Point
+the tool at a repository; it detects the stack (from `package.json`, `docker-compose`, k8s
+manifests, `Dockerfile`, CI configs), maps each technology to a curated icon, and emits a
+**draft architecture spec** that the existing pipeline renders. The LLM stays in the loop to
+prune false positives and add semantic edges before rendering. Design notes in
+`docs/discovery-codebase-to-diagram.md`.
+
+- [x] **v0.9.1 -- Detection core + CLI** -- `src/detect/` module: manifest readers
+  (`package.json`, `docker-compose`, monorepo workspaces), the curated tech→icon mapping table
+  (`mapping.ts`), and a spec builder (`build.ts`) that emits high-confidence edges only (compose
+  `depends_on`, app→data-store when a driver + a matching node exist). `analyzeCodebase(path)`
+  returns `{ detected, draftSpec, warnings }` -- the detected stack (each with `iconKey`,
+  `confidence`, `source`) plus a valid, renderable draft spec. CLI `arch-diagram detect <path>`
+  (+ `--render`). Fixture-repo tests (`tests/fixtures/detect/`) + mapping-table unit tests.
+- [x] **v0.9.2 -- k8s + Dockerfile + CI + MCP** -- k8s manifest detection
+  (`readK8sManifests`: `Deployment`/`Service`/`Ingress`/`Namespace`/`StatefulSet` → one node per
+  Deployment (icon by container image), one node per Ingress (network), a `boundary` group per
+  Namespace, and `Ingress → Service → Deployment` edges matched by selector labels); `Dockerfile`
+  detection (`readDockerfile`: `FROM` base image → runtime tech, `EXPOSE` ports informational);
+  CI detection (`readCI`: `.github/workflows`, `Jenkinsfile`, `.gitlab-ci.yml` → a CI node).
+  MCP `analyze_codebase` tool (`path` → `{ detected, draftSpec, warnings }`), so an AI can
+  detect → refine → `render_diagram` in one flow. Docs: `README.md`, `SKILL.md`, and
+  `reference/detect-spec.md` (DetectionResult shape, mapping table, confidence levels, and the
+  deterministic-vs-LLM edge boundary).
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.

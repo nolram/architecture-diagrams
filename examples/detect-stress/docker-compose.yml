@@ -1,0 +1,24 @@
+name: stress-platform
+services:
+  api:
+    image: node:20-alpine
+    depends_on:
+      - db
+      - cache
+      - broker
+  db:
+    image: postgres:16
+  cache:
+    image: redis:7
+  broker:
+    image: kafka:3.7
+  gateway:
+    image: nginx:1.25
+    depends_on:
+      - api
+  metrics:
+    image: prometheus
+  dashboards:
+    image: grafana
+  unknown-svc:
+    image: mycompany/proprietary-service:2.1

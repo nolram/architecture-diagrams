@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync, watch } from "node:fs";
+import { readFileSync, writeFileSync, watch, existsSync, statSync } from "node:fs";
 import { extname, basename, dirname, join } from "node:path";
 import { Command } from "commander";
+import { stringify } from "yaml";
 import { renderSpec, SpecError } from "./core/render.js";
 import { searchCatalog } from "./icons/index.js";
 import { startMcpServer } from "./mcp.js";
+import { analyzeCodebase } from "./detect/index.js";
 
 const program = new Command();
 
@@ -119,6 +121,62 @@ program
     console.log(`${matches.length} icon(s) found:\n`);
     for (const e of matches) {
       console.log(`  ${e.key.padEnd(keyWidth)}  ${e.label.padEnd(labelWidth)}  [${e.category}]`);
+    }
+  });
+
+program
+  .command("detect")
+  .description("detects the tech stack of a codebase and emits a draft architecture spec (YAML)")
+  .argument("<path>", "path to the codebase (directory)")
+  .option("--render", "also render the draft spec to SVG")
+  .option("-o, --out <path>", "output path for the rendered SVG (with --render)")
+  .action(async (path: string, opts: { render?: boolean; out?: string }) => {
+    if (!existsSync(path) || !statSync(path).isDirectory()) {
+      console.error(`Path "${path}" is not a directory.`);
+      process.exitCode = 1;
+      return;
+    }
+
+    const result = analyzeCodebase(path);
+    const specYaml = stringify(result.draftSpec);
+
+    const count = result.detected.length;
+    console.log(`Detected ${count} technolog${count === 1 ? "y" : "ies"} in ${path}:\n`);
+    if (count > 0) {
+      const techWidth = Math.max(...result.detected.map((d) => d.tech.length));
+      const iconWidth = Math.max(...result.detected.map((d) => d.iconKey.length));
+      const catWidth = Math.max(...result.detected.map((d) => d.category.length));
+      const confWidth = Math.max(...result.detected.map((d) => d.confidence.length));
+      for (const d of result.detected) {
+        console.log(`  ${d.tech.padEnd(techWidth)}  ${d.iconKey.padEnd(iconWidth)}  [${d.category.padEnd(catWidth)}]  ${d.confidence.padEnd(confWidth)}  ${d.source}`);
+      }
+    } else {
+      console.log("  (none)");
+    }
+
+    if (result.warnings.length > 0) {
+      console.log(`\nWarnings:`);
+      for (const w of result.warnings) console.log(`  - ${w}`);
+    }
+
+    console.log(`\nDraft spec:\n`);
+    console.log(specYaml);
+
+    if (opts.render) {
+      try {
+        const rendered = await renderSpec(specYaml);
+        const outPath = opts.out ?? join(process.cwd(), "detected.svg");
+        writeFileSync(outPath, rendered.svg, "utf-8");
+        console.error(`SVG written to ${outPath}`);
+        if (rendered.warnings.length > 0) {
+          console.error("Render warnings:");
+          for (const w of rendered.warnings) console.error(`  - ${w}`);
+        }
+      } catch (err) {
+        if (err instanceof SpecError) console.error(`Invalid draft spec:\n${err.message}`);
+        else console.error(`Render failed: ${(err as Error).message}`);
+        process.exitCode = 1;
+      }
     }
   });
 

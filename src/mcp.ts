@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, statSync } from "node:fs";
 import { dirname, extname } from "node:path";
 import { createRequire } from "node:module";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -9,6 +9,7 @@ import { renderSpec, validateSpecText, SpecError } from "./core/render.js";
 import type { RenderSpecResult } from "./core/render.js";
 import { searchCatalog } from "./icons/index.js";
 import { engineTypes, engineDescriptions } from "./engines/index.js";
+import { analyzeCodebase } from "./detect/index.js";
 
 const pkg = createRequire(import.meta.url)("../package.json") as { version: string };
 
@@ -54,6 +55,17 @@ const TOOLS = [
     name: "list_diagram_types",
     description: "Lists the registered diagram engine types with a one-line description each.",
     inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "analyze_codebase",
+    description: "Detects the tech stack of a codebase (package.json, docker-compose, k8s manifests, Dockerfile, CI) and returns the detected stack plus a draft architecture spec. Review/prune the result, then render it with render_diagram.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: { type: "string", description: "Path to the codebase (a directory)." },
+      },
+      required: ["path"],
+    },
   },
 ];
 
@@ -166,6 +178,31 @@ export function handleListDiagramTypes(): CallToolResult {
   return { content: [{ type: "text", text }] };
 }
 
+export function handleAnalyzeCodebase(args: Record<string, unknown>): CallToolResult {
+  const path = typeof args.path === "string" ? args.path : undefined;
+  if (!path) {
+    return { content: [{ type: "text", text: "Provide a 'path' to the codebase (a directory)." }], isError: true };
+  }
+
+  if (!existsSync(path) || !statSync(path).isDirectory()) {
+    return { content: [{ type: "text", text: `Path "${path}" is not a directory.` }], isError: true };
+  }
+
+  let result;
+  try {
+    result = analyzeCodebase(path);
+  } catch (err) {
+    return { content: [{ type: "text", text: `Analysis failed: ${(err as Error).message}` }], isError: true };
+  }
+
+  const payload = {
+    detected: result.detected,
+    draftSpec: result.draftSpec,
+    warnings: result.warnings,
+  };
+  return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+}
+
 export function createServer(): Server {
   const server = new Server({ name: "architecture-diagrams", version: pkg.version }, { capabilities: { tools: {} } });
 
@@ -183,6 +220,8 @@ export function createServer(): Server {
         return handleValidateSpec(args);
       case "list_diagram_types":
         return handleListDiagramTypes();
+      case "analyze_codebase":
+        return handleAnalyzeCodebase(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }

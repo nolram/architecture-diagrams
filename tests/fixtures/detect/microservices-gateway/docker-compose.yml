@@ -1,0 +1,12 @@
+services:
+  gateway:
+    image: nginx
+  api:
+    image: node:18
+    depends_on: [db, cache, queue]
+  db:
+    image: postgres:15
+  cache:
+    image: redis:7
+  queue:
+    image: kafka:3

@@ -1,0 +1,7 @@
+services:
+  db:
+    image: postgres:15
+  metrics:
+    image: prometheus
+  dashboards:
+    image: grafana

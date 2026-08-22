@@ -4,7 +4,7 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { handleRenderDiagram, handleSearchIcons, handleValidateSpec, handleListDiagramTypes } from "../src/mcp.js";
+import { handleRenderDiagram, handleSearchIcons, handleValidateSpec, handleListDiagramTypes, handleAnalyzeCodebase } from "../src/mcp.js";
 
 const ARCHITECTURE = `
 version: '1'
@@ -140,6 +140,50 @@ test("list_diagram_types lists all engines", () => {
   assert.ok(text.includes("c4"));
 });
 
+test("analyze_codebase returns the detected stack + draft spec for a fixture repo", () => {
+  const result = handleAnalyzeCodebase({ path: "tests/fixtures/detect/node-express-pg-redis" });
+  assert.notEqual(result.isError, true);
+  const text = textContent(result);
+  const payload = JSON.parse(text) as {
+    detected: Array<{ tech: string; iconKey: string; confidence: string; source: string }>;
+    draftSpec: { nodes: Array<{ id: string }>; edges: Array<{ from: string; to: string }> };
+    warnings: string[];
+  };
+
+  // the expected shape: detected[], draftSpec{}, warnings[]
+  assert.ok(Array.isArray(payload.detected), "detected should be an array");
+  assert.ok(payload.draftSpec && Array.isArray(payload.draftSpec.nodes), "draftSpec.nodes should be an array");
+  assert.ok(Array.isArray(payload.warnings), "warnings should be an array");
+
+  // the detected stack includes the app framework + the compose services
+  const techs = payload.detected.map((d) => d.tech);
+  assert.ok(techs.includes("express"), `expected express in ${techs.join(", ")}`);
+  assert.ok(techs.includes("postgres"), `expected postgres in ${techs.join(", ")}`);
+  assert.ok(techs.includes("redis"), `expected redis in ${techs.join(", ")}`);
+
+  // every detected entry carries the evidence fields
+  for (const d of payload.detected) {
+    assert.ok(d.iconKey, "each detected entry should have an iconKey");
+    assert.ok(d.confidence, "each detected entry should have a confidence");
+    assert.ok(d.source, "each detected entry should have a source");
+  }
+
+  // the draft spec is a valid architecture spec with nodes
+  assert.ok(payload.draftSpec.nodes.length >= 1, "draftSpec should have at least one node");
+});
+
+test("analyze_codebase errors when the path is not a directory", () => {
+  const result = handleAnalyzeCodebase({ path: "tests/fixtures/detect/empty/README.md" });
+  assert.equal(result.isError, true);
+  assert.ok(textContent(result).includes("not a directory"));
+});
+
+test("analyze_codebase errors when no path is given", () => {
+  const result = handleAnalyzeCodebase({});
+  assert.equal(result.isError, true);
+  assert.ok(textContent(result).includes("path"));
+});
+
 test("render_diagram writes SVG and PNG when out has no extension (regression)", async () => {
   const dir = mkdtempSync(join(tmpdir(), "mcp-out-"));
   const out = join(dir, "diagram"); // no extension
@@ -245,7 +289,7 @@ test("stdio integration: initialize, tools/list, tools/call", async () => {
     assert.equal(responses.get(1).result.serverInfo.name, "architecture-diagrams");
 
     const toolNames = responses.get(2).result.tools.map((t: any) => t.name);
-    for (const name of ["render_diagram", "search_icons", "validate_spec", "list_diagram_types"]) {
+    for (const name of ["render_diagram", "search_icons", "validate_spec", "list_diagram_types", "analyze_codebase"]) {
       assert.ok(toolNames.includes(name), `tools/list should include ${name}`);
     }
 

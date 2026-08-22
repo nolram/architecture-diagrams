@@ -55,6 +55,20 @@ Optional extras (all backward-compatible): an element `icon` (same catalog as th
 
 If `scripts/render.sh` fails because `dist/cli.js` doesn't exist, it runs `npm install && npm run build` automatically on its own the first time -- this only happens once per project checkout.
 
+## Codebase → diagram (detect)
+
+Instead of writing the spec from scratch, you can point the tool at a repository and it will **detect the stack** (from `package.json`, `docker-compose`, k8s manifests, `Dockerfile`, and CI configs), map each technology to a curated icon, and emit a **draft architecture spec** (nodes, groups, edges). The detection is deterministic and offline -- no source-code analysis -- and every detection carries a `confidence` + `source` so you can prune false positives and add semantic edges before rendering.
+
+```bash
+bash <this-skill-path>/scripts/render.sh detect /path/to/repo
+# prints the detected stack + a draft spec (YAML) to stdout
+
+bash <this-skill-path>/scripts/render.sh detect /path/to/repo --render -o detected.svg
+# also renders the draft spec to SVG
+```
+
+Workflow: run `detect`, read the `detected` list (each entry has `tech`, `iconKey`, `confidence`, `source`), prune anything that's a false positive, add the semantic edges the detection can't infer, save the result as a spec, then render it as usual. Full reference: `reference/detect-spec.md`.
+
 ## MCP server (alternative)
 
-An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference.
+An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference. It exposes the same tools as the CLI, including `analyze_codebase` (the MCP form of `detect`: pass a `path`, get back the detected stack + a draft spec to refine and pass to `render_diagram`).
