@@ -37,3 +37,4 @@ TypeScript CLI (`arch-diagram`) that renders YAML/JSON specs to SVG (+ optional 
 - CI smoke test only renders top-level `examples/*.yaml` — examples in subdirs (`c4/`, `uml/`) are not smoke-tested in CI
 - `dist/`, `output/`, `.tests-ignore/`, `*.skill` are gitignored scratch/build artifacts
 - Commit style: imperative, e.g. "Add C4 diagram engine (v0.6 roadmap, closes v0.6)"; ROADMAP.md = committed work, IDEAS.md = idea pool
+- Before creating a release tag `vX.Y.Z`, verify `package.json` `version` equals `X.Y.Z` — bump it in the same change if it doesn't (tag and package.json must stay in sync)
