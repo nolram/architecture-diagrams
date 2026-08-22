@@ -9,28 +9,28 @@
 <g transform="translate(32, 88)">
 <g>
   <rect x="893" y="24" width="607.4" height="380" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
-  <rect x="909" y="11" width="47.4" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1"/>
+  <rect x="909" y="11" width="47.4" height="26" rx="13" fill="none" stroke="#a855f7" stroke-width="1"/>
   <text x="932.7" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC</text>
 </g>
 <g>
   <rect x="1224.2" y="76" width="248.2" height="300" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-  <rect x="1240.2" y="63" width="133.2" height="26" rx="13" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <rect x="1240.2" y="63" width="133.2" height="26" rx="13" fill="none" stroke="#3b82f6" stroke-width="1"/>
   <text x="1306.8" y="80" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#1d4ed8">PRIVATE SUBNET</text>
 </g>
 <path d="M214,194.66666666666669 L456,194.66666666666669" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(456 194.66666666666669) rotate(0)"/><g>
-    <rect x="310" y="207.66666666666669" width="50" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="310" y="207.66666666666669" width="50" height="20" rx="6" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0" stroke-width="1"/>
     <text x="335" y="221.66666666666669" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
   </g>
 <path d="M646,194.66666666666669 L921,194.66666666666669" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(921 194.66666666666669) rotate(0)"/><g>
-    <rect x="742" y="207.66666666666669" width="50" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="742" y="207.66666666666669" width="50" height="20" rx="6" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0" stroke-width="1"/>
     <text x="767" y="221.66666666666669" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">HTTPS</text>
   </g>
 <path d="M1142.8,178 L1252.2,178" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1252.2 178) rotate(0)"/><g>
-    <rect x="1162.8" y="155" width="36.4" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="1162.8" y="155" width="36.4" height="20" rx="6" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0" stroke-width="1"/>
     <text x="1181" y="169" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">TCP</text>
   </g>
 <path d="M1142.8,211.33333333333331 L1209.2,211.33333333333331 L1209.2,298 L1252.2,298" fill="none" stroke="#94a3b8" stroke-width="2"/><path d="M-8,-3.5 L0,0 L-8,3.5 Z" fill="#94a3b8" transform="translate(1252.2 298) rotate(0)"/><g>
-    <rect x="1162.8" y="214.33333333333331" width="36.4" height="20" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="1162.8" y="214.33333333333331" width="36.4" height="20" rx="6" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0" stroke-width="1"/>
     <text x="1181" y="228.33333333333331" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="11" font-weight="600" text-anchor="middle" fill="#475569">SQL</text>
   </g>
 <g transform="translate(24, 155.66666666666669)">
@@ -42,7 +42,7 @@
 <g transform="translate(456, 144.66666666666669)">
   <rect x="0" y="0" width="190" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-cdn"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="#059669" fill-opacity="0.12"/>
   <g clip-path="url(#clip-badge-cdn)">
     <svg x="17" y="33" width="34" height="34" viewBox="0 0 64 64">
     <title>Icon-Architecture/48/Arch_Amazon-CloudFront_48</title>
@@ -54,13 +54,13 @@
     </g>
 </svg>
   </g>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#059669" stroke-opacity="0.25"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#059669" stroke-opacity="0.5"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">CloudFront</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">CDN</text>
 </g>
 <g transform="translate(921, 144.66666666666669)">
   <rect x="0" y="0" width="221.8" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-web"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="#ea580c" fill-opacity="0.12"/>
   <g clip-path="url(#clip-badge-web)">
     <svg x="17" y="33" width="34" height="34" viewBox="0 0 64 64">
     <title>Icon-Architecture/48/Arch_AWS-Lambda_48</title>
@@ -72,13 +72,13 @@
     </g>
 </svg>
   </g>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.25"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#ea580c" stroke-opacity="0.5"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Web Server</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Node.js / Express</text>
 </g>
 <g transform="translate(1252.2, 128)">
   <rect x="0" y="0" width="192.2" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-cache"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="#4f46e5" fill-opacity="0.12"/>
   <g clip-path="url(#clip-badge-cache)">
     <svg x="17" y="33" width="34" height="34" viewBox="0 0 256 220">
   <path d="M246 169c-13.7 7-84.5 36.2-99.5 44-15.1 7.9-23.5 7.8-35.4 2.1C99.2 209.4 24 179 10.3 172.5 3.6 169.3 0 166.5 0 164v-26s98-21.3 113.9-27c15.8-5.6 21.3-5.8 34.8-.9 13.4 5 94 19.5 107.3 24.3V160c0 2.5-3 5.3-10 9" fill="#912626"/>
@@ -92,13 +92,13 @@
   <path d="M146.8 51.2 185.3 36v27.5l-3.8 1.5-34.7-13.8" fill="#9A2928"/>
 </svg>
   </g>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.5"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Redis</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Session cache</text>
 </g>
 <g transform="translate(1252.2, 248)">
   <rect x="0" y="0" width="192.2" height="100" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
   <clipPath id="clip-badge-db"><rect x="14" y="30" width="40" height="40" rx="10"/></clipPath>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="#ffffff"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="#4f46e5" fill-opacity="0.12"/>
   <g clip-path="url(#clip-badge-db)">
     <svg x="17" y="33" width="34" height="34" viewBox="0 0 64 64">
     <title>Icon-Architecture/48/Arch_Amazon-RDS_48</title>
@@ -110,7 +110,7 @@
     </g>
 </svg>
   </g>
-  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.25"/>
+  <rect x="14" y="30" width="40" height="40" rx="10" fill="none" stroke="#4f46e5" stroke-opacity="0.5"/>
   <text x="66" y="45" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">PostgreSQL</text><text x="66" y="67" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#64748b">Main database</text>
 </g>
 </g>

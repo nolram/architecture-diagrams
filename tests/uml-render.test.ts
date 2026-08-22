@@ -188,10 +188,10 @@ describe("uml-class render", () => {
     assert.ok(svg.includes(">has<"), "fromRole should appear");
     assert.ok(svg.includes(">*<"), "toMultiplicity should appear");
     // pill = rounded rect with the theme edgeLabelBg fill + cardBorder stroke (distinct from the class-box rect)
-    const pills = (svg.match(/<rect [^>]*rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"\/>/g) ?? []).length;
+    const pills = (svg.match(/<rect [^>]*rx="4" fill="rgba\(248, 250, 252, 0\.85\)" stroke="#e2e8f0" stroke-width="1"\/>/g) ?? []).length;
     assert.equal(pills, 2, "one pill per edge label expected");
     // pill must be emitted before its label text so the text renders on top
-    const pillIdx = svg.indexOf('rx="4" fill="#ffffff"');
+    const pillIdx = svg.indexOf('rx="4" fill="rgba(248, 250, 252, 0.85)"');
     const textIdx = svg.indexOf(">has<");
     assert.ok(pillIdx !== -1 && textIdx !== -1 && pillIdx < textIdx, "pill should precede the label text");
   });

@@ -145,14 +145,15 @@ export function renderIconBadge(
   radius = 10,
 ): string {
   if (icon?.brandHex) {
-    // brand icon with its own color (thesvg): neutral background, icon clipped with rounded corners
+    // brand icon with its own color (thesvg): tinted category background so the
+    // legend swatch and the badge read as the same color; icon clipped with rounded corners
     const inset = Math.round(size * 0.075);
     return `<clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}"/></clipPath>
-  <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}" fill="#ffffff"/>
+  <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}" fill="${accent}" fill-opacity="0.12"/>
   <g clip-path="url(#${clipId})">
     <svg x="${x + inset}" y="${y + inset}" width="${size - inset * 2}" height="${size - inset * 2}" viewBox="${icon.viewBox}">${icon.body}</svg>
   </g>
-  <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}" fill="none" stroke="${accent}" stroke-opacity="0.25"/>`;
+  <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${radius}" fill="none" stroke="${accent}" stroke-opacity="0.5"/>`;
   }
 
   const iconInset = Math.round(size * 0.2);
