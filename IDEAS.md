@@ -45,16 +45,18 @@ That is the main reason the items below are now realistic.
 Identified 2026-08-21 by running the detector against a repo that exercises every
 source at once (monorepo + compose + k8s + Dockerfile + CI). Ordered by severity.
 
-- 🟢 **Node deduplication** (HIGH) -- when the same service name appears in a
+- ✅ **Node deduplication** (HIGH) -- when the same service name appears in a
   monorepo workspace, a compose service, *and* a k8s Deployment, the draft spec
-  emits three separate nodes (`api`, `api_2`, `api_3`). The detector should
-  recognize that these refer to the same logical service and merge them into a
-  single node (keeping the richest evidence: k8s Deployment > compose > workspace).
-  The `detected` array can still list all three sources for traceability.
-- 🟢 **Runtime node context** (MEDIUM) -- the Dockerfile `FROM` produces a
-  standalone `runtime` node with no edges. It should either (a) be attached to the
-  app node it belongs to (e.g. as a label suffix "node 20"), or (b) be suppressed
-  when the app node already carries the same runtime icon.
+  emitted three separate nodes (`api`, `api_2`, `api_3`). Now `buildSpec` merges
+  them into a single node: ownership prefers the richest source present (k8s
+  Deployment > compose > workspace) so the icon reflects the most specific evidence,
+  and the compose/k8s variants no longer emit duplicate `api_2`/`api_3` nodes even
+  when there is *no* workspace (the case that was still broken). The `detected`
+  array still lists all sources for traceability. Implemented 2026-08-22; tests in
+  `tests/detect.test.ts` + fixture `tests/fixtures/detect/compose-k8s-dup/`.
+- ✅ **Runtime node context** (MEDIUM) -- the Dockerfile `FROM` no longer produces a
+  standalone `runtime` node when the app node already carries the same runtime icon
+  (option (b): suppressed as redundant). Implemented in v0.9 (`buildSpec` step 7).
 - ✅ **Semantic edge inference** (MEDIUM) -- the detector only emits
   high-confidence edges (compose `depends_on`, k8s Ingress→Service→Deployment,
   app→datastore). It does not infer *semantic* edges like `web → api` (HTTP call)

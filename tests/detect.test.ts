@@ -158,6 +158,84 @@ describe("detect: buildSpec", () => {
   });
 });
 
+describe("detect: node deduplication", () => {
+  const k8sApi = { manifests: [{ kind: "Deployment", name: "api", namespace: "prod", file: "k.yaml" }] };
+  const composeApi = { name: "proj", services: [{ name: "api", image: "node:18", dependsOn: [] }], file: "docker-compose.yml" };
+
+  test("compose + k8s, same name, no workspace -> a single node (not api + api_2)", () => {
+    const spec = buildSpec({ apps: [app("other")], compose: composeApi, k8s: k8sApi });
+    const ids = nodeIds(spec);
+    assert.equal(ids.filter((id) => id === "api").length, 1, `expected exactly one "api" node, got ${ids.join(", ")}`);
+    assert.ok(!ids.includes("api_2"), `should not emit a duplicate "api_2" node: ${ids.join(", ")}`);
+    assertValidSpec(spec);
+  });
+
+  test("workspace + compose + k8s, same name -> a single node", () => {
+    const spec = buildSpec({ apps: [app("api")], compose: composeApi, k8s: k8sApi });
+    const ids = nodeIds(spec);
+    assert.equal(ids.filter((id) => id === "app").length, 1, `expected exactly one "app" node, got ${ids.join(", ")}`);
+    assert.ok(!ids.some((id) => id.startsWith("api_")), `should not emit duplicate api nodes: ${ids.join(", ")}`);
+    assertValidSpec(spec);
+  });
+
+  test("workspace + k8s, same name -> a single node", () => {
+    const spec = buildSpec({ apps: [app("api")], k8s: k8sApi });
+    const ids = nodeIds(spec);
+    assert.equal(ids.filter((id) => id === "app").length, 1, `expected exactly one "app" node, got ${ids.join(", ")}`);
+    assert.ok(!ids.some((id) => id.startsWith("api_")), `should not emit duplicate api nodes: ${ids.join(", ")}`);
+    assertValidSpec(spec);
+  });
+
+  test("richest source wins for the icon (k8s image > workspace framework)", () => {
+    const spec = buildSpec({
+      apps: [app("api")],
+      k8s: { manifests: [{ kind: "Deployment", name: "api", namespace: "prod", file: "k.yaml", image: "golang:1.22" }] },
+    });
+    const node = spec.nodes.find((n) => n.id === "app");
+    assert.equal(node?.icon, "brand:go", `expected the k8s image icon (brand:go), got ${node?.icon}`);
+  });
+
+  test("runtime node suppressed when the app icon was overridden by the k8s image", () => {
+    const spec = buildSpec({
+      apps: [{ name: "api", iconKey: "brand:react", category: "compute", shape: "card", driverTechs: new Set() }],
+      k8s: { manifests: [{ kind: "Deployment", name: "api", namespace: "prod", file: "k.yaml", image: "node:20" }] },
+      dockerfile: { from: "node:20", ports: [], file: "Dockerfile" },
+    });
+    const appNode = spec.nodes.find((n) => n.id === "app");
+    assert.equal(appNode?.icon, "brand:nodejs", "the k8s image should override the app icon");
+    assert.ok(
+      !spec.nodes.some((n) => n.id !== "app" && n.icon === "brand:nodejs"),
+      `should not emit a redundant runtime node: ${nodeIds(spec).join(", ")}`,
+    );
+    assertValidSpec(spec);
+  });
+
+  test("compose + k8s, names differing only in case -> edges resolve to the k8s node id", () => {
+    const compose = {
+      name: "proj",
+      services: [
+        { name: "API", image: "node:18", dependsOn: ["db"] },
+        { name: "db", image: "postgres:15", dependsOn: [] },
+      ],
+      file: "docker-compose.yml",
+    };
+    const k8s = { manifests: [{ kind: "Deployment", name: "api", namespace: "prod", file: "k.yaml" }] };
+    const spec = buildSpec({ apps: [app("other")], compose, k8s });
+    assert.ok(spec.nodes.some((n) => n.id === "api"), `expected a node with id "api", got ${nodeIds(spec).join(", ")}`);
+    assert.ok(edgePairs(spec).includes("api->db"), `expected the edge api->db, got ${edgePairs(spec).join(", ")}`);
+    assertValidSpec(spec);
+  });
+
+  test("compose-k8s-dup fixture: one api node, api->db edge preserved", () => {
+    const result = analyzeCodebase(fixture("compose-k8s-dup"));
+    const ids = nodeIds(result.draftSpec);
+    assert.equal(ids.filter((id) => id === "api").length, 1, `expected exactly one "api" node, got ${ids.join(", ")}`);
+    assert.ok(!ids.includes("api_2"), `should not emit a duplicate "api_2" node: ${ids.join(", ")}`);
+    assert.ok(edgePairs(result.draftSpec).includes("api->db"), "expected the compose depends_on edge api->db");
+    assertValidSpec(result.draftSpec);
+  });
+});
+
 describe("detect: k8s reader", () => {
   test("parses Deployment/Service/Ingress/Namespace from the k8s-web fixture", () => {
     const info = readK8sManifests(fixture("k8s-web"));

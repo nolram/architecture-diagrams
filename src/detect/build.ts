@@ -57,9 +57,12 @@ export function buildSpec(input: BuildInput): DiagramSpec {
     return id;
   }
 
-  // 0. Deduplication: identify service names that appear in multiple sources.
-  //    A name is "shared" if it appears in both a workspace AND (compose OR k8s).
-  //    Shared names get a single node; the richest source provides the icon.
+  // 0. Deduplication: a logical service may appear in multiple sources (a
+  //    monorepo workspace, a compose service, and/or a k8s Deployment). We emit
+  //    exactly one node per service name. Ownership prefers the richest source
+  //    present (k8s Deployment > compose > workspace) so the icon reflects the
+  //    most specific evidence; the `detected` array (in index.ts) still lists
+  //    every source for traceability.
   const workspaceNames = new Set(input.apps.map((a) => a.name.toLowerCase()));
   const composeNames = new Set(composeServices.map((s) => s.name.toLowerCase()));
   const k8sNames = new Set(
@@ -68,25 +71,35 @@ export function buildSpec(input: BuildInput): DiagramSpec {
       .map((m) => m.name.toLowerCase()),
   );
 
-  /** a name is shared if it appears in workspace AND (compose OR k8s) */
-  const isShared = (name: string): boolean => {
-    const n = name.toLowerCase();
-    return workspaceNames.has(n) && (composeNames.has(n) || k8sNames.has(n));
-  };
+  const inWorkspace = (name: string): boolean => workspaceNames.has(name.toLowerCase());
+  const inCompose = (name: string): boolean => composeNames.has(name.toLowerCase());
+  const inK8s = (name: string): boolean => k8sNames.has(name.toLowerCase());
 
-  // 1. App/service nodes (the app itself, or one per monorepo workspace)
+  // 1. App/service nodes (the app itself, or one per monorepo workspace). When
+  //    the same name is also a compose service or k8s Deployment, the richest
+  //    source provides the icon (k8s image > compose image > workspace framework).
   const isSingleApp = input.apps.length === 1;
   const appIds: string[] = [];
+  const appIcons: string[] = [];
   for (const [i, app] of input.apps.entries()) {
+    let iconKey = app.iconKey;
+    let category = app.category;
+    let shape = app.shape;
+    const k8sM = (input.k8s?.manifests ?? []).find(
+      (m) => (m.kind === "Deployment" || m.kind === "StatefulSet") && m.name.toLowerCase() === app.name.toLowerCase(),
+    );
+    if (k8sM) {
+      const rt = k8sM.image ? resolveDockerfileRuntime(k8sM.image) : undefined;
+      if (rt) { iconKey = rt.mapping.iconKey; category = rt.mapping.category; shape = rt.mapping.shape; }
+    } else if (inCompose(app.name)) {
+      const svc = composeServices.find((s) => s.name.toLowerCase() === app.name.toLowerCase())!;
+      const r = resolveComposeService(svc.image);
+      if (r.tech) { iconKey = r.iconKey; category = r.category; shape = r.shape; }
+    }
     const id = claimId(isSingleApp ? "app" : sanitizeId(app.name) || `app_${i + 1}`);
     appIds.push(id);
-    nodes.push({
-      id,
-      label: app.name,
-      icon: app.iconKey,
-      category: app.category,
-      shape: app.shape,
-    });
+    appIcons.push(iconKey);
+    nodes.push({ id, label: app.name, icon: iconKey, category, shape });
   }
 
   // 2. Compose boundary group (one per compose project)
@@ -96,14 +109,28 @@ export function buildSpec(input: BuildInput): DiagramSpec {
     groups.push({ id: composeGroupId, label: input.compose.name, style: "boundary" });
   }
 
-  // 3. One node per compose service (skip shared names -- they already have a workspace node)
+  // 3. One node per compose service. A service whose name is also a workspace
+  //    app or a k8s Deployment is represented by that richer node instead, so we
+  //    only record its id here (for edges) and skip creating a duplicate node.
   const nameToId = new Map<string, string>();
   for (const svc of composeServices) {
-    nameToId.set(svc.name, appIds.find((_, i) => input.apps[i].name.toLowerCase() === svc.name.toLowerCase()) ?? claimId(sanitizeId(svc.name) || "service"));
-    if (isShared(svc.name)) continue; // already represented by a workspace node
+    const wsId = appIds.find((_, i) => input.apps[i].name.toLowerCase() === svc.name.toLowerCase());
+    if (wsId) {
+      nameToId.set(svc.name, wsId); // represented by a workspace node
+      continue;
+    }
+    if (inK8s(svc.name)) {
+      const m = (input.k8s?.manifests ?? []).find(
+        (mm) => (mm.kind === "Deployment" || mm.kind === "StatefulSet") && mm.name.toLowerCase() === svc.name.toLowerCase(),
+      )!;
+      nameToId.set(svc.name, sanitizeId(m.name) || "k8s"); // represented by a k8s node (same deterministic id)
+      continue;
+    }
+    const id = claimId(sanitizeId(svc.name) || "service");
+    nameToId.set(svc.name, id);
     const resolved = resolveComposeService(svc.image);
     nodes.push({
-      id: nameToId.get(svc.name)!,
+      id,
       label: svc.name,
       icon: resolved.iconKey,
       category: resolved.category,
@@ -185,11 +212,11 @@ export function buildSpec(input: BuildInput): DiagramSpec {
     for (const m of manifests) byName.set(m.name, m);
 
     // nodes for Deployments/StatefulSets, Services, and Ingresses
-    // (skip shared Deployment/StatefulSet names -- they already have a workspace node)
+    // (skip Deployment/StatefulSet names that already have a workspace node)
     const nodeEntries: { manifest: K8sManifest; entry: ReturnType<typeof nodeFor> }[] = [];
     for (const m of manifests) {
       if (m.kind === "Deployment" || m.kind === "StatefulSet") {
-        if (isShared(m.name)) continue; // already represented by a workspace node
+        if (inWorkspace(m.name)) continue; // already represented by a workspace node
         nodeEntries.push({ manifest: m, entry: nodeFor(m) });
       } else if (m.kind === "Ingress" || m.kind === "Service") {
         nodeEntries.push({ manifest: m, entry: nodeFor(m) });
@@ -243,7 +270,7 @@ export function buildSpec(input: BuildInput): DiagramSpec {
   if (input.dockerfile) {
     const runtime = resolveDockerfileRuntime(input.dockerfile.from);
     if (runtime) {
-      const appAlreadyHasRuntime = input.apps.some((a) => a.iconKey === runtime.mapping.iconKey);
+      const appAlreadyHasRuntime = appIcons.some((ic) => ic === runtime.mapping.iconKey);
       if (!appAlreadyHasRuntime) {
         const id = claimId("runtime");
         nodes.push({
