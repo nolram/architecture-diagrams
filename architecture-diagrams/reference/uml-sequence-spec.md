@@ -119,6 +119,25 @@ Notes:
   gets extra space above it for the fragment tab.
 - Lifelines extend a short tail below the last message.
 
+## Known limitations (v1)
+
+These are deliberate v1 trade-offs, not bugs. They were surfaced by the stress
+specs in `examples/uml/stress/` and are tracked in `IDEAS.md` ("UML sequence:
+known gaps").
+
+- **Message labels cross intermediate lifelines.** A label is centered between a
+  message's two endpoints, so a long label on a message that "jumps over" other
+  participants (e.g. `a -> d` with `b` and `c` in between) is drawn on top of the
+  dashed lifelines of the skipped participants. It stays readable but the lines
+  pierce the text. There is no automatic avoidance/halo in v1. Keep long labels on
+  messages between adjacent participants, or shorten them, when this matters.
+- **Activation bars assume LIFO call/reply nesting.** An `activation: true` bar on
+  a sender extends down to the *first* later reply from `to` back to `from`. For
+  well-formed (LIFO) call/reply chains this produces correctly nested bars. A
+  non-LIFO spec (a reply that crosses an earlier, still-open call) can make two
+  bars on the same lifeline partially overlap, and the inner bar's fill can cover
+  the outer bar's border. Write calls/replies in proper nesting order.
+
 ## Common errors and how the renderer reacts
 
 - **Duplicate participant / message / fragment ids, a message or fragment

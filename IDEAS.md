@@ -22,6 +22,24 @@ That is the main reason the items below are now realistic.
   attributes + relationships.
 - 💡 **UML state / activity / use case** -- already in the ROADMAP backlog.
 
+### UML sequence: known gaps (from stress-test `examples/uml/stress/`)
+
+Identified 2026-08-27 by rendering 8 adversarial specs against the v0.11 sequence
+engine. Three were fixed in v0.11 (fragment tab clamped to its box, self-message
+label width reserved in the canvas, actor column width proportional to the name);
+two remain open as deliberate v1 trade-offs. Full write-up:
+`docs/stress-uml-sequence.md`.
+
+- 💡 **Message labels cross intermediate lifelines** (LOW) -- a label is centered
+  between a message's two endpoints, so a long label on a message that skips over
+  other participants is drawn on top of their dashed lifelines. Readable, but the
+  lines pierce the text. A `paint-order: stroke` halo or a canvas-colored rect
+  behind labels would fix it.
+- 💡 **Activation bars assume LIFO nesting** (LOW) -- an activation bar extends to
+  the *first* later reply, so well-formed call/reply chains nest correctly, but a
+  non-LIFO spec can make two bars on the same lifeline partially overlap (the inner
+  bar's fill covers the outer bar's border). Documented as a v1 limitation.
+
 ## Interoperability
 
 - 💡 **Import Mermaid** -- parse Mermaid → our spec → render. Directly serves the
