@@ -3,6 +3,7 @@ import {
   ACTOR_HEIGHT,
   ACTOR_NAME_SPACE,
   ACTOR_WIDTH,
+  ACTIVATION_WIDTH,
   CHAR_WIDTH,
   COLUMN_GAP,
   FIRST_MESSAGE_GAP,
@@ -29,12 +30,14 @@ export interface SequenceActivation {
   participantId: string;
   top: number;
   bottom: number;
+  xOffset: number;
 }
 
 export interface SequenceLayout extends LayoutResult {
   lifelines: Map<string, SequenceLifeline>;
   activations: SequenceActivation[];
   messageYs: Map<string, number>;
+  activationWarnings: string[];
 }
 
 export function buildSequenceLayout(spec: UmlSequenceSpec): SequenceLayout {
@@ -100,18 +103,82 @@ export function buildSequenceLayout(spec: UmlSequenceSpec): SequenceLayout {
     });
   }
 
-  // Activations: bar on the sender's lifeline, until the matching reply if any
+  // Activations: bar on the sender's lifeline. A reply closes the most recent
+  // open call from the same pair (LIFO); an unmatched call falls back to ROW_HEIGHT
+  const activationWarnings: string[] = [];
+  const bottoms = new Map<string, number>();
+  const openCalls = new Map<string, { messageId: string; to: string; top: number }[]>();
+  for (const m of spec.messages) {
+    const ym = messageYs.get(m.id)!;
+    if (m.kind === "reply") {
+      const stack = openCalls.get(m.to);
+      if (stack) {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          if (stack[i].to === m.from) {
+            bottoms.set(stack[i].messageId, ym);
+            stack.splice(i, 1);
+            break;
+          }
+        }
+      }
+    } else if (m.activation === true && m.kind !== "self") {
+      const stack = openCalls.get(m.from) ?? [];
+      stack.push({ messageId: m.id, to: m.to, top: ym });
+      openCalls.set(m.from, stack);
+    }
+  }
+  for (const stack of openCalls.values()) {
+    for (const call of stack) bottoms.set(call.messageId, call.top + ROW_HEIGHT);
+  }
+
   const activations: SequenceActivation[] = [];
-  for (let i = 0; i < spec.messages.length; i++) {
-    const m = spec.messages[i];
+  const activationMessageIds: string[] = [];
+  for (const m of spec.messages) {
     if (m.activation !== true) continue;
     const top = messageYs.get(m.id)!;
-    let bottom = top + ROW_HEIGHT;
-    if (m.kind !== "self") {
-      const reply = spec.messages.slice(i + 1).find((r) => r.from === m.to && r.to === m.from);
-      if (reply) bottom = messageYs.get(reply.id)!;
+    const bottom = m.kind === "self" ? top + ROW_HEIGHT : bottoms.get(m.id) ?? top + ROW_HEIGHT;
+    activations.push({ participantId: m.from, top, bottom, xOffset: 0 });
+    activationMessageIds.push(m.id);
+  }
+
+  // bars on the same lifeline whose y intervals overlap are drawn side by side,
+  // one (ACTIVATION_WIDTH + 4) per overlap level
+  const byParticipant = new Map<string, number[]>();
+  activations.forEach((a, i) => {
+    const idxs = byParticipant.get(a.participantId) ?? [];
+    idxs.push(i);
+    byParticipant.set(a.participantId, idxs);
+  });
+  for (const idxs of byParticipant.values()) {
+    const ordered = [...idxs].sort((x, y) => activations[x].top - activations[y].top || x - y);
+    const processed: { top: number; bottom: number; level: number }[] = [];
+    for (const i of ordered) {
+      const bar = activations[i];
+      let level = 0;
+      for (const prev of processed) {
+        if (bar.top < prev.bottom && prev.top < bar.bottom) level = Math.max(level, prev.level + 1);
+      }
+      bar.xOffset = level * (ACTIVATION_WIDTH + 4);
+      processed.push({ top: bar.top, bottom: bar.bottom, level });
     }
-    activations.push({ participantId: m.from, top, bottom });
+    const involved = new Set<number>();
+    for (let i = 0; i < ordered.length; i++) {
+      for (let j = 0; j < ordered.length; j++) {
+        if (i === j) continue;
+        const a = activations[ordered[i]];
+        const b = activations[ordered[j]];
+        if (a.top < b.bottom && b.top < a.bottom) {
+          involved.add(ordered[i]);
+          involved.add(ordered[j]);
+        }
+      }
+    }
+    if (involved.size >= 2) {
+      const ids = [...involved].sort((x, y) => x - y).map((i) => activationMessageIds[i]);
+      activationWarnings.push(
+        `activation bars on "${activations[ordered[0]].participantId}" overlap because of nested or non-LIFO call/reply order (messages: ${ids.join(", ")}); they are drawn side by side.`,
+      );
+    }
   }
 
   // Edges: straight lines between lifelines, loopback for self messages
@@ -161,6 +228,7 @@ export function buildSequenceLayout(spec: UmlSequenceSpec): SequenceLayout {
     lifelines,
     activations,
     messageYs,
+    activationWarnings,
   };
 }
 

@@ -4,7 +4,7 @@ import type { AbsoluteBox } from "../../layout/run-layout.js";
 import { getTheme, type Theme } from "../../render/theme.js";
 import { escapeXml } from "../../render/svg-utils.js";
 import type { ComposeResult } from "../../render/compose.js";
-import { ACTIVATION_WIDTH, FRAGMENT_TAB_HEIGHT, SELF_LOOP_DROP, SELF_LOOP_WIDTH } from "./geometry.js";
+import { ACTIVATION_WIDTH, CHAR_WIDTH, FRAGMENT_TAB_HEIGHT, SELF_LOOP_DROP, SELF_LOOP_WIDTH } from "./geometry.js";
 
 const CANVAS_MARGIN = 32;
 const TITLE_HEIGHT = 56;
@@ -78,14 +78,17 @@ function renderMessage(m: UmlSequenceMessage, routePoints: Point[], theme: Theme
 
   let label = "";
   if (m.label) {
+    const bgWidth = m.label.length * CHAR_WIDTH + 8;
     if (m.kind === "self") {
       const x = from.x + SELF_LOOP_WIDTH + 8;
       const y = from.y + SELF_LOOP_DROP / 2 + 4;
-      label = `<text x="${x}" y="${y}" text-anchor="start" font-family='${theme.fontFamily}' font-size="12" fill="${theme.labelColor}">${escapeXml(m.label)}</text>`;
+      label = `<rect x="${x}" y="${y - 11}" width="${bgWidth}" height="16" fill="${theme.canvasBg}"/>` +
+        `<text x="${x}" y="${y}" text-anchor="start" font-family='${theme.fontFamily}' font-size="12" fill="${theme.labelColor}">${escapeXml(m.label)}</text>`;
     } else {
       const x = (points[0].x + points[1].x) / 2;
       const y = from.y - 6;
-      label = `<text x="${x}" y="${y}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="12" fill="${theme.labelColor}">${escapeXml(m.label)}</text>`;
+      label = `<rect x="${x - bgWidth / 2}" y="${y - 11}" width="${bgWidth}" height="16" fill="${theme.canvasBg}"/>` +
+        `<text x="${x}" y="${y}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="12" fill="${theme.labelColor}">${escapeXml(m.label)}</text>`;
     }
   }
 
@@ -135,6 +138,7 @@ export async function composeUmlSequence(
 ): Promise<ComposeResult> {
   const theme = getTheme(spec.theme);
   const warnings: string[] = [];
+  warnings.push(...layout.activationWarnings);
 
   const fragmentParts = spec.fragments
     .map((f) => {
@@ -156,7 +160,7 @@ export async function composeUmlSequence(
     .map((a) => {
       const ll = layout.lifelines.get(a.participantId);
       if (!ll) return "";
-      return `<rect x="${ll.x - ACTIVATION_WIDTH / 2}" y="${a.top}" width="${ACTIVATION_WIDTH}" height="${a.bottom - a.top}" fill="${theme.cardBg}" stroke="${theme.edgeColor}" stroke-width="1.5"/>`;
+      return `<rect x="${ll.x - ACTIVATION_WIDTH / 2 + a.xOffset}" y="${a.top}" width="${ACTIVATION_WIDTH}" height="${a.bottom - a.top}" fill="${theme.cardBg}" stroke="${theme.edgeColor}" stroke-width="1.5"/>`;
     })
     .filter(Boolean);
 

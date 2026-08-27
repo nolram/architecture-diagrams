@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="368" height="460" viewBox="0 0 368 460">
+ <defs>
+   <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+     <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+   </filter>
+ </defs>
+ <rect x="0" y="0" width="368" height="460" fill="#f8fafc"/>
+ <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Parallel and optional fragments stress</text>
+ <g transform="translate(32, 88)">
+ <rect x="8" y="84" width="288" height="148" rx="6" fill="none" stroke="#e2e8f0" stroke-dasharray="6 4"/>
+<rect x="8" y="84" width="289" height="24" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="16" y="100" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a"><tspan font-weight="700">par</tspan> [independent branches executed c…]</text>
+<line x1="8" y1="152" x2="296" y2="152" stroke="#e2e8f0"/>
+<rect x="8" y="248" width="288" height="84" rx="6" fill="none" stroke="#e2e8f0" stroke-dasharray="6 4"/>
+<rect x="8" y="248" width="219" height="24" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="16" y="264" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a"><tspan font-weight="700">opt</tspan> [if health check passes]</text>
+<line x1="8" y1="316" x2="296" y2="316" stroke="#e2e8f0"/>
+ <line x1="32" y1="36" x2="32" y2="340" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="152" y1="36" x2="152" y2="340" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="272" y1="36" x2="272" y2="340" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+ 
+ <path d="M32,120 L142,120" fill="none" stroke="#94a3b8" stroke-width="1.5"/><polygon points="0,0 -10,-4 -10,4" fill="#94a3b8" stroke="#94a3b8" stroke-width="2" transform="translate(152 120) rotate(0)"/><rect x="39" y="103" width="106" height="16" fill="#f8fafc"/><text x="92" y="114" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">branch A start</text>
+<path d="M152,152 L262,152" fill="none" stroke="#94a3b8" stroke-width="1.5"/><polygon points="0,0 -10,-4 -10,4" fill="#94a3b8" stroke="#94a3b8" stroke-width="2" transform="translate(272 152) rotate(0)"/><rect x="166" y="135" width="92" height="16" fill="#f8fafc"/><text x="212" y="146" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">branch A hop</text>
+<path d="M272,184 L162,184" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="7 5"/><polygon points="0,0 -10,-4 -10,4" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(152 184) rotate(180)"/><rect x="162.5" y="167" width="99" height="16" fill="#f8fafc"/><text x="212" y="178" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">branch A back</text>
+<path d="M152,216 L42,216" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="7 5"/><polygon points="0,0 -10,-4 -10,4" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(32 216) rotate(180)"/><rect x="46" y="199" width="92" height="16" fill="#f8fafc"/><text x="92" y="210" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">branch A end</text>
+<path d="M32,284 L262,284" fill="none" stroke="#94a3b8" stroke-width="1.5"/><polygon points="0,0 -10,-4 -10,4" fill="#94a3b8" stroke="#94a3b8" stroke-width="2" transform="translate(272 284) rotate(0)"/><rect x="102.5" y="267" width="99" height="16" fill="#f8fafc"/><text x="152" y="278" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">optional ping</text>
+<path d="M272,316 L42,316" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="7 5"/><polygon points="0,0 -10,-4 -10,4" fill="none" stroke="#94a3b8" stroke-width="2" transform="translate(32 316) rotate(180)"/><rect x="102.5" y="299" width="99" height="16" fill="#f8fafc"/><text x="152" y="310" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">optional pong</text>
+ <rect x="0" y="0" width="64" height="36" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="32" y="22" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="13" font-weight="600" fill="#0f172a">Alpha</text>
+<rect x="120" y="0" width="64" height="36" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="152" y="22" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="13" font-weight="600" fill="#0f172a">Beta</text>
+<rect x="240" y="0" width="64" height="36" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="272" y="22" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="13" font-weight="600" fill="#0f172a">Gamma</text>
+ </g>
+ </svg>

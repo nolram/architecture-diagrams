@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { buildSequenceLayout } from "../src/engines/uml-sequence/layout.js";
 import type { UmlSequenceMessage, UmlSequenceParticipant, UmlSequenceSpec } from "../src/engines/uml-sequence/schema.js";
 import {
+  ACTIVATION_WIDTH,
   ACTOR_HEIGHT,
   ACTOR_NAME_SPACE,
   ACTOR_WIDTH,
@@ -142,6 +143,7 @@ describe("uml-sequence layout", () => {
       participantId: "a",
       top: layout.messageYs.get("m1")!,
       bottom: layout.messageYs.get("m2")!,
+      xOffset: 0,
     });
   });
 
@@ -153,6 +155,7 @@ describe("uml-sequence layout", () => {
       participantId: "a",
       top: layout.messageYs.get("m1")!,
       bottom: layout.messageYs.get("m1")! + ROW_HEIGHT,
+      xOffset: 0,
     });
   });
 
@@ -164,7 +167,60 @@ describe("uml-sequence layout", () => {
       participantId: "a",
       top: layout.messageYs.get("m1")!,
       bottom: layout.messageYs.get("m1")! + ROW_HEIGHT,
+      xOffset: 0,
     });
+  });
+
+  test("a reply closes the most recent open call from the same pair (LIFO)", () => {
+    const s = spec({
+      messages: [
+        m("m1", "a", "b", { activation: true }),
+        m("m2", "a", "b", { activation: true }),
+        m("m3", "b", "a", { kind: "reply" }),
+        m("m4", "b", "a", { kind: "reply" }),
+      ],
+    });
+    const layout = buildSequenceLayout(s);
+    assert.equal(layout.activations.length, 2);
+    assert.deepEqual(layout.activations[0], {
+      participantId: "a",
+      top: layout.messageYs.get("m1")!,
+      bottom: layout.messageYs.get("m4")!,
+      xOffset: 0,
+    });
+    assert.deepEqual(layout.activations[1], {
+      participantId: "a",
+      top: layout.messageYs.get("m2")!,
+      bottom: layout.messageYs.get("m3")!,
+      xOffset: ACTIVATION_WIDTH + 4,
+    });
+  });
+
+  test("overlapping activations on one lifeline get side-by-side offsets and a warning", () => {
+    const s = spec({
+      participants: [p("engine", "Engine"), p("worker", "Worker"), p("queue", "Queue")],
+      messages: [
+        m("c1", "engine", "worker", { activation: true }),
+        m("c2", "engine", "queue", { activation: true }),
+        m("c3", "queue", "engine", { kind: "reply" }),
+        m("c4", "worker", "engine", { kind: "reply" }),
+      ],
+    });
+    const layout = buildSequenceLayout(s);
+    const engineBars = layout.activations.filter((a) => a.participantId === "engine");
+    assert.equal(engineBars.length, 2);
+    const first = engineBars.find((a) => a.bottom === layout.messageYs.get("c4")!)!;
+    const second = engineBars.find((a) => a.bottom === layout.messageYs.get("c3")!)!;
+    assert.equal(first.xOffset, 0);
+    assert.equal(second.xOffset, ACTIVATION_WIDTH + 4);
+    assert.equal(layout.activationWarnings.length, 1);
+    assert.match(layout.activationWarnings[0], /engine/);
+  });
+
+  test("a well-formed call/reply pair produces no activation warnings", () => {
+    const s = spec({ messages: [m("m1", "a", "b", { activation: true }), m("m2", "b", "a", { kind: "reply" })] });
+    const layout = buildSequenceLayout(s);
+    assert.deepEqual(layout.activationWarnings, []);
   });
 
   test("self message route is a 4-point loopback to the right", () => {

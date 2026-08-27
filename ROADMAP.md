@@ -270,10 +270,9 @@ reference example in `architecture-diagrams/reference/uml-sequence.example.yaml`
   participants, deep fragments, self/activation chains, special chars, degenerate
   sizes) exposed three layout bugs, all fixed in v0.11 (fragment tab clamped to its
   box, self-message label width reserved in the canvas, actor column width
-  proportional to the name). Two deliberate v1 trade-offs remain open and are
-  documented as known limitations (message labels crossing intermediate lifelines;
-  activation bars assuming LIFO nesting). Write-up: `docs/stress-uml-sequence.md`;
-  tracked in `IDEAS.md` ("UML sequence: known gaps").
+   proportional to the name). The two remaining gaps were fixed afterwards (canvas-colored
+   label backgrounds; LIFO activation matching with side-by-side bars + warning).
+   Write-up: `docs/stress-uml-sequence.md`; tracked in `IDEAS.md` ("UML sequence: known gaps").
 
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.

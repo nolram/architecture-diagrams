@@ -1,6 +1,6 @@
 # Stress test: UML sequence engine
 
-**Status:** Findings triaged — 3 fixed in v0.11, 2 open (documented as known limitations). See `IDEAS.md` → "UML sequence: known gaps" and `architecture-diagrams/reference/uml-sequence-spec.md` → "Known limitations".
+**Status:** All findings fixed — 3 fixed in v0.11, the 2 remaining gaps fixed afterwards (label backgrounds; LIFO activation matching + side-by-side bars). See `IDEAS.md` → "UML sequence: known gaps" and `architecture-diagrams/reference/uml-sequence-spec.md` → "Label backgrounds and activation bars".
 **Date:** 2026-08-27
 **Version:** v0.11
 **Source:** post-implementation stress pass on the new `uml-sequence` engine (shipped in v0.11)
@@ -87,20 +87,25 @@ visual/semantic, not crashes.
 - ✅ **O(n²) `indexOf` in the double-coverage check** and an inconsistent tab
   padding model — both cleaned up.
 
-### Open (documented as known limitations, not bugs)
+### Fixed after triage
 
-- 💡 **Message labels cross intermediate lifelines** (LOW). A label is centered
+- ✅ **Message labels cross intermediate lifelines** (LOW). A label is centered
   between a message's two endpoints, so a long label on a message that skips over
-  other participants is drawn on top of their dashed lifelines. Readable, but the
-  lines pierce the text. No automatic avoidance/halo in v1. *Trigger:*
-  `many-participants.yaml` (a 50-char label spanning 3 lifelines). *Possible
-  fix:* a `paint-order: stroke` halo or a canvas-colored rect behind labels.
-- 💡 **Activation bars assume LIFO nesting** (LOW). An activation bar extends to
-  the *first* later reply, so well-formed call/reply chains nest correctly. A
-  non-LIFO spec (a reply crossing an earlier still-open call) can make two bars
-  on the same lifeline partially overlap, and the inner bar's fill can cover the
-  outer bar's border. *Trigger:* `self-and-activation.yaml`. *Recommendation:*
-  document that activations assume LIFO call/reply order (done in the spec doc).
+  other participants was drawn on top of their dashed lifelines. *Trigger:*
+  `many-participants.yaml` (a 51-char label spanning 3 lifelines). **Fix:** every
+  message label (self and between lifelines) is now drawn on a canvas-colored
+  rect sized from the same 7px/char model, so the lines no longer pierce the
+  text. A `paint-order: stroke` halo was not used because `@resvg/resvg-js`
+  (PNG export) does not support it; the rect works in SVG, PNG and PDF.
+- ✅ **Activation bars assume LIFO nesting** (LOW). An activation bar extended to
+  the *first* later reply, so a non-LIFO spec (a reply crossing an earlier
+  still-open call) made two bars on the same lifeline partially overlap, and the
+  inner bar's fill covered the outer bar's border. *Trigger:*
+  `self-and-activation.yaml`. **Fix:** a reply now closes the *most recent*
+  still-open call from the same pair (LIFO stack), and bars on the same lifeline
+  that overlap vertically are drawn side by side (offset by one bar width per
+  overlap level). The renderer prints a warning naming the participant and the
+  messages involved.
 
 ### Verified OK (non-findings)
 
@@ -116,8 +121,9 @@ visual/semantic, not crashes.
 
 ## 5. Follow-ups
 
-- The two open items are tracked in `IDEAS.md` ("UML sequence: known gaps") and
-  described in `architecture-diagrams/reference/uml-sequence-spec.md` → "Known
-  limitations".
+- All findings are fixed. The two post-triage fixes are recorded in `IDEAS.md`
+  ("UML sequence: known gaps") and described in
+  `architecture-diagrams/reference/uml-sequence-spec.md` → "Label backgrounds and
+  activation bars".
 - The stress specs are kept in `examples/uml/stress/` as a regression corpus:
   re-render them after any layout/render change to the sequence engine.

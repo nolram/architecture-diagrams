@@ -17,6 +17,16 @@ async function render(raw: unknown): Promise<{ svg: string; spec: UmlSequenceSpe
   return { svg, spec, layout };
 }
 
+async function renderWithWarnings(raw: unknown): Promise<{ svg: string; warnings: string[]; layout: ReturnType<typeof buildSequenceLayout> }> {
+  const result = validateUmlSequenceSpec(raw);
+  assert.equal(result.ok, true, result.ok ? undefined : JSON.stringify(result.errors));
+  if (!result.ok) throw new Error("unreachable");
+  const spec: UmlSequenceSpec = result.spec;
+  const layout = buildSequenceLayout(spec);
+  const { svg, warnings } = await composeUmlSequence(spec, layout);
+  return { svg, warnings, layout };
+}
+
 const base = {
   type: "uml-sequence" as const,
   version: "1" as const,
@@ -130,6 +140,37 @@ describe("uml-sequence render", () => {
     assert.ok(svg.includes(`width="${ACTIVATION_WIDTH}"`), "activation bar expected");
   });
 
+  test("overlapping activations on one lifeline render side by side and warn", async () => {
+    const { svg, warnings, layout } = await renderWithWarnings({
+      ...base,
+      participants: [
+        { id: "engine", name: "Engine" },
+        { id: "worker", name: "Worker" },
+        { id: "queue", name: "Queue" },
+      ],
+      messages: [
+        { id: "c1", from: "engine", to: "worker", kind: "sync", activation: true },
+        { id: "c2", from: "engine", to: "queue", kind: "sync", activation: true },
+        { id: "c3", from: "queue", to: "engine", kind: "reply" },
+        { id: "c4", from: "worker", to: "engine", kind: "reply" },
+      ],
+    });
+    const x = layout.lifelines.get("engine")!.x;
+    const baseX = x - ACTIVATION_WIDTH / 2;
+    const y1 = layout.messageYs.get("c1")!;
+    const y2 = layout.messageYs.get("c2")!;
+    assert.ok(
+      svg.includes(`<rect x="${baseX}" y="${y1}" width="${ACTIVATION_WIDTH}" height="${layout.messageYs.get("c4")! - y1}"`),
+      "first activation bar at the normal x expected",
+    );
+    assert.ok(
+      svg.includes(`<rect x="${baseX + ACTIVATION_WIDTH + 4}" y="${y2}" width="${ACTIVATION_WIDTH}" height="${layout.messageYs.get("c3")! - y2}"`),
+      "second activation bar offset by ACTIVATION_WIDTH + 4 expected",
+    );
+    assert.equal(warnings.length, 1);
+    assert.match(warnings[0], /engine/);
+  });
+
   test("fragment renders a dashed box, a tab with kind and label, and a separator line", async () => {
     const { svg } = await render({
       ...base,
@@ -160,6 +201,45 @@ describe("uml-sequence render", () => {
       messages: [{ id: "m1", from: "a", to: "b", label: "do it" }],
     });
     assert.ok(svg.includes(">do it<"), "message label expected");
+  });
+
+  test("message label renders a canvasBg rect immediately before the text", async () => {
+    const { svg } = await render({
+      ...base,
+      participants: [
+        { id: "a", name: "A" },
+        { id: "b", name: "B" },
+      ],
+      messages: [{ id: "m1", from: "a", to: "b", label: "do it" }],
+    });
+    const width = "do it".length * 7 + 8;
+    const match = svg.match(new RegExp(`<rect x="[^"]+" y="[^"]+" width="${width}" height="16" fill="#f8fafc"/><text[^>]*>do it</text>`));
+    assert.ok(match, `canvasBg rect immediately before label text expected (width=${width})`);
+  });
+
+  test("self message label renders a canvasBg rect with the label width", async () => {
+    const { svg } = await render({
+      ...base,
+      participants: [{ id: "a", name: "A" }],
+      messages: [{ id: "m1", from: "a", to: "a", kind: "self", label: "think" }],
+    });
+    const width = "think".length * 7 + 8;
+    assert.ok(svg.includes(`width="${width}" height="16" fill="#f8fafc"/>`), "canvasBg rect expected");
+    assert.match(svg, new RegExp(`<rect x="[^"]+" y="[^"]+" width="${width}" height="16" fill="#f8fafc"/><text[^>]*>think</text>`));
+  });
+
+  test("midnight-dark theme uses the dark canvasBg for label background rects", async () => {
+    const { svg } = await render({
+      ...base,
+      theme: "midnight-dark",
+      participants: [
+        { id: "a", name: "A" },
+        { id: "b", name: "B" },
+      ],
+      messages: [{ id: "m1", from: "a", to: "b", label: "do it" }],
+    });
+    const width = "do it".length * 7 + 8;
+    assert.ok(svg.includes(`width="${width}" height="16" fill="#0b1220"/>`), "dark canvasBg rect expected");
   });
 
   test("title renders and canvas rect uses the theme canvasBg", async () => {

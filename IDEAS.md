@@ -27,18 +27,17 @@ That is the main reason the items below are now realistic.
 Identified 2026-08-27 by rendering 8 adversarial specs against the v0.11 sequence
 engine. Three were fixed in v0.11 (fragment tab clamped to its box, self-message
 label width reserved in the canvas, actor column width proportional to the name);
-two remain open as deliberate v1 trade-offs. Full write-up:
-`docs/stress-uml-sequence.md`.
+the two remaining gaps were fixed afterwards (label backgrounds, LIFO activation
+matching + side-by-side bars). Full write-up: `docs/stress-uml-sequence.md`.
 
-- 💡 **Message labels cross intermediate lifelines** (LOW) -- a label is centered
-  between a message's two endpoints, so a long label on a message that skips over
-  other participants is drawn on top of their dashed lifelines. Readable, but the
-  lines pierce the text. A `paint-order: stroke` halo or a canvas-colored rect
-  behind labels would fix it.
-- 💡 **Activation bars assume LIFO nesting** (LOW) -- an activation bar extends to
-  the *first* later reply, so well-formed call/reply chains nest correctly, but a
-  non-LIFO spec can make two bars on the same lifeline partially overlap (the inner
-  bar's fill covers the outer bar's border). Documented as a v1 limitation.
+- ✅ **Message labels cross intermediate lifelines** (LOW) -- FIXED: every message
+  label is drawn on a canvas-colored rect, so dashed lifelines no longer pierce
+  the text (works in SVG, PNG and PDF; `paint-order` was not an option because
+  resvg does not support it).
+- ✅ **Activation bars assume LIFO nesting** (LOW) -- FIXED: a reply now closes the
+  *most recent* still-open call from the same pair (LIFO stack), and bars on the
+  same lifeline that overlap vertically are drawn side by side (offset per overlap
+  level) with a render warning naming the participant and messages involved.
 
 ## Interoperability
 

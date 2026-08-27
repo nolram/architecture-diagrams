@@ -119,24 +119,22 @@ Notes:
   gets extra space above it for the fragment tab.
 - Lifelines extend a short tail below the last message.
 
-## Known limitations (v1)
+## Label backgrounds and activation bars
 
-These are deliberate v1 trade-offs, not bugs. They were surfaced by the stress
-specs in `examples/uml/stress/` and are tracked in `IDEAS.md` ("UML sequence:
-known gaps").
-
-- **Message labels cross intermediate lifelines.** A label is centered between a
-  message's two endpoints, so a long label on a message that "jumps over" other
-  participants (e.g. `a -> d` with `b` and `c` in between) is drawn on top of the
-  dashed lifelines of the skipped participants. It stays readable but the lines
-  pierce the text. There is no automatic avoidance/halo in v1. Keep long labels on
-  messages between adjacent participants, or shorten them, when this matters.
-- **Activation bars assume LIFO call/reply nesting.** An `activation: true` bar on
-  a sender extends down to the *first* later reply from `to` back to `from`. For
-  well-formed (LIFO) call/reply chains this produces correctly nested bars. A
-  non-LIFO spec (a reply that crosses an earlier, still-open call) can make two
-  bars on the same lifeline partially overlap, and the inner bar's fill can cover
-  the outer bar's border. Write calls/replies in proper nesting order.
+- **Message labels have a canvas-colored background.** Every message label is
+  drawn on a small rectangle filled with the canvas background color, so dashed
+  lifelines that pass under a label (e.g. `a -> d` with `b` and `c` in between)
+  do not pierce the text. The background follows the theme's canvas color.
+- **Activation bars match replies LIFO.** An `activation: true` bar on a sender
+  extends down to the reply that closes that call: a reply closes the *most
+  recent* still-open call from the same pair, so well-formed (LIFO) call/reply
+  chains produce correctly nested bars. A call with no later reply gets a short
+  bar (one row).
+- **Overlapping bars are drawn side by side.** If two bars on the same lifeline
+  overlap vertically (nested or non-LIFO call/reply order), the later one is
+  offset to the right by one bar width per overlap level, so no bar's fill covers
+  another's border. The renderer prints a warning naming the participant and the
+  messages involved; for clean nesting, write calls/replies in proper LIFO order.
 
 ## Common errors and how the renderer reacts
 
