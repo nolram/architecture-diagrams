@@ -30,6 +30,7 @@ TypeScript CLI (`arch-diagram`) that renders YAML/JSON specs to SVG (+ optional 
 
 - Self-contained Claude Skill (SKILL.md + reference/ + scripts/render.sh) and the release artifact: tag `v*.*.*` → release.yml runs the checks, `npm run package:skill` zips it to `architecture-diagrams.skill`, publishes a GitHub Release
 - SKILL.md frontmatter is validated by `npm run validate:skill`: allowed keys name/description/license/allowed-tools/metadata/compatibility; name kebab-case ≤64 chars; description ≤1024 chars, no `<`/`>`
+- Delegate to sub-agents sequentially, and review their implementation, act as leader and delegate the tasks to sub-agents and review their work.
 
 ## Gotchas
 
