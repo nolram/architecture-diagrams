@@ -73,9 +73,12 @@ messages:
 Notes:
 - For `reply`, write `from` = the callee, `to` = the caller (the arrow points back).
 - `activation: true` draws a thin bar on the **sender's** lifeline starting at this
-  message; it extends down to the first later reply from `to` back to `from` (if
-  one exists), otherwise one row. Use it on the caller side of a sync call to show
-  the object is active while waiting.
+  message; it extends down to the reply that closes this call -- a reply closes the
+  *most recent* still-open call from the same pair (LIFO) -- or one row if no such
+  reply exists. Use it on the caller side of a sync call to show the object is
+  active while waiting. If two bars on the same lifeline overlap, the later one is
+  drawn offset to the right and a warning is printed (see "Label backgrounds and
+  activation bars").
 - A `self` message draws a loopback to the right of the lifeline; its label is
   placed to the right of the loop.
 
