@@ -1,0 +1,108 @@
+# Stress: bent routes -- same-layer edges (B->C, D->E) force orthogonal bends
+# close to the box boundaries, and the back-edge F->A adds a long multi-bend
+# route. Stresses the marker-extent shortening in renderErEdge when the first
+# or last route segment is SHORTER than the marker extent (10-22px): the
+# shortened line start may overshoot the first bend and cross through the
+# marker.
+
+type: er
+version: '1'
+title: 'Stress -- bent routes'
+
+entities:
+  - id: a
+    name: Alpha
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: b
+    name: Beta
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: c
+    name: Gamma
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: d
+    name: Delta
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: e
+    name: Epsilon
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: f
+    name: Zeta
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+relationships:
+  - from: a
+    to: b
+    label: a-b
+    fromCardinality: one
+    toCardinality: many
+
+  - from: a
+    to: c
+    label: a-c
+    fromCardinality: one
+    toCardinality: many
+
+  - from: b
+    to: c
+    label: same-layer b-c
+    fromCardinality: zero-or-many
+    toCardinality: zero-or-one
+
+  - from: b
+    to: d
+    label: b-d
+    fromCardinality: one
+    toCardinality: many
+
+  - from: c
+    to: e
+    label: c-e
+    fromCardinality: one
+    toCardinality: many
+
+  - from: d
+    to: e
+    label: same-layer d-e
+    fromCardinality: zero-or-many
+    toCardinality: zero-or-one
+
+  - from: d
+    to: f
+    label: d-f
+    fromCardinality: one
+    toCardinality: many
+
+  - from: e
+    to: f
+    label: e-f
+    fromCardinality: one
+    toCardinality: many
+
+  - from: f
+    to: a
+    label: back-edge f-a
+    fromCardinality: many
+    toCardinality: zero-or-one

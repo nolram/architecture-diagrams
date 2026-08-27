@@ -1,0 +1,171 @@
+# Stress: dense star -- one central entity connected to 14 others
+# (fan-out) with mixed cardinalities. Stresses marker placement when
+# many edges leave one box boundary close together.
+
+type: er
+version: '1'
+title: 'Stress -- dense star'
+
+entities:
+  - id: center
+    name: CentralRegistry
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+  - id: spoke0
+    name: Spoke 0
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke1
+    name: Spoke 1
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke2
+    name: Spoke 2
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke3
+    name: Spoke 3
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke4
+    name: Spoke 4
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke5
+    name: Spoke 5
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke6
+    name: Spoke 6
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke7
+    name: Spoke 7
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke8
+    name: Spoke 8
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke9
+    name: Spoke 9
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke10
+    name: Spoke 10
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke11
+    name: Spoke 11
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke12
+    name: Spoke 12
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+  - id: spoke13
+    name: Spoke 13
+    attributes:
+      - name: center_id
+        type: UUID
+        key: foreign
+
+relationships:
+  - from: center
+    to: spoke0
+    label: link-0
+    fromCardinality: one
+    toCardinality: zero-or-one
+  - from: center
+    to: spoke1
+    label: link-1
+    fromCardinality: zero-or-one
+    toCardinality: one
+  - from: center
+    to: spoke2
+    label: link-2
+    fromCardinality: many
+    toCardinality: zero-or-many
+  - from: center
+    to: spoke3
+    label: link-3
+    fromCardinality: zero-or-many
+    toCardinality: many
+  - from: center
+    to: spoke4
+    label: link-4
+    fromCardinality: one
+    toCardinality: zero-or-one
+  - from: center
+    to: spoke5
+    label: link-5
+    fromCardinality: zero-or-one
+    toCardinality: one
+  - from: center
+    to: spoke6
+    label: link-6
+    fromCardinality: many
+    toCardinality: zero-or-many
+  - from: center
+    to: spoke7
+    label: link-7
+    fromCardinality: zero-or-many
+    toCardinality: many
+  - from: center
+    to: spoke8
+    label: link-8
+    fromCardinality: one
+    toCardinality: zero-or-one
+  - from: center
+    to: spoke9
+    label: link-9
+    fromCardinality: zero-or-one
+    toCardinality: one
+  - from: center
+    to: spoke10
+    label: link-10
+    fromCardinality: many
+    toCardinality: zero-or-many
+  - from: center
+    to: spoke11
+    label: link-11
+    fromCardinality: zero-or-many
+    toCardinality: many
+  - from: center
+    to: spoke12
+    label: link-12
+    fromCardinality: one
+    toCardinality: zero-or-one
+  - from: center
+    to: spoke13
+    label: link-13
+    fromCardinality: zero-or-one
+    toCardinality: one

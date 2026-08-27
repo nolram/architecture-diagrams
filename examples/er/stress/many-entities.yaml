@@ -1,0 +1,259 @@
+# Stress: layout density -- 16 entities, 21 relationships, mixed cardinalities.
+# Stresses ELK layered layout with many nodes per layer and dense edge routing.
+
+type: er
+version: '1'
+title: 'Stress -- many entities'
+
+entities:
+  - id: org
+    name: Organization
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: name
+        type: string
+  - id: dept
+    name: Department
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: org_id
+        type: UUID
+        key: foreign
+      - name: title
+        type: string
+  - id: team
+    name: Team
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: dept_id
+        type: UUID
+        key: foreign
+  - id: user
+    name: User
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: team_id
+        type: UUID
+        key: foreign
+      - name: email
+        type: string
+  - id: role
+    name: Role
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: slug
+        type: string
+  - id: permission
+    name: Permission
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: code
+        type: string
+  - id: project
+    name: Project
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: org_id
+        type: UUID
+        key: foreign
+  - id: repo
+    name: Repository
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: project_id
+        type: UUID
+        key: foreign
+  - id: branch
+    name: Branch
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: repo_id
+        type: UUID
+        key: foreign
+  - id: commit
+    name: Commit
+    attributes:
+      - name: id
+        type: SHA1
+        key: primary
+      - name: branch_id
+        type: UUID
+        key: foreign
+  - id: issue
+    name: Issue
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: project_id
+        type: UUID
+        key: foreign
+  - id: label
+    name: Label
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: color
+        type: string
+  - id: milestone
+    name: Milestone
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: project_id
+        type: UUID
+        key: foreign
+  - id: review
+    name: Review
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: commit_id
+        type: SHA1
+        key: foreign
+  - id: comment
+    name: Comment
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: user_id
+        type: UUID
+        key: foreign
+  - id: audit_log
+    name: AuditLogEntry
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: user_id
+        type: UUID
+        key: foreign
+
+relationships:
+  - from: org
+    to: dept
+    label: has-departments
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: dept
+    to: team
+    label: has-teams
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: team
+    to: user
+    label: members
+    fromCardinality: one
+    toCardinality: many
+  - from: user
+    to: role
+    label: holds-roles
+    fromCardinality: many
+    toCardinality: many
+  - from: role
+    to: permission
+    label: grants
+    fromCardinality: many
+    toCardinality: many
+  - from: org
+    to: project
+    label: owns
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: project
+    to: repo
+    label: contains
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: repo
+    to: branch
+    label: branches
+    fromCardinality: one
+    toCardinality: many
+  - from: branch
+    to: commit
+    label: commits
+    fromCardinality: one
+    toCardinality: many
+  - from: project
+    to: issue
+    label: tracks
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: issue
+    to: label
+    label: tagged-with
+    fromCardinality: many
+    toCardinality: many
+  - from: project
+    to: milestone
+    label: milestones
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: issue
+    to: milestone
+    label: due-in
+    fromCardinality: many
+    toCardinality: zero-or-one
+  - from: commit
+    to: review
+    label: reviewed-by
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: review
+    to: user
+    label: reviewer
+    fromCardinality: one
+    toCardinality: one
+  - from: issue
+    to: comment
+    label: discussion
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: user
+    to: comment
+    label: authored
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: user
+    to: audit_log
+    label: activity
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: commit
+    to: audit_log
+    label: recorded-in
+    fromCardinality: one
+    toCardinality: zero-or-one
+  - from: team
+    to: project
+    label: staffs
+    fromCardinality: many
+    toCardinality: many
+  - from: milestone
+    to: review
+    label: gates
+    fromCardinality: one
+    toCardinality: zero-or-many

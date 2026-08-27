@@ -1,0 +1,36 @@
+# ER diagram -- explicit left-to-right layout (type: er, direction: right)
+# A small two-entity model to show the explicit `direction` field.
+
+type: er
+version: '1'
+title: "Library -- data model (direction: right)"
+theme: clean-light
+direction: right
+
+entities:
+  - id: member
+    name: Member
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: email
+        type: string
+
+  - id: loan
+    name: Loan
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: member_id
+        type: UUID
+        key: foreign
+
+relationships:
+  # a member takes out zero-or-many loans; each loan belongs to one member
+  - from: member
+    to: loan
+    label: borrows
+    fromCardinality: one
+    toCardinality: zero-or-many

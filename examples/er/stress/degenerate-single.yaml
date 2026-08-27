@@ -1,0 +1,15 @@
+# Stress: degenerate minimum -- a single entity with a single attribute and no
+# relationships. Stresses the layout with zero edges and the renderer's
+# single-node canvas sizing.
+
+type: er
+version: '1'
+title: 'Stress -- degenerate single entity'
+
+entities:
+  - id: solo
+    name: Solo
+    attributes:
+      - name: id
+        type: int
+        key: primary

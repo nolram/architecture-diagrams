@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="521.25" height="944" viewBox="0 0 521.25 944">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="521.25" height="944" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Stress -- weak entity chain</text>
+<g transform="translate(32, 88)">
+<path d="M333.85,134 L333.85,320" fill="none" stroke="#94a3b8" stroke-width="2"/><g transform="translate(333.85 124) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(333.85 332) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="241.65000000000006" y="220" width="80.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="281.75000000000006" y="231.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">has-entries</text>
+<path d="M333.85,462 L333.85,596 L226.5,596 L226.5,638" fill="none" stroke="#94a3b8" stroke-width="2"/><g transform="translate(333.85 452) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(226.5 660) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="346.85" y="548" width="86.4" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="390.05" y="559.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">revisions-of</text>
+<path d="M153.4,462 L153.4,638" fill="none" stroke="#94a3b8" stroke-width="2"/><g transform="translate(153.4 452) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(153.4 660) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="24" y="548" width="117.4" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="82.7" y="559.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">authored-revision</text>
+<g transform="translate(273.75, 24)">
+<rect x="0" y="0" width="120.2" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">AuditLog</text>
+<line x1="0" y1="40" x2="120.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">at: timestamp</text>
+</g>
+<g transform="translate(261.4, 332)">
+<rect x="0" y="0" width="144.9" height="120" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<rect x="4" y="4" width="136.9" height="112" rx="7" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.45" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">AuditLogEntry</text>
+<line x1="0" y1="40" x2="144.9" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">log_id: UUID</text>
+<rect x="12" y="73" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">seq: int</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">message: text</text>
+</g>
+<g transform="translate(80.30000000000001, 660)">
+<rect x="0" y="0" width="219.3" height="140" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<rect x="4" y="4" width="211.3" height="132" rx="7" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+<text x="109.65" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">AuditLogEntryRevision</text>
+<line x1="0" y1="40" x2="219.3" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">entry_id: int</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">entry_log_id: UUID</text>
+<rect x="12" y="93" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="103.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">revision: int</text>
+<text x="12" y="124.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">edited_by: UUID</text>
+</g>
+<g transform="translate(93.4, 372)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Editor</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+</g>
+</g>
+</svg>

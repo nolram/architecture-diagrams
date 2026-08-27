@@ -302,6 +302,48 @@ specified in `architecture-diagrams/reference/mermaid-import-spec.md`.
   (mapping table, supported/dropped, workflow); README + SKILL.md +
   `reference/mcp.md` updated.
 
+## v0.13 -- ER diagrams
+
+Fifth diagram family on the v0.5 multi-engine foundation: `type: er` selects the
+ER engine, which reuses the shared ELK runner, theme, SVG utils, and PNG/PDF
+export (`auto` resolves to `down`). Entities carry attributes with PK/FK badges
+and underlined key attributes; weak entities render a double border and must have
+at least one identifying relationship (enforced in validation). Relationships use
+crow's-foot cardinalities (one / zero-or-one / many / zero-or-many) with
+identifying (solid) vs non-identifying (dashed) lines and optional edge labels.
+The format is specified in `architecture-diagrams/reference/er-spec.md` with a
+reference example in `architecture-diagrams/reference/er.example.yaml`.
+
+- [x] **ER engine** -- `type: er`; entities with attributes (`key: primary` /
+  `key: foreign` → PK/FK badge + underlined name), `weak: true` (double border,
+  requires ≥1 identifying relationship -- a validation error otherwise), and
+  relationships with `fromCardinality`/`toCardinality` (one / zero-or-one / many /
+  zero-or-many), `identifying: true` (solid line) vs default (dashed), and an
+  optional `label` pill at the edge midpoint. Validation: unique entity ids, no
+  self-relationships, endpoints must exist, cardinality values checked. Reuses the
+  shared ELK runner, theme, and SVG utils; `auto` resolves to `down`. Done:
+  `src/engines/er/` (schema/geometry/layout/render), registered in the engine
+  registry so CLI/MCP dispatch + `list_diagram_types` pick it up automatically.
+- [x] **Tests** -- 31 new tests: spec validation (incl. the weak-entity rule,
+  field paths and allowed-value lists), layout geometry (monotonicity + direction),
+  and render (crow's-foot markers, PK/FK badges, solid/dashed lines, text
+  escaping, both themes).
+- [x] **Examples** -- runnable examples in `examples/er/` (e-commerce, banking
+  dark theme, explicit `direction: right`) plus the reference example
+  `architecture-diagrams/reference/er.example.yaml`.
+- [x] **Docs** -- `architecture-diagrams/reference/er-spec.md` +
+  `er.example.yaml`; README, SKILL.md, and `reference/mcp.md` updated with the ER
+  family.
+- [x] **Stress pass** -- 11 adversarial specs in `examples/er/stress/` (many
+  entities, long names, all 16 cardinalities, weak-entity chains, parallel edges,
+  special chars, dense star, directed cycle, degenerate sizes, bent routes) found
+  one real defect, fixed in v0.13: parallel-edge label pills overlapped because
+  the layout gave ELK no label size (now passed through, and pills are drawn at
+  ELK's reserved box -- mirroring the architecture engine). The other suspected
+  issues (text overflow, marker overshoot on bent routes, edge-through-box, XML
+  escaping) were verified non-findings. Write-up: `docs/stress-er.md`; tracked in
+  `IDEAS.md` ("ER: known gaps").
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.

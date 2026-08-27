@@ -18,9 +18,28 @@ That is the main reason the items below are now realistic.
   what we already have. Implemented in v0.6. Spec: `architecture-diagrams/reference/c4-spec.md`.
 - ✅ **UML sequence** -- the most-requested UML diagram after class; complements the
   class engine. Implemented in v0.11. Spec: `architecture-diagrams/reference/uml-sequence-spec.md`.
-- 💡 **ER (entity-relationship)** -- sibling of the class diagram; reuses boxes with
-  attributes + relationships.
+- ✅ **ER (entity-relationship)** -- sibling of the class diagram; reuses boxes with
+  attributes + relationships. Implemented in v0.13. Spec: `architecture-diagrams/reference/er-spec.md`.
 - 💡 **UML state / activity / use case** -- already in the ROADMAP backlog.
+
+### ER: known gaps (from stress-test `examples/er/stress/`)
+
+Identified 2026-08-27 by rendering 11 adversarial specs against the v0.13 ER
+engine. One real defect was found and fixed (parallel-edge label pills
+overlapping); the rest were verified non-findings or accepted as-is. Full
+write-up: `docs/stress-er.md`.
+
+- ✅ **Parallel-edge label pills overlapped** (MEDIUM) -- FIXED: `buildErElkGraph`
+  gave ELK no label size, so edges between the same pair of entities were stacked
+  24px apart while the pills (60-100px wide) collided. The layout now passes the
+  label size to ELK (which spaces the edges apart and reserves a box per label)
+  and the renderer draws each pill at ELK's reserved box -- mirroring the
+  architecture engine. Regression tests in `tests/er-layout.test.ts` and
+  `tests/er-render.test.ts`.
+- 💡 **Weak-entity divider pokes past the inner border** (LOW) -- accepted: the
+  name/attribute divider line spans the full box width, so it crosses the 4px
+  inset double border. Same color as the border, visually negligible; not worth a
+  special-case clip.
 
 ### UML sequence: known gaps (from stress-test `examples/uml/stress/`)
 
@@ -118,4 +137,4 @@ diagram in v0.9). Current shortlist, in rough order of strategic value:
    Mermaid" adoption story; flowchart/graph only).
 3. **UML sequence** -- ✅ done in v0.11 (was the biggest engineering lift:
    new lifeline/time-axis layout).
-4. **ER diagram** -- cheapest new engine (sibling of uml-class); quick win.
+4. **ER diagram** -- ✅ shipped in v0.13 (cheapest new engine, sibling of uml-class).

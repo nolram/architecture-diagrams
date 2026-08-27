@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="232" height="248" viewBox="0 0 232 248">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="232" height="248" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Stress -- degenerate single entity</text>
+<g transform="translate(32, 88)">
+
+<g transform="translate(24, 24)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Solo</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: int</text>
+</g>
+</g>
+</svg>

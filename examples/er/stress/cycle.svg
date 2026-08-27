@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="528.2" height="824" viewBox="0 0 528.2 824">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="528.2" height="824" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Stress -- directed cycle</text>
+<g transform="translate(32, 88)">
+<path d="M378,114 L378,300" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(378 104) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(378 312) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="391" y="200" width="49.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="415.6" y="211.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">a-to-b</text>
+<path d="M378,402 L378,536 L163.39999999999998,536 L163.39999999999998,588" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(378 392) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(163.39999999999998 600) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="391" y="488" width="49.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="415.6" y="499.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">b-to-c</text>
+<path d="M133.39999999999998,588 L133.39999999999998,146 L348,146 L348,124" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(133.39999999999998 600) rotate(-90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(348 104) rotate(-90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="146.39999999999998" y="344" width="123.60000000000001" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="208.2" y="355.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">c-to-a (back-edge)</text>
+<path d="M318,126 L318,136 L122.4,136 L122.4,536 L103.39999999999998,536 L103.39999999999998,590" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(318 104) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><g transform="translate(103.39999999999998 600) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="24" y="344" width="86.4" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="67.2" y="355.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">chord a-to-c</text>
+<g transform="translate(288, 24)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Alpha</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+</g>
+<g transform="translate(318, 312)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Beta</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+</g>
+<g transform="translate(73.39999999999998, 600)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Gamma</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+</g>
+</g>
+</svg>

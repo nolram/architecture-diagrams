@@ -92,7 +92,7 @@ Lists the registered diagram engines.
 
 Arguments: none.
 
-Returns: the engine types (`architecture`, `uml-class`, `c4`) with a one-line description each.
+Returns: the engine types (`architecture`, `uml-class`, `uml-sequence`, `c4`, `er`) with a one-line description each.
 
 ### `analyze_codebase`
 

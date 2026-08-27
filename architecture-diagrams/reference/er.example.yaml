@@ -1,0 +1,97 @@
+# ER diagram spec (type: er)
+#
+# Renders an e-commerce data model: entities with PK/FK attributes, a weak
+# entity (OrderLine, double border) owned via an identifying relationship,
+# all four crow's-foot cardinalities, and solid vs dashed lines.
+# Full format: ./er-spec.md
+
+type: er
+version: '1'
+title: E-commerce -- data model
+theme: clean-light
+direction: auto          # resolves to down; the "owns" direction reads top-down
+
+entities:
+  - id: customer
+    name: Customer
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: email
+        type: string
+
+  - id: product
+    name: Product
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: name
+        type: string
+      - name: price
+        type: decimal
+
+  - id: order
+    name: Order
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: customer_id
+        type: UUID
+        key: foreign
+      - name: placedAt
+        type: datetime
+
+  - id: order-line
+    name: OrderLine
+    weak: true           # double border; exists only through its Order
+    attributes:
+      - name: product_id
+        type: UUID
+        key: foreign
+      - name: quantity
+        type: int
+
+  - id: payment
+    name: Payment
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: order_id
+        type: UUID
+        key: foreign
+      - name: amount
+        type: decimal
+
+relationships:
+  # one customer places zero-or-many orders (dashed, non-identifying)
+  - from: customer
+    to: order
+    label: places
+    fromCardinality: one
+    toCardinality: zero-or-many
+
+  # an order owns its lines -- identifying (solid) line, which is what makes
+  # the weak OrderLine entity valid
+  - from: order
+    to: order-line
+    fromCardinality: one
+    toCardinality: many
+    identifying: true
+
+  # each line references exactly one product (dashed)
+  - from: order-line
+    to: product
+    label: references
+    fromCardinality: many
+    toCardinality: one
+
+  # an order settles with zero-or-one payments (dashed)
+  - from: order
+    to: payment
+    label: settles
+    fromCardinality: one
+    toCardinality: zero-or-one

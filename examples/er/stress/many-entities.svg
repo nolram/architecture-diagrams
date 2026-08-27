@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="937" height="3388" viewBox="0 0 937 3388">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="937" height="3388" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Stress -- many entities</text>
+<g transform="translate(32, 88)">
+<path d="M141,134 L141,310" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(141 124) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(141 332) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="24" y="220" width="105" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="76.5" y="231.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">has-departments</text>
+<path d="M141,462 L141,638" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(141 452) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(141 660) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="61.19999999999999" y="548" width="67.80000000000001" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="95.1" y="559.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">has-teams</text>
+<path d="M165.7,770 L165.7,2444 L501.95,2444 L501.95,2496" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(165.7 760) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(501.95 2508) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="98.29999999999998" y="1626" width="55.4" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="125.99999999999999" y="1637.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">members</text>
+<path d="M526.65,2640 L526.65,2670 L592.8000000000001,2670 L592.8,2824" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(526.65 2628) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(592.8 2836) rotate(90.00000000000006)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="500.6" y="2724" width="80.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="540.7" y="2735.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">holds-roles</text>
+<path d="M592.8,2948 L592.8,3132" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(592.8 2936) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(592.8 3144) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="531.6000000000001" y="3032" width="49.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="556.2000000000002" y="3043.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">grants</text>
+<path d="M186.2,134 L186.2,156 L392.16666666666663,156 L392.16666666666663,946" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(186.2 124) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(392.16666666666663 968) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="405.16666666666663" y="548" width="36.8" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="423.5666666666666" y="559.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">owns</text>
+<path d="M403.9,1078 L403.9,1100 L731.4833333333333,1100 L731.4833333333333,1254" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(403.9 1068) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(731.4833333333333 1276) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="657.8833333333333" y="1164" width="61.6" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="688.6833333333333" y="1175.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">contains</text>
+<path d="M731.4833333333333,1386 L731.4833333333333,1572" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(731.4833333333333 1376) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(731.4833333333333 1584) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="657.8833333333333" y="1472" width="61.6" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="688.6833333333333" y="1483.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">branches</text>
+<path d="M731.4833333333333,1694 L731.4833333333333,1880" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(731.4833333333333 1684) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(731.4833333333333 1892) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="744.4833333333333" y="1780" width="55.4" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="772.1833333333334" y="1791.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">commits</text>
+<path d="M333.49999999999994,1078 L333.5,1254" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(333.49999999999994 1068) rotate(89.99999999999999)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(333.5 1276) rotate(89.99999999999999)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="272.3" y="1164" width="49.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="296.90000000000003" y="1175.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">tracks</text>
+<path d="M290.9,1388 L290.9,1572" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(290.9 1376) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(290.9 1584) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="198.7" y="1472" width="80.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="238.79999999999998" y="1483.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">tagged-with</text>
+<path d="M368.69999999999993,1078 L368.69999999999993,1110 L552.7,1110 L552.7,1520 L552.5833333333334,1520 L552.5833333333334,1562" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(368.69999999999993 1068) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(552.5833333333334 1584) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="466.70000000000005" y="1318" width="74" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="503.70000000000005" y="1329.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">milestones</text>
+<path d="M376.1,1388 L376.1,1408 L495.7833333333333,1408 L495.78333333333336,1564" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(376.1 1376) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(495.78333333333336 1584) rotate(89.99999999999999)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="434.5833333333333" y="1472" width="49.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="459.18333333333334" y="1483.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">due-in</text>
+<path d="M704.3166666666667,2002 L704.3166666666667,2136 L578.5166666666667,2136 L578.5166666666667,2178" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(704.3166666666667 1992) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(578.5166666666667 2200) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="612.1166666666667" y="2088" width="80.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="652.2166666666667" y="2099.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">reviewed-by</text>
+<path d="M551.35,2310 L551.35,2498" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(551.35 2300) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(551.35 2508) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="477.75" y="2396" width="61.6" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="508.55" y="2407.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">reviewer</text>
+<path d="M333.5,1386 L333.5,1418 L383,1418 L383,2814" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(333.5 1376) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(383 2836) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="297" y="2088" width="74" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="334" y="2099.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">discussion</text>
+<path d="M489.6,2638 L489.6,2772 L432.40000000000003,2772 L432.40000000000003,2814" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(489.6 2628) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(432.40000000000003 2836) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="416" y="2724" width="61.6" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="446.8" y="2735.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">authored</text>
+<path d="M563.7,2638 L563.7,2660 L750.1999999999999,2660 L750.1999999999999,2814" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(563.7 2628) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(750.1999999999999 2836) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="676.5999999999999" y="2724" width="61.6" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="707.3999999999999" y="2735.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">activity</text>
+<path d="M758.65,2002 L758.65,2024 L783.1999999999999,2024 L783.1999999999999,2772 L799.5999999999999,2772 L799.5999999999999,2816" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(758.65 1992) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(799.5999999999999 2836) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="690.9999999999999" y="2396" width="80.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="731.0999999999999" y="2407.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">recorded-in</text>
+<path d="M116.30000000000001,772 L116.30000000000001,904 L345.2333333333333,904 L345.2333333333333,956" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(116.30000000000001 760) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(345.2333333333333 968) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="55.100000000000016" y="856" width="49.2" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="79.70000000000002" y="867.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">staffs</text>
+<path d="M524.1833333333334,1694 L524.1833333333334,2178" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(524.1833333333334 1684) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(524.1833333333334 2200) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="469.18333333333334" y="1934" width="43" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="490.68333333333334" y="1945.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">gates</text>
+<g transform="translate(95.79999999999998, 24)">
+<rect x="0" y="0" width="135.60000000000002" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="67.80000000000001" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Organization</text>
+<line x1="0" y1="40" x2="135.60000000000002" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">name: string</text>
+</g>
+<g transform="translate(70.6, 332)">
+<rect x="0" y="0" width="140.8" height="120" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="70.4" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Department</text>
+<line x1="0" y1="40" x2="140.8" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">org_id: UUID</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">title: string</text>
+</g>
+<g transform="translate(66.9, 660)">
+<rect x="0" y="0" width="148.2" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="74.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Team</text>
+<line x1="0" y1="40" x2="148.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">dept_id: UUID</text>
+</g>
+<g transform="translate(452.55, 2508)">
+<rect x="0" y="0" width="148.2" height="120" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="74.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">User</text>
+<line x1="0" y1="40" x2="148.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">team_id: UUID</text>
+<text x="12" y="104.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">email: string</text>
+</g>
+<g transform="translate(532.8, 2836)">
+<rect x="0" y="0" width="120" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Role</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">slug: string</text>
+</g>
+<g transform="translate(532.8, 3144)">
+<rect x="0" y="0" width="120" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Permission</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">code: string</text>
+</g>
+<g transform="translate(298.29999999999995, 968)">
+<rect x="0" y="0" width="140.8" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="70.4" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Project</text>
+<line x1="0" y1="40" x2="140.8" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">org_id: UUID</text>
+</g>
+<g transform="translate(646.2833333333333, 1276)">
+<rect x="0" y="0" width="170.4" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="85.2" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Repository</text>
+<line x1="0" y1="40" x2="170.4" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">project_id: UUID</text>
+</g>
+<g transform="translate(657.3833333333333, 1584)">
+<rect x="0" y="0" width="148.2" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="74.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Branch</text>
+<line x1="0" y1="40" x2="148.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">repo_id: UUID</text>
+</g>
+<g transform="translate(649.9833333333333, 1892)">
+<rect x="0" y="0" width="163" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="81.5" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Commit</text>
+<line x1="0" y1="40" x2="163" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: SHA1</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">branch_id: UUID</text>
+</g>
+<g transform="translate(248.29999999999998, 1276)">
+<rect x="0" y="0" width="170.4" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="85.2" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Issue</text>
+<line x1="0" y1="40" x2="170.4" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">project_id: UUID</text>
+</g>
+<g transform="translate(230.79999999999998, 1584)">
+<rect x="0" y="0" width="120.2" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Label</text>
+<line x1="0" y1="40" x2="120.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">color: string</text>
+</g>
+<g transform="translate(438.98333333333335, 1584)">
+<rect x="0" y="0" width="170.4" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="85.2" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Milestone</text>
+<line x1="0" y1="40" x2="170.4" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">project_id: UUID</text>
+</g>
+<g transform="translate(469.85, 2200)">
+<rect x="0" y="0" width="163" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="81.5" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Review</text>
+<line x1="0" y1="40" x2="163" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">commit_id: SHA1</text>
+</g>
+<g transform="translate(333.6, 2836)">
+<rect x="0" y="0" width="148.2" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="74.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Comment</text>
+<line x1="0" y1="40" x2="148.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">user_id: UUID</text>
+</g>
+<g transform="translate(700.8, 2836)">
+<rect x="0" y="0" width="148.2" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="74.1" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">AuditLogEntry</text>
+<line x1="0" y1="40" x2="148.2" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id: UUID</text>
+<rect x="12" y="73" width="20" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="22" y="83.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">FK</text>
+<text x="38" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">user_id: UUID</text>
+</g>
+</g>
+</svg>

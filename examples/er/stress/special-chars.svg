@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="498.6" height="844" viewBox="0 0 498.6 844">
+<defs>
+  <filter id="card-shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(15, 23, 42, 0.18)"/>
+  </filter>
+</defs>
+<rect x="0" y="0" width="498.6" height="844" fill="#f8fafc"/>
+<text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Stress -- special chars: Café &amp; Çarut &lt;Premium&gt; &quot;quoted&quot; &apos;single&apos;</text>
+<g transform="translate(32, 88)">
+<path d="M217.3,422 L217.3,608" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(217.3 412) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(217.3 620) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></g><rect x="38.30000000000001" y="508" width="167" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="121.80000000000001" y="519.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">serves &amp; &lt;to&gt; the &apos;other&apos;</text>
+<path d="M217.3,124 L217.3,290" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><g transform="translate(217.3 104) rotate(90)"><line x1="10" y1="-6" x2="10" y2="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><g transform="translate(217.3 312) rotate(90)"><line x1="12" y1="-7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="7" x2="0" y2="0" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="0" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/></g><rect x="137.5" y="200" width="67.80000000000001" height="16" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/><text x="171.4" y="211.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">a&lt;b &amp; c&gt;d</text>
+<g transform="translate(24, 312)">
+<rect x="0" y="0" width="386.6" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="193.3" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">Café &amp; Çarut &lt;Premium&gt;</text>
+<line x1="0" y1="40" x2="386.6" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="12" y="53" width="22" height="14" rx="4" fill="rgba(248, 250, 252, 0.85)" stroke="#e2e8f0"/>
+<text x="23" y="63.5" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="10" fill="#475569">PK</text>
+<text x="40" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" text-decoration="underline" fill="#0f172a">id &amp; ref: UUID (&quot;quoted&quot;)</text>
+<text x="12" y="84.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">naïve_résumé_日本語: string — em-dash &amp; «guillemets»</text>
+</g>
+<g transform="translate(157.3, 620)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">...??!!</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">---: ***</text>
+</g>
+<g transform="translate(157.3, 24)">
+<rect x="0" y="0" width="120" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#card-shadow)"/>
+<text x="60" y="25.25" text-anchor="middle" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="15" font-weight="600" fill="#0f172a">A&amp;B&lt;C&gt;</text>
+<line x1="0" y1="40" x2="120" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+<text x="12" y="64.2" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" fill="#0f172a">x&lt;y&gt;z: a&apos;b&quot;c</text>
+</g>
+</g>
+</svg>

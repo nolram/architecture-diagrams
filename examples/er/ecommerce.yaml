@@ -1,0 +1,89 @@
+# ER diagram -- e-commerce data model (type: er, clean-light theme)
+# Customer/Product/Order/OrderLine/Payment: PK/FK badges, a weak entity
+# (OrderLine) with its identifying relationship, all four crow's-foot
+# cardinalities, solid vs dashed lines, edge labels.
+
+type: er
+version: '1'
+title: E-commerce -- data model
+theme: clean-light
+
+entities:
+  - id: customer
+    name: Customer
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: email
+        type: string
+
+  - id: product
+    name: Product
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: name
+        type: string
+      - name: price
+        type: decimal
+
+  - id: order
+    name: Order
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: customer_id
+        type: UUID
+        key: foreign
+      - name: placedAt
+        type: datetime
+
+  - id: order-line
+    name: OrderLine
+    weak: true           # double border; owned by Order via the identifying link below
+    attributes:
+      - name: product_id
+        type: UUID
+        key: foreign
+      - name: quantity
+        type: int
+
+  - id: payment
+    name: Payment
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: order_id
+        type: UUID
+        key: foreign
+      - name: amount
+        type: decimal
+
+relationships:
+  - from: customer
+    to: order
+    label: places
+    fromCardinality: one
+    toCardinality: zero-or-many
+
+  - from: order
+    to: order-line
+    fromCardinality: one
+    toCardinality: many
+    identifying: true
+
+  - from: order-line
+    to: product
+    label: references
+    fromCardinality: many
+    toCardinality: one
+
+  - from: order
+    to: payment
+    label: settles
+    fromCardinality: one
+    toCardinality: zero-or-one

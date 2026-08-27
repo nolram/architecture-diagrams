@@ -1,0 +1,60 @@
+# ER diagram -- banking model (type: er, midnight-dark theme)
+# Customer/Account/Transaction with labels and the zero-or-one / zero-or-many
+# cardinalities.
+
+type: er
+version: '1'
+title: Banking -- data model
+theme: midnight-dark
+
+entities:
+  - id: customer
+    name: Customer
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: email
+        type: string
+
+  - id: account
+    name: Account
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: customer_id
+        type: UUID
+        key: foreign
+
+  - id: transaction
+    name: Transaction
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: account_id
+        type: UUID
+        key: foreign
+
+relationships:
+  # a customer holds zero-or-many accounts; each account belongs to one customer
+  - from: customer
+    to: account
+    label: holds
+    fromCardinality: one
+    toCardinality: zero-or-many
+
+  # an account records zero-or-many transactions; each transaction is on one account
+  - from: account
+    to: transaction
+    label: records
+    fromCardinality: one
+    toCardinality: zero-or-many
+
+  # each transaction is performed by zero-or-one customers (zero for system entries)
+  - from: transaction
+    to: customer
+    label: performed-by
+    fromCardinality: many
+    toCardinality: zero-or-one

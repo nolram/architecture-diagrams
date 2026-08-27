@@ -1,0 +1,46 @@
+# Stress: very long names -- entity names of 40+ chars, attribute names/types
+# of 50+ chars (with and without key badges). Stresses the width estimation in
+# geometry.ts (ER_NAME_CHAR_WIDTH / ER_ATTRIBUTE_CHAR_WIDTH) against the actual
+# Noto Sans rendered text width.
+
+type: er
+version: '1'
+title: 'Stress -- long names'
+
+entities:
+  - id: long_entity_one
+    name: InternationalCustomerRelationshipManagementPlatform
+    attributes:
+      - name: globally_unique_customer_identifier_for_the_entire_platform
+        type: universally_unique_identifier_v4_with_hyphens_and_checksum
+        key: primary
+      - name: preferred_contact_channel_preference_with_fallback_escalation_policy
+        type: enum_email_phone_postal_mail_in_person_with_priority_ranking
+  - id: long_entity_two
+    name: EnterpriseGradeMultiTenantSubscriptionBillingLedgerService
+    attributes:
+      - name: ledger_entry_reference_number_cross_referenced_with_invoice_batch
+        type: string_max_length_two_hundred_fifty_five_characters_utf8_encoded
+        key: foreign
+      - name: recurring_charge_scheduling_rule_with_timezone_and_grace_period
+        type: structured_json_document_with_schema_version_and_validation_flags
+  - id: long_entity_three
+    name: RealtimeEventStreamingIngestionAndReplayProcessingPipeline
+    attributes:
+      - name: event_sequence_number_monotonically_increasing_per_partition
+        type: signed_sixty_four_bit_integer_wrapping_around_at_two_to_the_sixty_fourth
+        key: primary
+      - name: idempotency_key_derived_from_source_system_and_business_operation
+        type: sha256_hex_digest_of_canonicalized_request_payload_and_headers
+
+relationships:
+  - from: long_entity_one
+    to: long_entity_two
+    label: subscribes-to-billing-ledger
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: long_entity_two
+    to: long_entity_three
+    label: emits-billing-events-into-the-streaming-pipeline
+    fromCardinality: one
+    toCardinality: many

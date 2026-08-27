@@ -1,0 +1,129 @@
+# Stress: all 16 from x to cardinality combinations -- one hub entity
+# fanning out to 16 leaves, each edge covering a distinct pair. Stresses
+# every crow's-foot marker geometry variant at both ends of an edge.
+
+type: er
+version: '1'
+title: 'Stress -- all cardinalities'
+
+entities:
+  - id: hub
+    name: Hub
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+  - id: leaf0
+    name: Leaf 0
+  - id: leaf1
+    name: Leaf 1
+  - id: leaf2
+    name: Leaf 2
+  - id: leaf3
+    name: Leaf 3
+  - id: leaf4
+    name: Leaf 4
+  - id: leaf5
+    name: Leaf 5
+  - id: leaf6
+    name: Leaf 6
+  - id: leaf7
+    name: Leaf 7
+  - id: leaf8
+    name: Leaf 8
+  - id: leaf9
+    name: Leaf 9
+  - id: leaf10
+    name: Leaf 10
+  - id: leaf11
+    name: Leaf 11
+  - id: leaf12
+    name: Leaf 12
+  - id: leaf13
+    name: Leaf 13
+  - id: leaf14
+    name: Leaf 14
+  - id: leaf15
+    name: Leaf 15
+
+relationships:
+  - from: hub
+    to: leaf0
+    label: one x one
+    fromCardinality: one
+    toCardinality: one
+  - from: hub
+    to: leaf1
+    label: one x zero-or-one
+    fromCardinality: one
+    toCardinality: zero-or-one
+  - from: hub
+    to: leaf2
+    label: one x many
+    fromCardinality: one
+    toCardinality: many
+  - from: hub
+    to: leaf3
+    label: one x zero-or-many
+    fromCardinality: one
+    toCardinality: zero-or-many
+  - from: hub
+    to: leaf4
+    label: zero-or-one x one
+    fromCardinality: zero-or-one
+    toCardinality: one
+  - from: hub
+    to: leaf5
+    label: zero-or-one x zero-or-one
+    fromCardinality: zero-or-one
+    toCardinality: zero-or-one
+  - from: hub
+    to: leaf6
+    label: zero-or-one x many
+    fromCardinality: zero-or-one
+    toCardinality: many
+  - from: hub
+    to: leaf7
+    label: zero-or-one x zero-or-many
+    fromCardinality: zero-or-one
+    toCardinality: zero-or-many
+  - from: hub
+    to: leaf8
+    label: many x one
+    fromCardinality: many
+    toCardinality: one
+  - from: hub
+    to: leaf9
+    label: many x zero-or-one
+    fromCardinality: many
+    toCardinality: zero-or-one
+  - from: hub
+    to: leaf10
+    label: many x many
+    fromCardinality: many
+    toCardinality: many
+  - from: hub
+    to: leaf11
+    label: many x zero-or-many
+    fromCardinality: many
+    toCardinality: zero-or-many
+  - from: hub
+    to: leaf12
+    label: zero-or-many x one
+    fromCardinality: zero-or-many
+    toCardinality: one
+  - from: hub
+    to: leaf13
+    label: zero-or-many x zero-or-one
+    fromCardinality: zero-or-many
+    toCardinality: zero-or-one
+  - from: hub
+    to: leaf14
+    label: zero-or-many x many
+    fromCardinality: zero-or-many
+    toCardinality: many
+  - from: hub
+    to: leaf15
+    label: zero-or-many x zero-or-many
+    fromCardinality: zero-or-many
+    toCardinality: zero-or-many

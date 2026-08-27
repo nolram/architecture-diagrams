@@ -1,0 +1,47 @@
+# Stress: parallel edges -- four distinct relationships between the SAME pair of
+# entities (different labels and cardinalities). Stresses ELK parallel-edge
+# routing and label-pill collisions at the route midpoints.
+
+type: er
+version: '1'
+title: 'Stress -- parallel edges'
+
+entities:
+  - id: publisher
+    name: Publisher
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: book
+    name: Book
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+relationships:
+  - from: publisher
+    to: book
+    label: publishes
+    fromCardinality: one
+    toCardinality: many
+
+  - from: publisher
+    to: book
+    label: co-publishes
+    fromCardinality: many
+    toCardinality: many
+
+  - from: publisher
+    to: book
+    label: self-publishes
+    fromCardinality: zero-or-one
+    toCardinality: zero-or-many
+
+  - from: publisher
+    to: book
+    label: licenses
+    fromCardinality: one
+    toCardinality: zero-or-one

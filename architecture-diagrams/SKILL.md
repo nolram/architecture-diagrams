@@ -1,6 +1,6 @@
 ---
 name: architecture-diagrams
-description: Generates rich, visually professional software/infrastructure architecture diagrams (real AWS/Azure/GCP/Kubernetes/brand icons, cards with shadows, boundaries like VPC/subnet, automatic layout), UML class diagrams (classes with attributes/methods, all six relationship kinds), and C4 diagrams (System Context / Container / Component -- people, systems, external systems, containers, components) -- far more elaborate than a standard Mermaid diagram. Use whenever the user asks for an architecture diagram, system diagram, infrastructure/cloud diagram, a UML class diagram / domain model, a C4 diagram, or explicitly asks for something "prettier"/"more professional" than Mermaid to represent software components and how they connect.
+description: Generates rich, visually professional software/infrastructure architecture diagrams (real AWS/Azure/GCP/Kubernetes/brand icons, cards with shadows, boundaries like VPC/subnet, automatic layout), UML class diagrams (classes with attributes/methods, all six relationship kinds), UML sequence diagrams (participants, messages, activation bars, fragments), C4 diagrams (System Context / Container / Component -- people, systems, external systems, containers, components), and ER diagrams (entities with PK/FK attributes, weak entities, crow's-foot relationships) -- far more elaborate than a standard Mermaid diagram. Use whenever the user asks for an architecture diagram, system diagram, infrastructure/cloud diagram, a UML class diagram / domain model, a UML sequence diagram, a C4 diagram, an ER diagram / database schema / data model, or explicitly asks for something "prettier"/"more professional" than Mermaid to represent software components and how they connect.
 ---
 
 # Architecture Diagrams
@@ -9,14 +9,15 @@ A custom renderer (ELK.js for layout + real icons via `thesvg`/Iconify + hand-dr
 
 ## Diagram families
 
-Four families share the same renderer, selected by the spec's `type` field:
+Five families share the same renderer, selected by the spec's `type` field:
 
 - **Architecture** (default -- omit `type` or set `type: architecture`): components, boundaries, connections. Rules in `reference/spec-guide.md`.
 - **UML class** (`type: uml-class`): classes with attributes/methods plus the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Rules in `reference/uml-class-spec.md`, runnable example in `reference/uml-class.example.yaml`.
 - **UML sequence** (`type: uml-sequence`): participants (objects or actors), synchronous/asynchronous/reply/self messages, activation bars, and alt/loop/opt/par fragments over message ranges. Rules in `reference/uml-sequence-spec.md`, runnable example in `reference/uml-sequence.example.yaml`.
 - **C4** (`type: c4`): System Context / Container / Component diagrams -- people, systems, external systems, containers, and components with directed relationships. Rules in `reference/c4-spec.md`, runnable example in `reference/c4.example.yaml`.
+- **ER** (`type: er`): entities with attributes (PK/FK badges), weak entities (double border), and crow's-foot relationships (one / zero-or-one / many / zero-or-many); `identifying: true` renders a solid line and is required for at least one relationship touching each weak entity. Rules in `reference/er-spec.md`, runnable example in `reference/er.example.yaml`.
 
-The workflow below is the same for all four families.
+The workflow below is the same for all five families.
 
 ### C4
 

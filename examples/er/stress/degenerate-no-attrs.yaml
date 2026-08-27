@@ -1,0 +1,19 @@
+# Stress: degenerate minimum -- two entities with NO attributes, one
+# relationship. Stresses the name-only box sizing and a bare two-node layout.
+
+type: er
+version: '1'
+title: 'Stress -- entities without attributes'
+
+entities:
+  - id: plain_a
+    name: PlainA
+  - id: plain_b
+    name: PlainB
+
+relationships:
+  - from: plain_a
+    to: plain_b
+    label: touches
+    fromCardinality: one
+    toCardinality: one

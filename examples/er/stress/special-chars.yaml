@@ -1,0 +1,41 @@
+# Stress: special characters -- XML-special (& < > " '), accented/unicode text,
+# and a name that is pure punctuation. Stresses XML escaping in the SVG output.
+
+type: er
+version: '1'
+title: "Stress -- special chars: Café & Çarut <Premium> \"quoted\" 'single'"
+
+entities:
+  - id: cafe
+    name: "Café & Çarut <Premium>"
+    attributes:
+      - name: "id & ref"
+        type: "UUID (\"quoted\")"
+        key: primary
+      - name: "naïve_résumé_日本語"
+        type: "string — em-dash & «guillemets»"
+
+  - id: punctuation
+    name: '...??!!'
+    attributes:
+      - name: '---'
+        type: '***'
+
+  - id: ampersand
+    name: "A&B<C>"
+    attributes:
+      - name: "x<y>z"
+        type: "a'b\"c"
+
+relationships:
+  - from: cafe
+    to: punctuation
+    label: "serves & <to> the 'other'"
+    fromCardinality: one
+    toCardinality: many
+
+  - from: ampersand
+    to: cafe
+    label: "a<b & c>d"
+    fromCardinality: zero-or-one
+    toCardinality: zero-or-many

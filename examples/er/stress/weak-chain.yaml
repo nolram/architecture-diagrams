@@ -1,0 +1,76 @@
+# Stress: weak-entity chains -- A -> W1 (identifying), W1 -> W2 (identifying),
+# plus B -> W2 (identifying) so W2 has TWO identifying relationships. Stresses
+# the weak-entity validation rule, the double-border rendering with attributes,
+# and solid identifying lines between weak entities.
+
+type: er
+version: '1'
+title: 'Stress -- weak entity chain'
+
+entities:
+  - id: a
+    name: AuditLog
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+      - name: at
+        type: timestamp
+
+  - id: w1
+    name: AuditLogEntry
+    weak: true
+    attributes:
+      - name: log_id
+        type: UUID
+        key: foreign
+      - name: seq
+        type: int
+        key: primary
+      - name: message
+        type: text
+
+  - id: w2
+    name: AuditLogEntryRevision
+    weak: true
+    attributes:
+      - name: entry_id
+        type: int
+        key: foreign
+      - name: entry_log_id
+        type: UUID
+        key: foreign
+      - name: revision
+        type: int
+        key: primary
+      - name: edited_by
+        type: UUID
+
+  - id: b
+    name: Editor
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+relationships:
+  - from: a
+    to: w1
+    label: has-entries
+    identifying: true
+    fromCardinality: one
+    toCardinality: many
+
+  - from: w1
+    to: w2
+    label: revisions-of
+    identifying: true
+    fromCardinality: one
+    toCardinality: zero-or-many
+
+  - from: b
+    to: w2
+    label: authored-revision
+    identifying: true
+    fromCardinality: one
+    toCardinality: zero-or-many

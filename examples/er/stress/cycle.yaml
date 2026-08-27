@@ -1,0 +1,54 @@
+# Stress: directed cycle -- A -> B -> C -> A plus a chord A -> C. Stresses ELK
+# cycle breaking (the back-edge must be routed around the boxes) and marker
+# direction on the back-edge.
+
+type: er
+version: '1'
+title: 'Stress -- directed cycle'
+
+entities:
+  - id: a
+    name: Alpha
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: b
+    name: Beta
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+  - id: c
+    name: Gamma
+    attributes:
+      - name: id
+        type: UUID
+        key: primary
+
+relationships:
+  - from: a
+    to: b
+    label: a-to-b
+    fromCardinality: one
+    toCardinality: many
+
+  - from: b
+    to: c
+    label: b-to-c
+    fromCardinality: one
+    toCardinality: many
+
+  - from: c
+    to: a
+    label: c-to-a (back-edge)
+    fromCardinality: many
+    toCardinality: zero-or-one
+
+  - from: a
+    to: c
+    label: chord a-to-c
+    fromCardinality: zero-or-many
+    toCardinality: one
