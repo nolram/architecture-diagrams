@@ -41,9 +41,10 @@ matching + side-by-side bars). Full write-up: `docs/stress-uml-sequence.md`.
 
 ## Interoperability
 
-- 💡 **Import Mermaid** -- parse Mermaid → our spec → render. Directly serves the
+- ✅ **Import Mermaid** -- parse Mermaid → our spec → render. Directly serves the
   "better than Mermaid" motivation: people with existing Mermaid diagrams can
-  "upgrade" them. Start with `flowchart` only.
+  "upgrade" them. Implemented in v0.12 (flowchart/graph only). Spec:
+  `architecture-diagrams/reference/mermaid-import-spec.md`.
 - 💡 **Export to draw.io / Excalidraw** -- manually editable output (ROADMAP backlog).
 - ✅ **MCP server** -- a thin layer over the same engine, to work in AI clients
   besides Claude Code (shipped as ROADMAP **v0.8**; low effort, high reach).
@@ -106,15 +107,15 @@ source at once (monorepo + compose + k8s + Dockerfile + CI). Ordered by severity
 - 💡 **Visual diagram diff** -- compare two specs (great for PRs; we already have the
   byte-identical gate pattern to build on).
 
-## Suggested next (updated 2026-08-22)
+## Suggested next (updated 2026-08-27)
 
 The original "next 3" are all shipped (C4 in v0.6, MCP in v0.8, codebase →
 diagram in v0.9). Current shortlist, in rough order of strategic value:
 
 1. **Consistency / validation** -- shipped in v0.10 (see
    `docs/discovery-consistency-validation.md`).
-2. **Import Mermaid (flowchart)** -- the "better than Mermaid" adoption story;
-   strong next candidate.
+2. **Import Mermaid (flowchart)** -- ✅ shipped in v0.12 (the "better than
+   Mermaid" adoption story; flowchart/graph only).
 3. **UML sequence** -- ✅ done in v0.11 (was the biggest engineering lift:
    new lifeline/time-axis layout).
 4. **ER diagram** -- cheapest new engine (sibling of uml-class); quick win.

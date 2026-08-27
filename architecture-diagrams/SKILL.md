@@ -82,6 +82,20 @@ bash <this-skill-path>/scripts/render.sh check diagram.yaml --repo /path/to/repo
 
 Findings are severity-ranked (`high`/`medium`/`low`), not a binary pass/fail: diagrams legitimately include external/managed systems with no local evidence, and codebases legitimately contain platform layers (docker/k8s/CI) a focused diagram omits. Read the findings, fix or justify the spec, and re-check. Full reference: `reference/check-spec.md`.
 
+## Import Mermaid (flowchart → spec)
+
+If the user already has a Mermaid diagram (or asks for something "prettier than Mermaid" they can hand over), don't redraw it by hand -- **import it**: the tool parses a Mermaid `flowchart`/`graph` and converts it to a valid architecture spec (cylinders → databases, other shapes → cards, subgraphs → boundary groups, arrow styles/directions preserved). The conversion is deterministic; styling (`classDef`/`style`/`linkStyle`/`click`) is dropped with warnings, and imported nodes have **no icons** -- that's your job next.
+
+```bash
+bash <this-skill-path>/scripts/render.sh import diagram.mmd
+# prints the converted architecture spec (YAML) to stdout; warnings on stderr
+
+bash <this-skill-path>/scripts/render.sh import diagram.mmd --render -o imported.svg
+# also renders the converted spec to SVG
+```
+
+Workflow: run `import`, read the warnings, refine the spec (add `icon` + `category` per node, fix edges, adjust labels/direction), save it, then render as usual. Full reference: `reference/mermaid-import-spec.md`.
+
 ## MCP server (alternative)
 
-An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference. It exposes the same tools as the CLI, including `analyze_codebase` (the MCP form of `detect`: pass a `path`, get back the detected stack + a draft spec to refine and pass to `render_diagram`) and `check_consistency` (the MCP form of `check`: pass a `spec`/`path` + `repo`, get back a severity-ranked report to verify the diagram against the code).
+An MCP server is also available (`arch-diagram mcp`) as an alternative to the render script, for use in MCP clients (Claude Desktop, Cursor, ...). See `reference/mcp.md` for setup and the tool reference. It exposes the same tools as the CLI, including `analyze_codebase` (the MCP form of `detect`: pass a `path`, get back the detected stack + a draft spec to refine and pass to `render_diagram`), `check_consistency` (the MCP form of `check`: pass a `spec`/`path` + `repo`, get back a severity-ranked report to verify the diagram against the code), and `import_mermaid` (the MCP form of `import`: pass a `mermaid` string or a `.mmd` `path`, get back the converted spec + warnings to refine and pass to `render_diagram`).

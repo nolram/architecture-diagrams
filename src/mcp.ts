@@ -10,6 +10,7 @@ import type { RenderSpecResult } from "./core/render.js";
 import { searchCatalog } from "./icons/index.js";
 import { engineTypes, engineDescriptions } from "./engines/index.js";
 import { analyzeCodebase, checkConsistency } from "./detect/index.js";
+import { importMermaid, MermaidError } from "./mermaid/index.js";
 import type { DiagramSpec } from "./spec/schema.js";
 
 const pkg = createRequire(import.meta.url)("../package.json") as { version: string };
@@ -79,6 +80,17 @@ const TOOLS = [
         repo: { type: "string", description: "Path to the codebase (a directory) to check the diagram against." },
       },
       required: ["repo"],
+    },
+  },
+  {
+    name: "import_mermaid",
+    description: "Imports a Mermaid flowchart/graph diagram and converts it to an architecture spec (YAML). Pass the Mermaid source as a string (`mermaid`) or a path to a .mmd file (`path`). Returns the converted spec plus warnings for dropped styling. Review/refine the result, then render it with render_diagram.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        mermaid: { type: "string", description: "The Mermaid flowchart/graph source as a string." },
+        path: { type: "string", description: "Path to a Mermaid file (.mmd). Alternative to `mermaid`." },
+      },
     },
   },
 ];
@@ -264,6 +276,42 @@ export function handleCheckConsistency(args: Record<string, unknown>): CallToolR
   return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
 }
 
+export function handleImportMermaid(args: Record<string, unknown>): CallToolResult {
+  const mermaid = typeof args.mermaid === "string" ? args.mermaid : undefined;
+  const path = typeof args.path === "string" ? args.path : undefined;
+
+  if (!mermaid && !path) {
+    return { content: [{ type: "text", text: "Provide either a 'mermaid' (source string) or a 'path' (.mmd file)." }], isError: true };
+  }
+
+  let source: string;
+  if (path) {
+    try {
+      source = readFileSync(path, "utf-8");
+    } catch (err) {
+      return { content: [{ type: "text", text: `Could not read file "${path}": ${(err as Error).message}` }], isError: true };
+    }
+  } else {
+    source = mermaid!;
+  }
+
+  let result;
+  try {
+    result = importMermaid(source);
+  } catch (err) {
+    if (err instanceof MermaidError) {
+      return { content: [{ type: "text", text: `Could not import Mermaid diagram: ${err.message}` }], isError: true };
+    }
+    return { content: [{ type: "text", text: `Import failed: ${(err as Error).message}` }], isError: true };
+  }
+
+  const payload = {
+    spec: result.spec,
+    warnings: result.warnings,
+  };
+  return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+}
+
 export function createServer(): Server {
   const server = new Server({ name: "architecture-diagrams", version: pkg.version }, { capabilities: { tools: {} } });
 
@@ -285,6 +333,8 @@ export function createServer(): Server {
         return handleAnalyzeCodebase(args);
       case "check_consistency":
         return handleCheckConsistency(args);
+      case "import_mermaid":
+        return handleImportMermaid(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }

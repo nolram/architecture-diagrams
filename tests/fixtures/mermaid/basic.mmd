@@ -1,0 +1,7 @@
+flowchart LR
+  client[Web Client] -->|HTTPS| api[API Gateway]
+  api --> db[(Postgres)]
+  subgraph backend [Backend]
+    api
+    db
+  end

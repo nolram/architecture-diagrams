@@ -107,6 +107,12 @@ node dist/cli.js detect ./my-repo --render -o detected.svg
 node dist/cli.js check diagram.yaml --repo ./my-repo
 # checks the diagram against the codebase (missing evidence + undrawn techs);
 # exit 0 when no high/medium findings, 1 otherwise (--strict also fails on lows)
+
+node dist/cli.js import diagram.mmd
+# imports a Mermaid flowchart/graph and prints the converted architecture spec (YAML)
+
+node dist/cli.js import diagram.mmd --render -o imported.svg
+# also renders the converted spec to SVG
 ```
 
 Or in dev mode (no build needed first):
@@ -196,7 +202,7 @@ Cursor (`.cursor/mcp.json`) uses the same shape:
 }
 ```
 
-Six tools are exposed:
+Seven tools are exposed:
 
 - `render_diagram` -- renders a spec (an inline YAML string, or a file `path`) to SVG, with optional PNG/PDF and an optional `out` path to also write the files to disk.
 - `search_icons` -- searches the icon catalog by `query` and returns the matching `key`/`label`/`category`.
@@ -204,6 +210,7 @@ Six tools are exposed:
 - `list_diagram_types` -- lists the registered engine types (`architecture`, `uml-class`, `uml-sequence`, `c4`) with a one-line description each.
 - `analyze_codebase` -- detects the tech stack of a codebase (`path`) and returns the detected stack + a draft architecture spec, ready to refine and pass to `render_diagram`.
 - `check_consistency` -- checks an architecture spec (`spec` or `path`) against a codebase (`repo`) in both directions (missing-evidence + undrawn) and returns a severity-ranked report, so an AI can detect → refine → render → **verify** in one flow.
+- `import_mermaid` -- imports a Mermaid flowchart/graph (an inline `mermaid` string, or a `path` to a .mmd file) and returns the converted architecture spec plus warnings for dropped styling, ready to refine and pass to `render_diagram`.
 
 Inline specs are primary -- pass the YAML as a string. For inline specs, `icon: file:` resolves relative to the server's cwd (there is no spec file directory); use `path` to resolve it relative to the spec file instead.
 
@@ -230,6 +237,17 @@ node dist/cli.js check diagram.yaml --repo ./my-repo
 
 Findings are severity-ranked (`high`/`medium`/`low`) rather than a binary pass/fail: diagrams legitimately include external/managed systems with no local evidence, and codebases legitimately contain platform layers (docker/k8s/CI) a focused diagram omits. The same capability is exposed as the MCP `check_consistency` tool, so an AI can detect → refine → render → **verify** in one flow. Full reference: [`architecture-diagrams/reference/check-spec.md`](architecture-diagrams/reference/check-spec.md); design notes: [`docs/discovery-consistency-validation.md`](docs/discovery-consistency-validation.md).
 
+## Import Mermaid
+
+Most teams already have Mermaid diagrams -- functional, but visually poor. Instead of redrawing them, **import them**: the tool parses a Mermaid `flowchart`/`graph` and converts it to a valid architecture spec (cylinders → databases, other shapes → cards, subgraphs → boundary groups, arrow styles/directions preserved), which the existing pipeline renders. The conversion is deterministic; styling (`classDef`/`style`/`linkStyle`/`click`) is dropped with warnings, and icons/categories are left for you (or the AI) to add after import.
+
+```bash
+node dist/cli.js import diagram.mmd                # converted architecture spec (YAML) to stdout
+node dist/cli.js import diagram.mmd --render -o imported.svg   # also render it
+```
+
+The same capability is exposed as the MCP `import_mermaid` tool, so an AI can import → refine → `render_diagram` in one flow. Full reference: [`architecture-diagrams/reference/mermaid-import-spec.md`](architecture-diagrams/reference/mermaid-import-spec.md).
+
 ## Project structure
 
 ```text
@@ -241,10 +259,11 @@ src/
   export/   PNG rasterization + PDF generation
   core/     shared render pipeline (validate → layout → render → export) used by CLI + MCP
   engines/  diagram engines (architecture, uml-class, uml-sequence, c4) + registry
-  detect/   codebase → diagram (manifest readers + tech→icon mapping + spec builder)
-            + consistency check (spec ↔ code comparator: `check.ts`)
-  cli.ts    CLI (`arch-diagram`: render + icons + detect + check + mcp)
-  mcp.ts    MCP server (stdio) exposing the render engine + analyze_codebase + check_consistency as tools
+   detect/   codebase → diagram (manifest readers + tech→icon mapping + spec builder)
+             + consistency check (spec ↔ code comparator: `check.ts`)
+   mermaid/  Mermaid flowchart/graph import (parser + spec converter)
+   cli.ts    CLI (`arch-diagram`: render + icons + detect + check + import (Mermaid) + mcp)
+   mcp.ts    MCP server (stdio) exposing the render engine + analyze_codebase + check_consistency + import_mermaid as tools
 examples/                    already-rendered example specs
 architecture-diagrams/       the Claude Skill (SKILL.md + reference/ + scripts/)
 ```

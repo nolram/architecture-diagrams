@@ -8,6 +8,7 @@ import { searchCatalog } from "./icons/index.js";
 import { startMcpServer } from "./mcp.js";
 import { analyzeCodebase } from "./detect/index.js";
 import { checkConsistency } from "./detect/check.js";
+import { importMermaid, MermaidError } from "./mermaid/index.js";
 import type { DiagramSpec } from "./spec/schema.js";
 
 const program = new Command();
@@ -257,6 +258,59 @@ program
       result.findings.some((f) => f.severity === "high" || f.severity === "medium") ||
       (Boolean(opts.strict) && result.findings.length > 0);
     if (failing) process.exitCode = 1;
+  });
+
+program
+  .command("import")
+  .description("imports a Mermaid flowchart/graph file and converts it to an architecture spec (YAML)")
+  .argument("<file>", "path to the Mermaid file (.mmd or .txt)")
+  .option("--render", "also render the converted spec to SVG")
+  .option("-o, --out <path>", "output path for the rendered SVG (with --render)")
+  .action(async (filePath: string, opts: { render?: boolean; out?: string }) => {
+    let text: string;
+    try {
+      text = readFileSync(filePath, "utf-8");
+    } catch (err) {
+      console.error(`Could not read file "${filePath}": ${(err as Error).message}`);
+      process.exitCode = 1;
+      return;
+    }
+
+    let result;
+    try {
+      result = importMermaid(text);
+    } catch (err) {
+      if (err instanceof MermaidError) console.error(`Could not import Mermaid diagram: ${err.message}`);
+      else console.error(`Import failed: ${(err as Error).message}`);
+      process.exitCode = 1;
+      return;
+    }
+
+    const specYaml = stringify(result.spec);
+
+    if (result.warnings.length > 0) {
+      console.error("Warnings:");
+      for (const w of result.warnings) console.error(`  - ${w}`);
+    }
+
+    console.log(specYaml);
+
+    if (opts.render) {
+      try {
+        const rendered = await renderSpec(specYaml);
+        const outPath = opts.out ?? join(process.cwd(), "imported.svg");
+        writeFileSync(outPath, rendered.svg, "utf-8");
+        console.error(`SVG written to ${outPath}`);
+        if (rendered.warnings.length > 0) {
+          console.error("Render warnings:");
+          for (const w of rendered.warnings) console.error(`  - ${w}`);
+        }
+      } catch (err) {
+        if (err instanceof SpecError) console.error(`Invalid converted spec:\n${err.message}`);
+        else console.error(`Render failed: ${(err as Error).message}`);
+        process.exitCode = 1;
+      }
+    }
   });
 
 program

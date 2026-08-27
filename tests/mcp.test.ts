@@ -4,7 +4,7 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { handleRenderDiagram, handleSearchIcons, handleValidateSpec, handleListDiagramTypes, handleAnalyzeCodebase, handleCheckConsistency } from "../src/mcp.js";
+import { handleRenderDiagram, handleSearchIcons, handleValidateSpec, handleListDiagramTypes, handleAnalyzeCodebase, handleCheckConsistency, handleImportMermaid } from "../src/mcp.js";
 
 const ARCHITECTURE = `
 version: '1'
@@ -297,6 +297,45 @@ test("validate_spec accepts a spec file path", () => {
   assert.ok(textContent(result).includes("valid"));
 });
 
+test("import_mermaid converts an inline flowchart to a spec", () => {
+  const result = handleImportMermaid({ mermaid: "flowchart LR\n  A[x] --> B[y]\n" });
+  assert.notEqual(result.isError, true);
+  const payload = JSON.parse(textContent(result)) as {
+    spec: { type: string; nodes: Array<{ id: string; label: string }>; groups: unknown[]; edges: Array<{ from: string; to: string }> };
+    warnings: string[];
+  };
+  assert.equal(payload.spec.type, "architecture");
+  assert.equal(payload.spec.nodes.length, 2, "should have two nodes");
+  assert.equal(payload.spec.edges.length, 1, "should have one edge");
+  assert.ok(Array.isArray(payload.warnings), "warnings should be an array");
+});
+
+test("import_mermaid converts a .mmd file path with a subgraph group", () => {
+  const result = handleImportMermaid({ path: "tests/fixtures/mermaid/basic.mmd" });
+  assert.notEqual(result.isError, true);
+  const payload = JSON.parse(textContent(result)) as {
+    spec: { nodes: Array<{ id: string }>; groups: Array<{ id: string; label: string }> };
+    warnings: string[];
+  };
+  assert.ok(payload.spec.nodes.length >= 3, "should import the nodes");
+  assert.equal(payload.spec.groups.length, 1, "subgraph should become one group");
+  assert.equal(payload.spec.groups[0].label, "Backend");
+});
+
+test("import_mermaid errors when neither mermaid nor path is given", () => {
+  const result = handleImportMermaid({});
+  assert.equal(result.isError, true);
+  const text = textContent(result);
+  assert.ok(text.includes("spec") || text.includes("path"), `should mention spec or path: ${text}`);
+});
+
+test("import_mermaid rejects a non-flowchart diagram type", () => {
+  const result = handleImportMermaid({ mermaid: "sequenceDiagram\nA->>B: hi" });
+  assert.equal(result.isError, true);
+  const text = textContent(result);
+  assert.ok(/flowchart/i.test(text), `should mention flowchart: ${text}`);
+});
+
 test("stdio integration: initialize, tools/list, tools/call", async () => {
   const child = spawn(process.execPath, ["--import", "tsx", "src/cli.ts", "mcp"], { cwd: process.cwd() });
 
@@ -355,7 +394,7 @@ test("stdio integration: initialize, tools/list, tools/call", async () => {
     assert.equal(responses.get(1).result.serverInfo.name, "architecture-diagrams");
 
     const toolNames = responses.get(2).result.tools.map((t: any) => t.name);
-    for (const name of ["render_diagram", "search_icons", "validate_spec", "list_diagram_types", "analyze_codebase", "check_consistency"]) {
+    for (const name of ["render_diagram", "search_icons", "validate_spec", "list_diagram_types", "analyze_codebase", "check_consistency", "import_mermaid"]) {
       assert.ok(toolNames.includes(name), `tools/list should include ${name}`);
     }
 

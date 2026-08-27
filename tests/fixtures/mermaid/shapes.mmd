@@ -1,0 +1,5 @@
+flowchart TD
+  app[App] --> cache(Redis)
+  cache --> queue((Queue))
+  queue --> decide{Route?}
+  decide --> store[(Storage)]

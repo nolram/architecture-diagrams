@@ -274,6 +274,34 @@ reference example in `architecture-diagrams/reference/uml-sequence.example.yaml`
    label backgrounds; LIFO activation matching with side-by-side bars + warning).
    Write-up: `docs/stress-uml-sequence.md`; tracked in `IDEAS.md` ("UML sequence: known gaps").
 
+## v0.12 -- Mermaid import (flowchart)
+
+Importing existing Mermaid `flowchart`/`graph` diagrams into our architecture spec
+serves the "better than Mermaid" adoption story: people with existing Mermaid
+diagrams can "upgrade" them instead of redrawing. It is an **input format, not a
+new engine** -- the converter emits a valid architecture spec that flows through
+the existing validate → layout → render pipeline unchanged. The mapping is
+specified in `architecture-diagrams/reference/mermaid-import-spec.md`.
+
+- [x] **Mermaid parser + converter** -- `src/mermaid/` (parser.ts + convert.ts):
+  a dependency-free parser for flowchart/graph (all node shape notations, all
+  arrow types, `|label|` and dash-embedded labels, chained edges, nested
+  subgraphs, `direction`) and a converter to a valid architecture spec. Mapping:
+  cylinder → `database`, other shapes → `card` (with a warning);
+  `-->`/`-.->`/`<-->`/`---` → solid/dashed/bidirectional/undirected; subgraph →
+  `boundary` group (nested via `parent`); `TD/BT`→down, `LR/RL`→right. Styling
+  (`classDef`, `style`, `linkStyle`, `click`) is dropped with a warning, never a
+  failure.
+- [x] **CLI** -- `arch-diagram import <file.mmd>` prints the converted spec YAML
+  (+ warnings); `--render` / `-o` render it to SVG.
+- [x] **MCP** -- `import_mermaid` tool (`mermaid` string or `path`) returning
+  `{ spec, warnings }`, so an AI can import → refine → `render_diagram`.
+- [x] **Tests** -- parser/convert unit tests, CLI integration tests, MCP handler
+  tests; fixtures in `tests/fixtures/mermaid/`.
+- [x] **Docs** -- `architecture-diagrams/reference/mermaid-import-spec.md`
+  (mapping table, supported/dropped, workflow); README + SKILL.md +
+  `reference/mcp.md` updated.
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.

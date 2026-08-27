@@ -51,7 +51,7 @@ Both spawn `node /absolute/path/to/architecture-diagrams/dist/cli.js mcp` -- rep
 
 ## Tools
 
-Six tools are exposed.
+Seven tools are exposed.
 
 ### `render_diagram`
 
@@ -113,6 +113,16 @@ Arguments:
 - `repo` (string) -- path to the repository to check against.
 
 Returns: a `CheckResult` -- `findings` (each with `kind`, `severity`, `message`, and the involved node/tech/evidence), `matches` (spec nodes confirmed by code evidence), `warnings`, and a `summary` count. Architecture specs only; a non-architecture spec is an error. See `reference/check-spec.md`.
+
+### `import_mermaid`
+
+The MCP form of the CLI `import` command: import a Mermaid `flowchart`/`graph` diagram and return the converted architecture spec to refine and pass to `render_diagram`.
+
+Arguments:
+- `mermaid` (string) -- the Mermaid flowchart/graph source, inline. Provide this **or** `path`.
+- `path` (string) -- path to a Mermaid file (`.mmd`). Provide this **or** `mermaid`.
+
+Returns: `{ spec, warnings }` -- a valid architecture spec ready to render (cylinders → databases, other shapes → cards, subgraphs → boundary groups, arrow styles/directions preserved), plus warnings for dropped styling (`classDef`/`style`/`linkStyle`/`click`) and non-square shapes. Other Mermaid diagram types, an unclosed `subgraph`, or a stray `end` are errors. See `reference/mermaid-import-spec.md`.
 
 ## Notes
 
