@@ -1,6 +1,6 @@
 # C4 diagram spec guide
 
-A third diagram family on top of the same renderer. Select it with `type: c4`
+A fourth diagram family on top of the same renderer. Select it with `type: c4`
 (the architecture and UML class specs keep working unchanged -- `type` is optional
 and defaults to `architecture`). This guide covers only the C4 format; the shared
 fields (`version`, `title`, `theme`, `direction`) and the export flags (`--png`,

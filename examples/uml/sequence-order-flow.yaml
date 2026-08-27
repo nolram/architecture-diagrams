@@ -1,0 +1,102 @@
+# UML sequence diagram spec (type: uml-sequence)
+#
+# A realistic order-placement flow: User -> OrderController -> PaymentGateway
+# -> Database, with an alt fragment (payment approved / declined) and a loop
+# fragment (retrying the charge). Full format:
+# architecture-diagrams/reference/uml-sequence-spec.md
+
+type: uml-sequence
+version: '1'
+title: Order placement -- sequence
+theme: clean-light
+
+participants:
+  - id: user
+    name: User
+    type: actor
+
+  - id: controller
+    name: OrderController
+    stereotype: control
+
+  - id: gateway
+    name: PaymentGateway
+    stereotype: control
+
+  - id: database
+    name: Database
+    stereotype: entity
+
+messages:
+  # sync call from the user to the controller (solid line, filled arrow)
+  - id: place
+    from: user
+    to: controller
+    label: placeOrder(items)
+    kind: sync
+
+  # self message: internal processing on one lifeline (loopback)
+  - id: validate
+    from: controller
+    to: controller
+    label: validate stock
+    kind: self
+
+  # sync call with an activation bar on the sender; the bar extends down
+  # to the matching reply (charge-ok) below
+  - id: charge
+    from: controller
+    to: gateway
+    label: charge(amount)
+    kind: sync
+    activation: true
+
+  # async signal to the gateway (solid line, open arrow) -- no wait
+  - id: reserve
+    from: gateway
+    to: database
+    label: reserve(orderId)
+    kind: async
+
+  # reply (dashed line, open arrow) back to the caller
+  - id: charge-ok
+    from: gateway
+    to: controller
+    label: receipt
+    kind: reply
+
+  # sync call persisting the order
+  - id: save
+    from: controller
+    to: database
+    label: save(order)
+    kind: sync
+
+  # reply back to the caller
+  - id: saved
+    from: database
+    to: controller
+    label: orderId
+    kind: reply
+
+  # final reply to the user (dashed, open arrow)
+  - id: confirm
+    from: controller
+    to: user
+    label: confirmation
+    kind: reply
+
+fragments:
+  # alt fragment over the payment exchange; the label is the guard condition
+  - id: payment-outcome
+    kind: alt
+    label: payment approved / declined
+    participants: [controller, gateway, database]
+    messages: [charge, reserve, charge-ok]
+
+  # loop fragment over the persistence exchange (retry until saved)
+  - id: persist-loop
+    kind: loop
+    label: until order is saved
+    participants: [controller, database]
+    messages: [save, saved]

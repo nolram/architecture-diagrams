@@ -1,0 +1,126 @@
+# Stress: 8 participants (actors + objects, stereotypes), 13 messages that
+# cross over intermediate lifelines, long labels, actor with a long name in
+# the last column (actor column width grows with the name length).
+
+type: uml-sequence
+version: '1'
+title: 'Many participants -- wide crossing messages'
+theme: clean-light
+
+participants:
+  - id: user
+    name: User
+    type: actor
+
+  - id: client
+    name: WebClient
+    stereotype: boundary
+
+  - id: api
+    name: ApiGateway
+    stereotype: control
+
+  - id: auth
+    name: AuthService
+    stereotype: control
+
+  - id: svc
+    name: ReportService
+    stereotype: control
+
+  - id: cache
+    name: CacheStore
+    stereotype: entity
+
+  - id: db
+    name: ReportDb
+    stereotype: entity
+
+  - id: auditor
+    name: Administrator
+    type: actor
+
+messages:
+  - id: m1
+    from: user
+    to: client
+    label: open dashboard
+    kind: sync
+
+  - id: m2
+    from: client
+    to: api
+    label: 'GET /api/v2/reports?range=last-quarter&format=json'
+    kind: sync
+
+  - id: m3
+    from: api
+    to: auth
+    label: verify(token)
+    kind: sync
+    activation: true
+
+  - id: m4
+    from: auth
+    to: api
+    label: claims
+    kind: reply
+
+  - id: m5
+    from: api
+    to: svc
+    label: fetchReport(id)
+    kind: sync
+    activation: true
+
+  - id: m6
+    from: svc
+    to: cache
+    label: lookup(key)
+    kind: sync
+    activation: true
+
+  - id: m7
+    from: cache
+    to: svc
+    label: hit
+    kind: reply
+
+  # crosses over the cache lifeline
+  - id: m8
+    from: svc
+    to: db
+    label: 'SELECT * FROM reports WHERE id = ?'
+    kind: sync
+    activation: true
+
+  - id: m9
+    from: db
+    to: svc
+    label: rows
+    kind: reply
+
+  - id: m10
+    from: svc
+    to: api
+    label: report payload
+    kind: reply
+
+  - id: m11
+    from: api
+    to: client
+    label: '200 OK + payload'
+    kind: reply
+
+  - id: m12
+    from: client
+    to: user
+    label: render view
+    kind: reply
+
+  # long label crossing over three lifelines (svc, cache, db)
+  - id: m13
+    from: api
+    to: auditor
+    label: 'emit audit event with full request context attached'
+    kind: async

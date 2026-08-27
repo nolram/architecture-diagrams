@@ -244,7 +244,30 @@ surfaces. Design notes in `docs/discovery-consistency-validation.md`.
   (`check_consistency` tool), and `reference/check-spec.md` (finding kinds,
   severity rules, deterministic-vs-LLM boundary, managed/external caveat).
 
+## v0.11 -- UML sequence diagrams
+
+Fourth diagram family on the v0.5 multi-engine foundation: `type: uml-sequence`
+selects the sequence engine, which reuses the shared theme, SVG utils, and PNG/PDF
+export. Unlike uml-class/c4 it does not use ELK -- a sequence diagram is a fixed
+grid (participants × time), so it gets its own small layout. The format is
+specified in `architecture-diagrams/reference/uml-sequence-spec.md` with a
+reference example in `architecture-diagrams/reference/uml-sequence.example.yaml`.
+
+- [x] **Sequence engine** -- `type: uml-sequence`; participants (object/actor +
+  stereotype), 4 message kinds (sync = solid + filled arrow, async = solid + open
+  arrow, reply = dashed + open arrow, self = loopback), activation bars, and flat
+  alt/loop/opt/par fragments (label = guard, participants = span, messages = covered
+  ids in time order; one message per fragment). Custom grid layout (participants ×
+  time, no ELK) returning the shared LayoutResult so PNG/PDF export works unchanged;
+  registered in the engine registry (CLI/MCP dispatch + `list_diagram_types` pick it
+  up automatically).
+- [x] **Tests** -- spec validation, layout (grid positions, fragment bounds,
+  activation extents), render (arrow kinds, actor figure, fragment tab/separator,
+  themes).
+- [x] **Docs** -- `architecture-diagrams/reference/uml-sequence-spec.md` + example,
+  `examples/uml/sequence-*.yaml`, README + SKILL.md updated.
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.
-- [ ] **More UML diagram types** -- sequence (lifelines + time axis, needs its own layout), use case, activity, state machine, component/deployment/package. Each is a new engine on the v0.5 multi-engine foundation.
+- [ ] **More UML diagram types** -- use case, activity, state machine, component/deployment/package. Each is a new engine on the v0.5 multi-engine foundation (sequence shipped in v0.11).

@@ -1,0 +1,59 @@
+# Stress: very long participant names (>30 chars) and long stereotypes.
+# Box width is estimated at 7px/char -- bold 13px text and the guillemet-
+# wrapped stereotype may overflow the box.
+
+type: uml-sequence
+version: '1'
+title: 'Long names stress'
+theme: clean-light
+
+participants:
+  - id: orchestrator
+    name: EnterpriseOrderOrchestrationService
+    stereotype: distributed-transaction-coordinator
+
+  - id: ledger
+    name: GlobalSettlementLedgerGateway
+    stereotype: multi-region-fault-tolerant-entity
+
+  - id: notifier
+    name: CustomerNotificationDispatcher
+    stereotype: event-driven-asynchronous-broadcaster
+
+messages:
+  - id: m1
+    from: orchestrator
+    to: ledger
+    label: settle(order)
+    kind: sync
+    activation: true
+
+  - id: m2
+    from: ledger
+    to: orchestrator
+    label: settled(ref)
+    kind: reply
+
+  - id: m3
+    from: orchestrator
+    to: notifier
+    label: notify(customer, receipt)
+    kind: sync
+
+  - id: m4
+    from: notifier
+    to: orchestrator
+    label: delivered
+    kind: reply
+
+  - id: m5
+    from: orchestrator
+    to: ledger
+    label: reconcile(balance)
+    kind: sync
+
+  - id: m6
+    from: ledger
+    to: orchestrator
+    label: balanced
+    kind: reply

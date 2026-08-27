@@ -1,0 +1,91 @@
+# UML sequence diagram spec (type: uml-sequence)
+#
+# Visual-validation example: the MIDNIGHT-DARK theme (dark canvas, light text).
+# Check contrast of labels, stereotype guillemets, arrow colors, activation
+# bars, and fragment tabs on the dark background. Same flow as
+# sequence-order-flow.yaml.
+
+type: uml-sequence
+version: '1'
+title: Order placement -- sequence (dark theme)
+theme: midnight-dark
+
+participants:
+  - id: user
+    name: User
+    type: actor
+
+  - id: controller
+    name: OrderController
+    stereotype: control
+
+  - id: gateway
+    name: PaymentGateway
+    stereotype: control
+
+  - id: database
+    name: Database
+    stereotype: entity
+
+messages:
+  - id: place
+    from: user
+    to: controller
+    label: placeOrder(items)
+    kind: sync
+
+  - id: validate
+    from: controller
+    to: controller
+    label: validate stock
+    kind: self
+
+  - id: charge
+    from: controller
+    to: gateway
+    label: charge(amount)
+    kind: sync
+    activation: true
+
+  - id: reserve
+    from: gateway
+    to: database
+    label: reserve(orderId)
+    kind: async
+
+  - id: charge-ok
+    from: gateway
+    to: controller
+    label: receipt
+    kind: reply
+
+  - id: save
+    from: controller
+    to: database
+    label: save(order)
+    kind: sync
+
+  - id: saved
+    from: database
+    to: controller
+    label: orderId
+    kind: reply
+
+  - id: confirm
+    from: controller
+    to: user
+    label: confirmation
+    kind: reply
+
+fragments:
+  - id: payment-outcome
+    kind: alt
+    label: payment approved / declined
+    participants: [controller, gateway, database]
+    messages: [charge, reserve, charge-ok]
+
+  - id: persist-loop
+    kind: loop
+    label: until order is saved
+    participants: [controller, database]
+    messages: [save, saved]

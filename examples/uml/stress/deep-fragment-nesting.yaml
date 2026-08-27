@@ -1,0 +1,131 @@
+# Stress: 4 fragments (alt, opt, loop, par) over 6 participants.
+# - alt covers m1-m6 across 4 of the 6 participants, with a >90-char guard
+# - opt covers m7 + m10 (non-consecutive), loop covers m8 + m9 nested inside
+# - par covers m11-m12 on only 2 participants, sharing participant span with alt
+# - adjacent fragments (opt/loop touch in time)
+
+type: uml-sequence
+version: '1'
+title: 'Deep fragment nesting stress'
+theme: clean-light
+
+participants:
+  - id: a
+    name: Alpha
+
+  - id: b
+    name: Beta
+
+  - id: c
+    name: Gamma
+
+  - id: d
+    name: Delta
+
+  - id: e
+    name: Epsilon
+
+  - id: f
+    name: Zeta
+
+messages:
+  - id: m1
+    from: a
+    to: b
+    label: start
+    kind: sync
+
+  - id: m2
+    from: b
+    to: c
+    label: dispatch
+    kind: sync
+
+  - id: m3
+    from: c
+    to: d
+    label: work
+    kind: sync
+
+  - id: m4
+    from: d
+    to: c
+    label: done
+    kind: reply
+
+  - id: m5
+    from: c
+    to: b
+    label: result
+    kind: reply
+
+  - id: m6
+    from: b
+    to: a
+    label: finish
+    kind: reply
+
+  - id: m7
+    from: a
+    to: e
+    label: notify
+    kind: sync
+
+  - id: m8
+    from: e
+    to: f
+    label: forward
+    kind: sync
+
+  - id: m9
+    from: f
+    to: e
+    label: ack
+    kind: reply
+
+  - id: m10
+    from: e
+    to: a
+    label: confirmed
+    kind: reply
+
+  - id: m11
+    from: b
+    to: c
+    label: branch one
+    kind: sync
+
+  - id: m12
+    from: c
+    to: b
+    label: ok
+    kind: reply
+
+fragments:
+  # long guard (>90 chars) -- tab width must be compared against box width
+  - id: frag_alt
+    kind: alt
+    label: 'when the upstream service reports a transient failure and the retry budget is not yet exhausted'
+    participants: [a, b, c, d]
+    messages: [m1, m2, m3, m4, m5, m6]
+
+  # non-consecutive message coverage (m8/m9 belong to the loop fragment)
+  - id: frag_opt
+    kind: opt
+    label: optional audit trail
+    participants: [a, e]
+    messages: [m7, m10]
+
+  # nested in time inside frag_opt, spans only 2 of the 6 participants
+  - id: frag_loop
+    kind: loop
+    label: until ack received
+    participants: [e, f]
+    messages: [m8, m9]
+
+  # disjoint in messages from frag_alt but shares participants b and c
+  - id: frag_par
+    kind: par
+    label: concurrent branches
+    participants: [b, c]
+    messages: [m11, m12]

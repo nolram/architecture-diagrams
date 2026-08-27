@@ -1,0 +1,53 @@
+# Stress: XML-special and tricky characters in names, stereotypes, labels,
+# and fragment guards. The rendered SVG must stay well-formed XML.
+
+type: uml-sequence
+version: '1'
+title: 'Special chars & unicode stress'
+theme: clean-light
+
+participants:
+  - id: svc
+    name: 'A & B <svc>'
+    stereotype: 'boundary "primary"'
+
+  - id: user
+    name: 'café client'
+    type: actor
+
+  - id: db
+    name: '日本語 DB'
+    stereotype: entity
+
+messages:
+  - id: m1
+    from: user
+    to: svc
+    label: '100% "done" & <verified>'
+    kind: sync
+    activation: true
+
+  - id: m2
+    from: svc
+    to: db
+    label: "it's a 'quoted' query"
+    kind: sync
+
+  - id: m3
+    from: db
+    to: svc
+    label: '«result» set'
+    kind: reply
+
+  - id: m4
+    from: svc
+    to: user
+    label: "don't & can't"
+    kind: reply
+
+fragments:
+  - id: frag1
+    kind: alt
+    label: 'if a < b & c > d'
+    participants: [user, svc, db]
+    messages: [m1, m2, m3]

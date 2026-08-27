@@ -1,0 +1,100 @@
+# Stress: a tight call/reply cascade across 4 participants, every call with
+# activation:true, no fragments. Activation bars on the same lifeline stack;
+# arrowheads and labels sit on adjacent rows only 32px apart.
+
+type: uml-sequence
+version: '1'
+title: 'Dense reply chain stress'
+theme: clean-light
+
+participants:
+  - id: a
+    name: Alpha
+
+  - id: b
+    name: Beta
+
+  - id: c
+    name: Gamma
+
+  - id: d
+    name: Delta
+
+messages:
+  - id: m1
+    from: a
+    to: b
+    label: request(1)
+    kind: sync
+    activation: true
+
+  - id: m2
+    from: b
+    to: c
+    label: request(2)
+    kind: sync
+    activation: true
+
+  - id: m3
+    from: c
+    to: d
+    label: request(3)
+    kind: sync
+    activation: true
+
+  - id: m4
+    from: d
+    to: c
+    label: response(3)
+    kind: reply
+
+  - id: m5
+    from: c
+    to: b
+    label: response(2)
+    kind: reply
+
+  - id: m6
+    from: b
+    to: a
+    label: response(1)
+    kind: reply
+
+  - id: m7
+    from: a
+    to: c
+    label: direct(1)
+    kind: sync
+    activation: true
+
+  - id: m8
+    from: c
+    to: d
+    label: direct(2)
+    kind: sync
+    activation: true
+
+  - id: m9
+    from: d
+    to: c
+    label: direct(3)
+    kind: reply
+
+  - id: m10
+    from: c
+    to: a
+    label: direct(4)
+    kind: reply
+
+  - id: m11
+    from: b
+    to: d
+    label: cross(1)
+    kind: sync
+    activation: true
+
+  - id: m12
+    from: d
+    to: b
+    label: cross(2)
+    kind: reply

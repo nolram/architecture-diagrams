@@ -1,0 +1,73 @@
+# Stress: a par fragment with a long label covering 4 messages across 3
+# participants, plus an opt fragment adjacent to it (disjoint messages).
+# Tab width for kind+label must fit inside the box; adjacent fragment boxes
+# touch in the vertical direction.
+
+type: uml-sequence
+version: '1'
+title: 'Parallel and optional fragments stress'
+theme: clean-light
+
+participants:
+  - id: a
+    name: Alpha
+
+  - id: b
+    name: Beta
+
+  - id: c
+    name: Gamma
+
+messages:
+  # covered by the par fragment
+  - id: m1
+    from: a
+    to: b
+    label: branch A start
+    kind: sync
+
+  - id: m2
+    from: b
+    to: c
+    label: branch A hop
+    kind: sync
+
+  - id: m3
+    from: c
+    to: b
+    label: branch A back
+    kind: reply
+
+  - id: m4
+    from: b
+    to: a
+    label: branch A end
+    kind: reply
+
+  # covered by the opt fragment (adjacent in time, disjoint messages)
+  - id: m5
+    from: a
+    to: c
+    label: optional ping
+    kind: sync
+
+  - id: m6
+    from: c
+    to: a
+    label: optional pong
+    kind: reply
+
+fragments:
+  # long kind+label text in the tab; box spans a, b, c
+  - id: frag_par
+    kind: par
+    label: 'independent branches executed concurrently by the scheduler'
+    participants: [a, b, c]
+    messages: [m1, m2, m3, m4]
+
+  # adjacent to frag_par (starts right where it ends), narrower span
+  - id: frag_opt
+    kind: opt
+    label: if health check passes
+    participants: [a, c]
+    messages: [m5, m6]

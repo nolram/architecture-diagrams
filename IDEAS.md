@@ -16,8 +16,8 @@ That is the main reason the items below are now realistic.
 - ✅ **C4 diagrams** (System Context / Container / Component) -- the de-facto
   standard for software architecture; fits the core use case and reuses a lot of
   what we already have. Implemented in v0.6. Spec: `architecture-diagrams/reference/c4-spec.md`.
-- 💡 **UML sequence** -- the most-requested UML diagram after class; complements the
-  class engine. Needs its own layout (lifelines + time axis).
+- ✅ **UML sequence** -- the most-requested UML diagram after class; complements the
+  class engine. Implemented in v0.11. Spec: `architecture-diagrams/reference/uml-sequence-spec.md`.
 - 💡 **ER (entity-relationship)** -- sibling of the class diagram; reuses boxes with
   attributes + relationships.
 - 💡 **UML state / activity / use case** -- already in the ROADMAP backlog.
@@ -94,10 +94,10 @@ source at once (monorepo + compose + k8s + Dockerfile + CI). Ordered by severity
 The original "next 3" are all shipped (C4 in v0.6, MCP in v0.8, codebase →
 diagram in v0.9). Current shortlist, in rough order of strategic value:
 
-1. **Consistency / validation** -- 🟢 chosen for v0.10 (see
+1. **Consistency / validation** -- shipped in v0.10 (see
    `docs/discovery-consistency-validation.md`).
 2. **Import Mermaid (flowchart)** -- the "better than Mermaid" adoption story;
-   strong v0.11 candidate.
-3. **UML sequence** -- most-requested UML type; biggest engineering lift
-   (new lifeline/time-axis layout).
+   strong next candidate.
+3. **UML sequence** -- ✅ done in v0.11 (was the biggest engineering lift:
+   new lifeline/time-axis layout).
 4. **ER diagram** -- cheapest new engine (sibling of uml-class); quick win.

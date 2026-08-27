@@ -9,13 +9,14 @@ A custom renderer (ELK.js for layout + real icons via `thesvg`/Iconify + hand-dr
 
 ## Diagram families
 
-Three families share the same renderer, selected by the spec's `type` field:
+Four families share the same renderer, selected by the spec's `type` field:
 
 - **Architecture** (default -- omit `type` or set `type: architecture`): components, boundaries, connections. Rules in `reference/spec-guide.md`.
 - **UML class** (`type: uml-class`): classes with attributes/methods plus the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Rules in `reference/uml-class-spec.md`, runnable example in `reference/uml-class.example.yaml`.
+- **UML sequence** (`type: uml-sequence`): participants (objects or actors), synchronous/asynchronous/reply/self messages, activation bars, and alt/loop/opt/par fragments over message ranges. Rules in `reference/uml-sequence-spec.md`, runnable example in `reference/uml-sequence.example.yaml`.
 - **C4** (`type: c4`): System Context / Container / Component diagrams -- people, systems, external systems, containers, and components with directed relationships. Rules in `reference/c4-spec.md`, runnable example in `reference/c4.example.yaml`.
 
-The workflow below is the same for all three families.
+The workflow below is the same for all four families.
 
 ### C4
 

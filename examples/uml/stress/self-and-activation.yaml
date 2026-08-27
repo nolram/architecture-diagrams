@@ -1,0 +1,97 @@
+# Stress: one object with 8 self-messages (loopbacks) plus a nested
+# call/reply chain A->B->C->B->A with activations on every sender.
+# Self-loopback labels are drawn to the RIGHT of the lifeline -- check
+# collision with the next participant's lifeline and canvas clipping.
+
+type: uml-sequence
+version: '1'
+title: 'Self messages and activation stacking'
+theme: clean-light
+
+participants:
+  - id: engine
+    name: StateEngine
+
+  - id: worker
+    name: Worker
+
+  - id: queue
+    name: TaskQueue
+
+messages:
+  # eight self-messages on the engine lifeline
+  - id: s1
+    from: engine
+    to: engine
+    label: parse input tokens
+    kind: self
+
+  - id: s2
+    from: engine
+    to: engine
+    label: build abstract syntax tree
+    kind: self
+
+  - id: s3
+    from: engine
+    to: engine
+    label: resolve symbol references across the entire module graph and report every unresolved binding found during this pass
+    kind: self
+
+  - id: s4
+    from: engine
+    to: engine
+    label: type check expressions
+    kind: self
+
+  - id: s5
+    from: engine
+    to: engine
+    label: inline small functions
+    kind: self
+
+  - id: s6
+    from: engine
+    to: engine
+    label: eliminate dead branches
+    kind: self
+
+  - id: s7
+    from: engine
+    to: engine
+    label: schedule output tasks
+    kind: self
+
+  - id: s8
+    from: engine
+    to: engine
+    label: emit bytecode
+    kind: self
+
+  # two overlapping activations on the SAME lifeline (engine): c1's bar runs
+  # down to c4, c2's bar runs down to c3 -- the bars stack on one lifeline
+  - id: c1
+    from: engine
+    to: worker
+    label: submit(job)
+    kind: sync
+    activation: true
+
+  - id: c2
+    from: engine
+    to: queue
+    label: enqueue(task)
+    kind: sync
+    activation: true
+
+  - id: c3
+    from: queue
+    to: engine
+    label: queued(id)
+    kind: reply
+
+  - id: c4
+    from: worker
+    to: engine
+    label: accepted(id)
+    kind: reply

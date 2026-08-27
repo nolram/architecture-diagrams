@@ -1,0 +1,26 @@
+# Stress: degenerate minimum-size layout -- a single actor, one self-message,
+# one fragment covering it.
+
+type: uml-sequence
+version: '1'
+title: 'Single actor degenerate case'
+theme: clean-light
+
+participants:
+  - id: solo
+    name: Solo
+    type: actor
+
+messages:
+  - id: m1
+    from: solo
+    to: solo
+    label: think to self
+    kind: self
+
+fragments:
+  - id: frag1
+    kind: opt
+    label: alone
+    participants: [solo]
+    messages: [m1]

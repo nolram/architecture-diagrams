@@ -1,0 +1,70 @@
+# UML sequence diagram spec (type: uml-sequence)
+#
+# Renders participants (objects or actors), sync/async/reply/self messages,
+# activation bars, and alt/loop/opt/par fragments. Messages are listed in
+# time order (top to bottom); fragments group runs of messages.
+# Full format: ./uml-sequence-spec.md
+
+type: uml-sequence
+version: '1'
+title: Order placement -- sequence
+theme: clean-light
+direction: auto          # always flows top→bottom for sequence diagrams
+
+participants:
+  - id: user
+    name: User
+    type: actor
+
+  - id: controller
+    name: OrderController
+    stereotype: control
+
+  - id: gateway
+    name: PaymentGateway
+    stereotype: control
+
+messages:
+  # sync call (solid line, filled arrow) with an activation bar on the sender
+  - id: place
+    from: user
+    to: controller
+    label: placeOrder(items)
+    kind: sync
+
+  # self message (loopback on one lifeline)
+  - id: validate
+    from: controller
+    to: controller
+    label: validate stock
+    kind: self
+
+  # sync call; activation extends down to the matching reply below
+  - id: charge
+    from: controller
+    to: gateway
+    label: charge(amount)
+    kind: sync
+    activation: true
+
+  # reply (dashed line, open arrow) back to the caller
+  - id: charge-ok
+    from: gateway
+    to: controller
+    label: receipt
+    kind: reply
+
+  # async signal (solid line, open arrow) -- sender does not wait
+  - id: notify
+    from: gateway
+    to: user
+    label: email receipt
+    kind: async
+
+fragments:
+  # alt fragment over the charge/reply pair; the label is the guard condition
+  - id: payment-outcome
+    kind: alt
+    label: payment approved
+    participants: [controller, gateway]
+    messages: [charge, charge-ok]
