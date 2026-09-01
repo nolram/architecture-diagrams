@@ -1,6 +1,7 @@
 import { getEngine, engineTypes } from "../engines/index.js";
 import type { DiagramEngine } from "../engines/index.js";
 import type { SpecValidationError } from "../spec/schema.js";
+import { clearWrapTextCache } from "../util/text.js";
 import { svgToPng, svgToPdf } from "../export/index.js";
 import { parse } from "yaml";
 import process from "node:process";
@@ -69,6 +70,9 @@ export interface RenderSpecResult {
 export async function renderSpec(specText: string, opts: RenderSpecOptions = {}): Promise<RenderSpecResult> {
   const v = validateSpecText(specText);
   if (!v.ok) throw new SpecError(formatErrors(v.errors));
+
+  // bound the process-lifetime wrapText memo cache to a single render
+  clearWrapTextCache();
 
   const layout = await v.engine.layout(v.spec);
   const { svg, warnings } = await v.engine.render(v.spec, layout, opts.baseDir ?? process.cwd());

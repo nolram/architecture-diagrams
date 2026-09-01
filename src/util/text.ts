@@ -36,6 +36,17 @@ export function truncateToWidth(text: string, maxWidth: number, charWidth: numbe
 const wrapTextCache = new Map<string, string[]>();
 
 /**
+ * Drops every memoized wrap result. The cache is process-lifetime and unbounded,
+ * so long-lived hosts (the MCP server, `render --watch`) must clear it once per
+ * render to keep it from growing with every distinct sublabel ever seen. The
+ * within-a-render benefit is unaffected: the layout pass warms the cache and the
+ * render pass hits it.
+ */
+export function clearWrapTextCache(): void {
+  wrapTextCache.clear();
+}
+
+/**
  * Wraps `text` into lines that each fit within `maxWidth` px (estimated via
  * `charWidth`), breaking on word boundaries. If the result exceeds `maxLines`,
  * the overflow is folded into the last line and truncated with an ellipsis.
