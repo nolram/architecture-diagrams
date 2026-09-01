@@ -115,4 +115,38 @@ edges: []
       assert.ok(svg.includes("q-2.28"), "should contain the cloud path");
     });
   });
+
+  describe("sublabel wrapping", () => {
+    test("a long sublabel wraps onto multiple lines instead of truncating", async () => {
+      const { svg, warnings } = await renderYaml(`
+version: '1'
+nodes:
+  - id: b
+    label: Tailored access control
+    sublabel: Each role sees only what it needs
+    icon: generic:lock
+edges: []
+`);
+      assert.deepEqual(warnings, []);
+      assert.ok(!svg.includes("…"), "the sublabel should wrap, not be truncated with an ellipsis");
+      const sublabelLines = (svg.match(/font-size="12"/g) ?? []).length;
+      assert.ok(sublabelLines >= 2, `expected a wrapped (multi-line) sublabel, got ${sublabelLines} line(s)`);
+    });
+
+    test("a short sublabel renders on a single line (regression guard)", async () => {
+      const { svg, warnings } = await renderYaml(`
+version: '1'
+nodes:
+  - id: b
+    label: Tailored access control
+    sublabel: Node.js
+    icon: generic:lock
+edges: []
+`);
+      assert.deepEqual(warnings, []);
+      assert.ok(!svg.includes("…"), "a short sublabel should not be truncated");
+      const sublabelLines = (svg.match(/font-size="12"/g) ?? []).length;
+      assert.equal(sublabelLines, 1, "a short sublabel should render on exactly one line");
+    });
+  });
 });

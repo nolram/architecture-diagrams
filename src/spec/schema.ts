@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEFAULT_WRAP_MAX_LINES } from "../util/text.js";
 
 const idPattern = /^[a-zA-Z0-9_-]+$/;
 
@@ -39,6 +40,16 @@ export const EdgeSchema = z.object({
 });
 export type DiagramEdge = z.infer<typeof EdgeSchema>;
 
+export const WrapSchema = z
+  .object({
+    // maximum number of wrapped lines for a node's sublabel before the overflow
+    // is folded into an ellipsis. The default is generous so sublabels wrap onto
+    // as many lines as needed (growing the card's height) instead of truncating.
+    maxLines: z.number().int().min(1).max(16).default(DEFAULT_WRAP_MAX_LINES),
+  })
+  .default({ maxLines: DEFAULT_WRAP_MAX_LINES });
+export type Wrap = z.infer<typeof WrapSchema>;
+
 export const DiagramSpecSchema = z
   .object({
     /** which diagram engine should handle this spec (defaults to "architecture") */
@@ -47,6 +58,7 @@ export const DiagramSpecSchema = z
     title: z.string().optional(),
     theme: z.enum(["clean-light", "midnight-dark"]).default("clean-light"),
     direction: z.enum(["auto", "right", "down"]).default("auto"),
+    wrap: WrapSchema,
     nodes: z.array(NodeSchema).min(1, "the diagram needs at least one node"),
     groups: z.array(GroupSchema).default([]),
     edges: z.array(EdgeSchema).default([]),

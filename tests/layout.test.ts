@@ -296,5 +296,30 @@ edges:
         assert.ok(long.width >= short.width, `shape ${shape} should get wider with a longer label`);
       }
     });
+
+    test("a sublabel that wraps grows the card's height (width never shrinks)", () => {
+      const short = estimateNodeSize({ ...base, sublabel: "Node.js" });
+      const long = estimateNodeSize({ ...base, sublabel: "Each role sees only what it needs" });
+      assert.ok(long.height > short.height, "a wrapping sublabel should grow the card's height");
+      assert.ok(long.width >= short.width, "a wrapping sublabel should not shrink the card's width");
+    });
+
+    test("a single-line sublabel keeps the original card height (regression guard)", () => {
+      const single = estimateNodeSize({ ...base, sublabel: "Node.js" });
+      assert.equal(single.height, 100, "a 1-line sublabel must keep the pre-wrapping card height of 100");
+      assert.equal(estimateNodeSize(base).height, 78, "no sublabel keeps the simple card height of 78");
+    });
+
+    test("maxLines: 1 folds a wrapping sublabel back to a single line", () => {
+      const folded = estimateNodeSize({ ...base, sublabel: "Each role sees only what it needs" }, 1);
+      assert.equal(folded.height, 100, "maxLines:1 must fold the sublabel to one line (height 100)");
+    });
+
+    test("an actor's wrapping sublabel grows its height too", () => {
+      const actorShort = estimateNodeSize({ ...base, shape: "actor", sublabel: "Admin" });
+      const actorLong = estimateNodeSize({ ...base, shape: "actor", sublabel: "Each role sees only what it needs" });
+      assert.ok(actorLong.height > actorShort.height, "a wrapping sublabel should grow the actor's height");
+      assert.equal(actorLong.width, actorShort.width, "width should not change when an actor's sublabel wraps");
+    });
   });
 });

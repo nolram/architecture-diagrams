@@ -1,5 +1,5 @@
 import type { C4Element, C4Relationship } from "./schema.js";
-import { wrapText } from "../../render/svg-utils.js";
+import { wrapText } from "../../util/text.js";
 
 export type C4ElementKind = C4Element["type"];
 

@@ -53,7 +53,7 @@ export async function composeDiagram(spec: DiagramSpec, layout: LayoutResult, ba
     .filter(Boolean);
 
   const nodeParts = [...layout.nodes.values()].map((box) =>
-    renderNode(nodesById.get(box.id)!, box, theme, iconByNode.get(box.id) ?? null),
+    renderNode(nodesById.get(box.id)!, box, theme, iconByNode.get(box.id) ?? null, spec.wrap.maxLines),
   );
 
   const offsetX = CANVAS_MARGIN;
