@@ -8,7 +8,8 @@
 <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">E-commerce Backend Architecture</text>
 <g transform="translate(32, 88)">
 <g>
-  <rect x="24" y="653" width="865.6" height="340" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+  <rect x="24" y="653" width="865.6" height="340" rx="18" fill="#faf5ff"/>
+  <path d="M230.79999999999998,653 L871.6,653 M871.6,653 A18,18 0 0 1 889.6,671 L889.6,975 A18,18 0 0 1 871.6,993 L42,993 A18,18 0 0 1 24,975 L24,671 A18,18 0 0 1 42,653" fill="none" stroke="#a855f7" stroke-width="2"/>
   <rect x="40" y="640" width="187.79999999999998" height="26" rx="13" fill="none" stroke="#a855f7" stroke-width="1"/>
   <text x="133.89999999999998" y="657" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC — PRIVATE NETWORK</text>
 </g>

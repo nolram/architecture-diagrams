@@ -8,17 +8,20 @@
 <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Multi-AZ VPC with Load Balancer</text>
 <g transform="translate(32, 88)">
 <g>
-  <rect x="877" y="24" width="955.4000000000001" height="419" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+  <rect x="877" y="24" width="955.4000000000001" height="419" rx="18" fill="#faf5ff"/>
+  <path d="M943.4,24 L1814.4,24 M1814.4,24 A18,18 0 0 1 1832.4,42 L1832.4,425 A18,18 0 0 1 1814.4,443 L895,443 A18,18 0 0 1 877,425 L877,42 A18,18 0 0 1 895,24" fill="none" stroke="#a855f7" stroke-width="2"/>
   <rect x="893" y="11" width="47.4" height="26" rx="13" fill="none" stroke="#a855f7" stroke-width="1"/>
   <text x="916.7" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC</text>
 </g>
 <g>
-  <rect x="1325.1" y="76" width="464.3" height="171" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="1325.1" y="76" width="464.3" height="171" rx="18" fill="#ecfdf5"/>
+  <path d="M1399.3,76 L1771.3999999999999,76 M1771.3999999999999,76 A18,18 0 0 1 1789.3999999999999,94 L1789.3999999999999,229 A18,18 0 0 1 1771.3999999999999,247 L1343.1,247 A18,18 0 0 1 1325.1,229 L1325.1,94 A18,18 0 0 1 1343.1,76" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 5"/>
   <rect x="1341.1" y="63" width="55.2" height="26" rx="13" fill="none" stroke="#10b981" stroke-width="1"/>
   <text x="1368.6999999999998" y="80" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#047857">AZ-A</text>
 </g>
 <g>
-  <rect x="930" y="125" width="254.3" height="256" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="930" y="125" width="254.3" height="256" rx="18" fill="#ecfdf5"/>
+  <path d="M1004.2,125 L1166.3,125 M1166.3,125 A18,18 0 0 1 1184.3,143 L1184.3,363 A18,18 0 0 1 1166.3,381 L948,381 A18,18 0 0 1 930,363 L930,143 A18,18 0 0 1 948,125" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 5"/>
   <rect x="946" y="112" width="55.2" height="26" rx="13" fill="none" stroke="#10b981" stroke-width="1"/>
   <text x="973.6" y="129" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#047857">AZ-B</text>
 </g>
