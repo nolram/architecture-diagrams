@@ -216,4 +216,80 @@ describe("timeline layout", () => {
       }
     }
   });
+
+  test("flow line passes through the gate diamond center, not the items panel (direction: right)", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      direction: "right",
+      phases: [
+        { id: "gate0", label: "Gate 0 — Security", kind: "gate", items: ["a", "b", "c"] },
+        { id: "wave1", label: "Wave 1 — MVP", kind: "phase", items: ["x", "y"] },
+      ],
+    });
+    const layout = await layoutTimeline(spec);
+    const gate = layout.nodes.get("gate0")!;
+    const flow = layout.edges.get("flow_0")!;
+    const flowY = flow.points[0].y;
+    const diamondCenterY = gate.y + 28;
+    assert.ok(Math.abs(flowY - diamondCenterY) < 0.01, `flow line y=${flowY} should equal the gate diamond center y=${diamondCenterY}`);
+    assert.ok(flowY < gate.y + 56, "flow line should be inside the diamond, not the items panel below it");
+  });
+
+  test("down-direction dependency labels are not clipped off the left edge", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      direction: "down",
+      phases: [
+        { id: "p1", label: "P1" },
+        { id: "p2", label: "P2" },
+        { id: "p3", label: "P3" },
+      ],
+      relationships: [{ from: "p1", to: "p3", label: "a long dependency label" }],
+    });
+    const layout = await layoutTimeline(spec);
+    const route = layout.edges.get("rel_0")!;
+    assert.ok(route.labelPosition, "labeled relationship should have a label position");
+    assert.ok(route.labelPosition.x >= 0, `label position x should be >= 0, got ${route.labelPosition.x}`);
+    for (const p of route.points) {
+      assert.ok(p.x >= 0, `edge point x should be >= 0, got ${p.x}`);
+    }
+  });
+
+  test("two non-consecutive relationships route on separate lanes (no overlap)", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      direction: "right",
+      phases: [
+        { id: "p1", label: "P1" },
+        { id: "p2", label: "P2" },
+        { id: "p3", label: "P3" },
+        { id: "p4", label: "P4" },
+      ],
+      relationships: [
+        { from: "p1", to: "p3", label: "link A" },
+        { from: "p2", to: "p4", label: "link B" },
+      ],
+    });
+    const layout = await layoutTimeline(spec);
+    const rel0 = layout.edges.get("rel_0")!;
+    const rel1 = layout.edges.get("rel_1")!;
+    const laneY0 = rel0.points[1].y;
+    const laneY1 = rel1.points[1].y;
+    assert.ok(Math.abs(laneY0 - laneY1) > 5, `the two relationship lanes should be at different y (${laneY0} vs ${laneY1})`);
+  });
+
+  test("a gate with items is taller than a gate without items", () => {
+    const bare = estimatePhaseSize({ id: "g", label: "Gate", kind: "gate", items: [] });
+    const withItems = estimatePhaseSize({ id: "g", label: "Gate", kind: "gate", items: ["x", "y"] });
+    assert.ok(withItems.height > bare.height, `expected ${withItems.height} > ${bare.height}`);
+  });
+
+  test("a gate's label compartment is taller than a phase's (diamond room for the label)", () => {
+    const gate = estimatePhaseSize({ id: "g", label: "Gate", kind: "gate", items: [] });
+    const phase = estimatePhaseSize({ id: "p", label: "Gate", kind: "phase", items: [] });
+    assert.ok(gate.height > phase.height, `gate height ${gate.height} should exceed phase height ${phase.height}`);
+  });
 });

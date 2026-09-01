@@ -1,6 +1,6 @@
 import { describe, test } from "node:test";
 import assert from "node:assert/strict";
-import { validateTimelineSpec, layoutTimeline, composeTimeline } from "../src/engines/timeline/index.js";
+import { validateTimelineSpec, layoutTimeline, composeTimeline, GATE_DIAMOND_HEIGHT } from "../src/engines/timeline/index.js";
 import type { TimelineSpec } from "../src/engines/timeline/index.js";
 
 function specOrThrow(raw: unknown): TimelineSpec {
@@ -233,5 +233,39 @@ describe("timeline render", () => {
     const layout = await layoutTimeline(spec);
     const { warnings } = await composeTimeline(spec, layout);
     assert.deepEqual(warnings, []);
+  });
+
+  test("a gate label is vertically centered in the diamond", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      phases: [{ id: "g", label: "Gate 0 — Security", kind: "gate" }],
+    });
+    const layout = await layoutTimeline(spec);
+    const { svg } = await composeTimeline(spec, layout);
+    const expectedY = GATE_DIAMOND_HEIGHT / 2 + 15 * 0.35;
+    assert.ok(svg.includes(`y="${expectedY}"`), `gate label baseline should be at the diamond center (local y=${expectedY})`);
+  });
+
+  test("a phase with no items renders no divider line", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      phases: [{ id: "p", label: "Solo", kind: "phase" }],
+    });
+    const layout = await layoutTimeline(spec);
+    const { svg } = await composeTimeline(spec, layout);
+    assert.ok(!svg.includes("<line"), "an item-less phase should not draw a divider line");
+  });
+
+  test("a phase with items renders a divider line", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      phases: [{ id: "p", label: "Phase", kind: "phase", items: ["one"] }],
+    });
+    const layout = await layoutTimeline(spec);
+    const { svg } = await composeTimeline(spec, layout);
+    assert.ok(svg.includes("<line"), "a phase with items should draw a divider line");
   });
 });

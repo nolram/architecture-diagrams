@@ -22,6 +22,8 @@ export const TIMELINE_MIN_WIDTH = 140;
 
 export const TIMELINE_BULLET_EXTRA = 16;
 
+export const GATE_DIAMOND_HEIGHT = 56;
+
 export interface TimelinePhaseSize {
   width: number;
   height: number;
@@ -35,6 +37,10 @@ export function timelineItemsCompartmentHeight(count: number): number {
   return count * TIMELINE_LINE_HEIGHT + TIMELINE_COMPARTMENT_PAD * 2;
 }
 
+export function gateLabelCompartmentHeight(): number {
+  return GATE_DIAMOND_HEIGHT;
+}
+
 export function estimatePhaseSize(phase: TimelinePhase): TimelinePhaseSize {
   const labelW = phase.label.length * TIMELINE_LABEL_CHAR_WIDTH;
   let maxItemW = 0;
@@ -43,7 +49,8 @@ export function estimatePhaseSize(phase: TimelinePhase): TimelinePhaseSize {
   }
   const width = Math.max(TIMELINE_MIN_WIDTH, Math.max(labelW, maxItemW + TIMELINE_BULLET_EXTRA) + TIMELINE_BOX_PAD_X * 2);
 
-  let height = timelineLabelCompartmentHeight();
+  const labelH = phase.kind === "gate" ? gateLabelCompartmentHeight() : timelineLabelCompartmentHeight();
+  let height = labelH;
   if ((phase.items?.length ?? 0) > 0) height += timelineItemsCompartmentHeight(phase.items!.length);
   return { width, height };
 }

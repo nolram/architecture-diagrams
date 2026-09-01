@@ -8,6 +8,7 @@ import {
   TIMELINE_BULLET_EXTRA,
   TIMELINE_COMPARTMENT_PAD,
   TIMELINE_LINE_HEIGHT,
+  gateLabelCompartmentHeight,
   timelineEdgeLabelSize,
   timelineItemsCompartmentHeight,
   timelineLabelCompartmentHeight,
@@ -48,15 +49,16 @@ function renderItems(items: string[], startY: number, theme: Theme): string {
 function renderPhaseCard(phase: TimelinePhase, box: AbsoluteBox, theme: Theme): string {
   const w = box.width;
   const h = box.height;
-  const labelH = timelineLabelCompartmentHeight();
+  const labelH = phase.kind === "gate" ? gateLabelCompartmentHeight() : timelineLabelCompartmentHeight();
 
   if (phase.kind === "gate") {
     const parts: string[] = [];
     parts.push(
       `<polygon points="${w / 2},0 ${w},${labelH / 2} ${w / 2},${labelH} 0,${labelH / 2}" fill="${theme.cardBg}" stroke="${theme.cardBorder}" stroke-width="1.5" filter="url(#card-shadow)"/>`,
     );
+    const gateLabelY = labelH / 2 + 15 * 0.35;
     parts.push(
-      `<text x="${w / 2}" y="${baseline(0, 15)}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="15" font-weight="600" fill="${theme.labelColor}">${escapeXml(phase.label)}</text>`,
+      `<text x="${w / 2}" y="${gateLabelY}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="15" font-weight="600" fill="${theme.labelColor}">${escapeXml(phase.label)}</text>`,
     );
     if (phase.items.length > 0) {
       const itemsH = timelineItemsCompartmentHeight(phase.items.length);
@@ -75,8 +77,8 @@ ${parts.join("\n")}
   parts.push(
     `<text x="${w / 2}" y="${baseline(TIMELINE_COMPARTMENT_PAD, 15)}" text-anchor="middle" font-family='${theme.fontFamily}' font-size="15" font-weight="600" fill="${theme.labelColor}">${escapeXml(phase.label)}</text>`,
   );
-  parts.push(`<line x1="0" y1="${labelH}" x2="${w}" y2="${labelH}" stroke="${theme.cardBorder}" stroke-width="1"/>`);
   if (phase.items.length > 0) {
+    parts.push(`<line x1="0" y1="${labelH}" x2="${w}" y2="${labelH}" stroke="${theme.cardBorder}" stroke-width="1"/>`);
     parts.push(renderItems(phase.items, labelH, theme));
   }
   return `<g transform="translate(${box.x}, ${box.y})">
