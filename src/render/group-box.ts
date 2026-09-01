@@ -40,6 +40,15 @@ export function renderGroupBox(group: DiagramGroup, box: AbsoluteBox, theme: The
   const gapStart = Math.max(chipX - GAP_PAD, topEdgeStart);
   const gapEnd = Math.min(chipX + chipWidth + GAP_PAD, topEdgeEnd);
 
+  // The chip is anchored at the top-left (chipX = x + GROUP_CHIP_MARGIN), so the
+  // gap always begins at or before the top edge's start. With GROUP_CHIP_MARGIN
+  // (16) < GROUP_RADIUS (18), gapStart never exceeds topEdgeStart, so leftTop is
+  // empty and the gap is one-sided: the right segment carries the top edge. The
+  // two-sided logic is kept so a future bump to GROUP_CHIP_MARGIN stays correct.
+  // When the chip clamps to full width (a nested / parent-constrained group),
+  // gapEnd reaches topEdgeEnd and rightTop is empty too -- the full-width title
+  // chip then legitimately replaces the entire top edge (there is no room for a
+  // stub between the chip and the 18px corner radius).
   const leftTop = gapStart > topEdgeStart ? `M${topEdgeStart},${y} L${gapStart},${y} ` : "";
   const rightTop = gapEnd < topEdgeEnd ? `M${gapEnd},${y} L${topEdgeEnd},${y} ` : "";
   const borderPath =
