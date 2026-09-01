@@ -32,11 +32,14 @@ export function truncateToWidth(text: string, maxWidth: number, charWidth: numbe
   return `${text.slice(0, maxChars - 1)}…`;
 }
 
+/** memoization cache for wrapText, keyed by the four arguments */
+const wrapTextCache = new Map<string, string[]>();
+
 /**
  * Wraps `text` into lines that each fit within `maxWidth` px (estimated via
  * `charWidth`), breaking on word boundaries. If the result exceeds `maxLines`,
  * the overflow is folded into the last line and truncated with an ellipsis.
- * Returns an empty array for blank input.
+ * Returns an empty array for blank input. Results are memoized per argument set.
  */
 export function wrapText(
   text: string,
@@ -44,8 +47,15 @@ export function wrapText(
   charWidth: number,
   maxLines: number,
 ): string[] {
+  const key = `${text}\u0000${maxWidth}\u0000${charWidth}\u0000${maxLines}`;
+  const cached = wrapTextCache.get(key);
+  if (cached) return [...cached];
+
   const trimmed = text.trim();
-  if (!trimmed) return [];
+  if (!trimmed) {
+    wrapTextCache.set(key, []);
+    return [];
+  }
   const maxChars = Math.max(3, Math.floor(maxWidth / charWidth + 1e-6));
   const words = trimmed.split(/\s+/);
   const lines: string[] = [];
@@ -66,9 +76,15 @@ export function wrapText(
     line.length > maxChars ? truncateToWidth(line, maxWidth, charWidth) : line,
   );
 
-  if (clamped.length <= maxLines) return clamped;
-  const kept = clamped.slice(0, maxLines);
-  const overflow = clamped.slice(maxLines).join(" ");
-  kept[kept.length - 1] = truncateToWidth(`${kept[kept.length - 1]} ${overflow}`, maxWidth, charWidth);
-  return kept;
+  let result: string[];
+  if (clamped.length <= maxLines) {
+    result = clamped;
+  } else {
+    const kept = clamped.slice(0, maxLines);
+    const overflow = clamped.slice(maxLines).join(" ");
+    kept[kept.length - 1] = truncateToWidth(`${kept[kept.length - 1]} ${overflow}`, maxWidth, charWidth);
+    result = kept;
+  }
+  wrapTextCache.set(key, result);
+  return [...result];
 }
