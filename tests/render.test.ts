@@ -149,4 +149,74 @@ edges: []
       assert.equal(sublabelLines, 1, "a short sublabel should render on exactly one line");
     });
   });
+
+  describe("group label pill", () => {
+    test("a dashed group's label chip has an opaque background (covers the dashed border)", async () => {
+      const { svg, warnings } = await renderYaml(`
+version: '1'
+title: "Bug repro: style: boundary label overlaps dashed border"
+theme: clean-light
+direction: right
+nodes:
+  - id: a
+    label: "Service A"
+    group: g1
+  - id: b
+    label: "Service B"
+    group: g2
+groups:
+  - id: g1
+    label: "Before migration"
+    style: boundary
+  - id: g2
+    label: "After migration"
+    style: boundary
+edges:
+  - from: a
+    to: b
+`);
+      assert.deepEqual(warnings, []);
+      // The group chip rect is the only rect with height="26" rx="13".
+      const chipMatches = svg.match(/<rect[^>]*height="26"[^>]*rx="13"[^>]*\/>/g) ?? [];
+      assert.ok(chipMatches.length >= 2, `expected at least 2 group chips, got ${chipMatches.length}`);
+      for (const chip of chipMatches) {
+        const fillMatch = chip.match(/fill="([^"]*)"/);
+        assert.ok(fillMatch, `chip should have a fill attribute: ${chip}`);
+        assert.notEqual(fillMatch![1], "none", `group chip must have an opaque background, got fill="${fillMatch![1]}"`);
+      }
+    });
+
+    test("a dashed 'az' group's label chip is opaque in the dark theme too", async () => {
+      const { svg, warnings } = await renderYaml(`
+version: '1'
+theme: midnight-dark
+direction: right
+nodes:
+  - id: a
+    label: "Service A"
+    group: g1
+  - id: b
+    label: "Service B"
+    group: g2
+groups:
+  - id: g1
+    label: "AZ One"
+    style: az
+  - id: g2
+    label: "AZ Two"
+    style: az
+edges:
+  - from: a
+    to: b
+`);
+      assert.deepEqual(warnings, []);
+      const chipMatches = svg.match(/<rect[^>]*height="26"[^>]*rx="13"[^>]*\/>/g) ?? [];
+      assert.ok(chipMatches.length >= 2, `expected at least 2 group chips, got ${chipMatches.length}`);
+      for (const chip of chipMatches) {
+        const fillMatch = chip.match(/fill="([^"]*)"/);
+        assert.ok(fillMatch, `chip should have a fill attribute: ${chip}`);
+        assert.notEqual(fillMatch![1], "none", `group chip must have an opaque background, got fill="${fillMatch![1]}"`);
+      }
+    });
+  });
 });

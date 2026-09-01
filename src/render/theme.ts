@@ -89,8 +89,8 @@ export const THEMES: Record<ThemeName, Theme> = {
     groupStyles: {
       vpc: { fill: "#faf5ff", stroke: "#a855f7", labelColor: "#7e22ce", labelBg: "none" },
       subnet: { fill: "#eff6ff", stroke: "#3b82f6", labelColor: "#1d4ed8", labelBg: "none" },
-      az: { fill: "#ecfdf5", stroke: "#10b981", labelColor: "#047857", labelBg: "none", dash: "6 5" },
-      boundary: { fill: "#f8fafc", stroke: "#94a3b8", labelColor: "#334155", labelBg: "none", dash: "4 4" },
+      az: { fill: "#ecfdf5", stroke: "#10b981", labelColor: "#047857", labelBg: "#ecfdf5", dash: "6 5" },
+      boundary: { fill: "#f8fafc", stroke: "#94a3b8", labelColor: "#334155", labelBg: "#f8fafc", dash: "4 4" },
       generic: { fill: "#f8fafc", stroke: "#cbd5e1", labelColor: "#334155", labelBg: "none" },
     },
     c4: {
@@ -118,8 +118,8 @@ export const THEMES: Record<ThemeName, Theme> = {
     groupStyles: {
       vpc: { fill: "#2e1065", stroke: "#a855f7", labelColor: "#e9d5ff", labelBg: "none" },
       subnet: { fill: "#0c2a4d", stroke: "#3b82f6", labelColor: "#bfdbfe", labelBg: "none" },
-      az: { fill: "#052e28", stroke: "#10b981", labelColor: "#a7f3d0", labelBg: "none", dash: "6 5" },
-      boundary: { fill: "#1e293b", stroke: "#64748b", labelColor: "#e2e8f0", labelBg: "none", dash: "4 4" },
+      az: { fill: "#052e28", stroke: "#10b981", labelColor: "#a7f3d0", labelBg: "#052e28", dash: "6 5" },
+      boundary: { fill: "#1e293b", stroke: "#64748b", labelColor: "#e2e8f0", labelBg: "#1e293b", dash: "4 4" },
       generic: { fill: "#1e293b", stroke: "#475569", labelColor: "#e2e8f0", labelBg: "none" },
     },
     c4: {
