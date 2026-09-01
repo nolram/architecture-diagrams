@@ -20,6 +20,9 @@ That is the main reason the items below are now realistic.
   class engine. Implemented in v0.11. Spec: `architecture-diagrams/reference/uml-sequence-spec.md`.
 - ✅ **ER (entity-relationship)** -- sibling of the class diagram; reuses boxes with
   attributes + relationships. Implemented in v0.13. Spec: `architecture-diagrams/reference/er-spec.md`.
+- ✅ **Timeline / roadmap** -- phased execution plans with gates and phases;
+  reuses the multi-engine foundation. Implemented in v0.14. Spec:
+  `architecture-diagrams/reference/timeline-spec.md`.
 - 💡 **UML state / activity / use case** -- already in the ROADMAP backlog.
 
 ### ER: known gaps (from stress-test `examples/er/stress/`)

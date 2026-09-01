@@ -9,15 +9,16 @@ A custom renderer (ELK.js for layout + real icons via `thesvg`/Iconify + hand-dr
 
 ## Diagram families
 
-Five families share the same renderer, selected by the spec's `type` field:
+Six families share the same renderer, selected by the spec's `type` field:
 
 - **Architecture** (default -- omit `type` or set `type: architecture`): components, boundaries, connections. Rules in `reference/spec-guide.md`.
 - **UML class** (`type: uml-class`): classes with attributes/methods plus the six UML relationship kinds (association, aggregation, composition, inheritance, dependency, realization). Rules in `reference/uml-class-spec.md`, runnable example in `reference/uml-class.example.yaml`.
 - **UML sequence** (`type: uml-sequence`): participants (objects or actors), synchronous/asynchronous/reply/self messages, activation bars, and alt/loop/opt/par fragments over message ranges. Rules in `reference/uml-sequence-spec.md`, runnable example in `reference/uml-sequence.example.yaml`.
 - **C4** (`type: c4`): System Context / Container / Component diagrams -- people, systems, external systems, containers, and components with directed relationships. Rules in `reference/c4-spec.md`, runnable example in `reference/c4.example.yaml`.
 - **ER** (`type: er`): entities with attributes (PK/FK badges), weak entities (double border), and crow's-foot relationships (one / zero-or-one / many / zero-or-many); `identifying: true` renders a solid line and is required for at least one relationship touching each weak entity. Rules in `reference/er-spec.md`, runnable example in `reference/er.example.yaml`.
+- **Timeline** (`type: timeline`): phased execution plans and roadmaps -- phases (gates and regular phases) with bullet items, laid out in a line with flow arrows and optional dependency labels; gates render as diamonds, phases as rounded cards. Rules in `reference/timeline-spec.md`, runnable example in `reference/timeline.example.yaml`.
 
-The workflow below is the same for all five families.
+The workflow below is the same for all six families.
 
 ### C4
 
