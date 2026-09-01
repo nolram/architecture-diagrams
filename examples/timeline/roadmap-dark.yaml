@@ -1,0 +1,38 @@
+type: timeline
+version: '1'
+title: Platform Execution Plan (Dark)
+theme: midnight-dark
+direction: right
+phases:
+  - id: gate0
+    label: "Gate 0 — Security"
+    kind: gate
+    items:
+      - "Remove hardcoded secrets"
+      - "Migrate to vault + rotation"
+  - id: wave1
+    label: "Wave 1 — MVP"
+    kind: phase
+    items:
+      - "Neutral integration port"
+      - "Primary provider adapter"
+  - id: wave2
+    label: "Wave 2 — Scale"
+    kind: phase
+    items:
+      - "Multi-provider support"
+      - "Rate limiting + quotas"
+  - id: wave3
+    label: "Wave 3 — Platform"
+    kind: phase
+    items:
+      - "Plugin system"
+      - "SSO / SAML"
+relationships:
+  - from: gate0
+    to: wave1
+    label: "unlocks"
+  - from: wave1
+    to: wave2
+  - from: wave2
+    to: wave3
