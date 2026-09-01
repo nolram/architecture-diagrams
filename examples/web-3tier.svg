@@ -8,12 +8,14 @@
 <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">3-Tier Web Architecture</text>
 <g transform="translate(32, 88)">
 <g>
-  <rect x="893" y="24" width="607.4" height="380" rx="18" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+  <rect x="893" y="24" width="607.4" height="380" rx="18" fill="#faf5ff"/>
+  <path d="M959.4,24 L1482.4,24 M1482.4,24 A18,18 0 0 1 1500.4,42 L1500.4,386 A18,18 0 0 1 1482.4,404 L911,404 A18,18 0 0 1 893,386 L893,42 A18,18 0 0 1 911,24" fill="none" stroke="#a855f7" stroke-width="2"/>
   <rect x="909" y="11" width="47.4" height="26" rx="13" fill="none" stroke="#a855f7" stroke-width="1"/>
   <text x="932.7" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#7e22ce">VPC</text>
 </g>
 <g>
-  <rect x="1224.2" y="76" width="248.2" height="300" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="1224.2" y="76" width="248.2" height="300" rx="18" fill="#eff6ff"/>
+  <path d="M1376.4,76 L1454.4,76 M1454.4,76 A18,18 0 0 1 1472.4,94 L1472.4,358 A18,18 0 0 1 1454.4,376 L1242.2,376 A18,18 0 0 1 1224.2,358 L1224.2,94 A18,18 0 0 1 1242.2,76" fill="none" stroke="#3b82f6" stroke-width="2"/>
   <rect x="1240.2" y="63" width="133.2" height="26" rx="13" fill="none" stroke="#3b82f6" stroke-width="1"/>
   <text x="1306.8" y="80" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#1d4ed8">PRIVATE SUBNET</text>
 </g>

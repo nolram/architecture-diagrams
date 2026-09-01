@@ -8,7 +8,8 @@
 <text x="32" y="58" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="24" font-weight="700" fill="#0f172a">Microservices with Event Queue</text>
 <g transform="translate(32, 88)">
 <g>
-  <rect x="755.3" y="24" width="328.70000000000005" height="398" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="755.3" y="24" width="328.70000000000005" height="398" rx="18" fill="#f8fafc"/>
+  <path d="M860.6999999999999,24 L1066,24 M1066,24 A18,18 0 0 1 1084,42 L1084,404 A18,18 0 0 1 1066,422 L773.3,422 A18,18 0 0 1 755.3,404 L755.3,42 A18,18 0 0 1 773.3,24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="771.3" y="11" width="86.4" height="26" rx="13" fill="none" stroke="#94a3b8" stroke-width="1"/>
   <text x="814.5" y="28" font-family='"Segoe UI", "Helvetica Neue", Arial, sans-serif' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="#334155">SERVICES</text>
 </g>

@@ -6,6 +6,9 @@ import { escapeXml, truncateToWidth } from "./svg-utils.js";
 
 const GROUP_RADIUS = 18;
 const CHIP_HEIGHT = 26;
+const BORDER_WIDTH = 2;
+/** clearance on each side of the chip so the border gap never touches the chip's own outline */
+const GAP_PAD = 3;
 
 export function renderGroupBox(group: DiagramGroup, box: AbsoluteBox, theme: Theme): string {
   const style = theme.groupStyles[group.style];
@@ -22,8 +25,37 @@ export function renderGroupBox(group: DiagramGroup, box: AbsoluteBox, theme: The
   const chipX = box.x + GROUP_CHIP_MARGIN;
   const chipY = box.y - CHIP_HEIGHT / 2;
 
+  // The chip sits centred on the box's top border, so a continuous outline would
+  // run straight through the label (a strike-through). Instead we split the
+  // outline into a fill rect (no stroke) plus a border path that leaves a gap
+  // where the chip sits. The chip stays transparent, so whatever is behind it --
+  // the box's own fill, or a parent group's fill when nested -- shows through.
+  const r = GROUP_RADIUS;
+  const x = box.x;
+  const y = box.y;
+  const w = box.width;
+  const h = box.height;
+  const topEdgeStart = x + r;
+  const topEdgeEnd = x + w - r;
+  const gapStart = Math.max(chipX - GAP_PAD, topEdgeStart);
+  const gapEnd = Math.min(chipX + chipWidth + GAP_PAD, topEdgeEnd);
+
+  const leftTop = gapStart > topEdgeStart ? `M${topEdgeStart},${y} L${gapStart},${y} ` : "";
+  const rightTop = gapEnd < topEdgeEnd ? `M${gapEnd},${y} L${topEdgeEnd},${y} ` : "";
+  const borderPath =
+    `${leftTop}${rightTop}` +
+    `M${x + w - r},${y} ` +
+    `A${r},${r} 0 0 1 ${x + w},${y + r} ` +
+    `L${x + w},${y + h - r} ` +
+    `A${r},${r} 0 0 1 ${x + w - r},${y + h} ` +
+    `L${x + r},${y + h} ` +
+    `A${r},${r} 0 0 1 ${x},${y + h - r} ` +
+    `L${x},${y + r} ` +
+    `A${r},${r} 0 0 1 ${x + r},${y}`;
+
   return `<g>
-  <rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="${GROUP_RADIUS}" fill="${style.fill}" stroke="${style.stroke}" stroke-width="2"${dash}/>
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${style.fill}"/>
+  <path d="${borderPath}" fill="none" stroke="${style.stroke}" stroke-width="${BORDER_WIDTH}"${dash}/>
   <rect x="${chipX}" y="${chipY}" width="${chipWidth}" height="${CHIP_HEIGHT}" rx="${CHIP_HEIGHT / 2}" fill="${style.labelBg}" stroke="${style.stroke}" stroke-width="1"/>
   <text x="${chipX + chipWidth / 2}" y="${chipY + CHIP_HEIGHT / 2 + 4}" font-family='${theme.fontFamily}' font-size="12" font-weight="700" letter-spacing="0.3" text-anchor="middle" fill="${style.labelColor}">${escapeXml(label)}</text>
 </g>`;

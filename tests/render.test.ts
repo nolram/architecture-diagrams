@@ -151,7 +151,15 @@ edges: []
   });
 
   describe("group label pill", () => {
-    test("a dashed group's label chip has an opaque background (covers the dashed border)", async () => {
+    // The chip rect is the only rect with height="26" rx="13"; the group's fill
+    // rect uses rx="18" and the border is a <path>, so this uniquely identifies chips.
+    const chipRects = (svg: string) => svg.match(/<rect[^>]*height="26"[^>]*rx="13"[^>]*\/>/g) ?? [];
+    // Group border paths are the only stroke paths with arc (A) commands for the
+    // rounded corners; edges are pure M/L polylines. Filter by stroke colour + arc.
+    const borderPaths = (svg: string, stroke: string) =>
+      (svg.match(new RegExp(`<path d="[^"]*" fill="none" stroke="${stroke}"[^>]*/>`, "g")) ?? []).filter((p) => / A[\d.]+,/.test(p));
+
+    test("a dashed group's label chip stays transparent and the border is broken behind it", async () => {
       const { svg, warnings } = await renderYaml(`
 version: '1'
 title: "Bug repro: style: boundary label overlaps dashed border"
@@ -176,20 +184,33 @@ edges:
     to: b
 `);
       assert.deepEqual(warnings, []);
-      // The group chip rect is the only rect with height="26" rx="13".
-      const chipMatches = svg.match(/<rect[^>]*height="26"[^>]*rx="13"[^>]*\/>/g) ?? [];
-      assert.ok(chipMatches.length >= 2, `expected at least 2 group chips, got ${chipMatches.length}`);
-      for (const chip of chipMatches) {
+
+      // (F2) the chip must stay transparent so it never paints a foreign colour
+      // over a parent group's interior when nested.
+      const chips = chipRects(svg);
+      assert.ok(chips.length >= 2, `expected at least 2 group chips, got ${chips.length}`);
+      for (const chip of chips) {
         const fillMatch = chip.match(/fill="([^"]*)"/);
         assert.ok(fillMatch, `chip should have a fill attribute: ${chip}`);
-        assert.notEqual(fillMatch![1], "none", `group chip must have an opaque background, got fill="${fillMatch![1]}"`);
+        assert.equal(fillMatch![1], "none", `group chip must stay transparent, got fill="${fillMatch![1]}"`);
+      }
+
+      // (F1) the border must be broken where the chip sits, so no line runs
+      // through the label. The gapped border is a <path> whose top edge is split
+      // into two segments, i.e. it has more than one subpath-start (M command).
+      const borders = borderPaths(svg, "#94a3b8");
+      assert.ok(borders.length >= 2, `expected at least 2 group border paths, got ${borders.length}`);
+      for (const border of borders) {
+        const d = border.match(/d="([^"]*)"/)![1];
+        const subpaths = d.match(/M[\d.]+,[\d.]+ /g) ?? [];
+        assert.ok(subpaths.length >= 2, `top edge should be split into two segments around the chip gap, got: ${d}`);
       }
     });
 
-    test("a dashed 'az' group's label chip is opaque in the dark theme too", async () => {
+    test("a solid group's label chip is also not crossed by its border", async () => {
       const { svg, warnings } = await renderYaml(`
 version: '1'
-theme: midnight-dark
+theme: clean-light
 direction: right
 nodes:
   - id: a
@@ -200,22 +221,69 @@ nodes:
     group: g2
 groups:
   - id: g1
-    label: "AZ One"
-    style: az
+    label: "VPC One"
+    style: vpc
   - id: g2
-    label: "AZ Two"
-    style: az
+    label: "VPC Two"
+    style: vpc
 edges:
   - from: a
     to: b
 `);
       assert.deepEqual(warnings, []);
-      const chipMatches = svg.match(/<rect[^>]*height="26"[^>]*rx="13"[^>]*\/>/g) ?? [];
-      assert.ok(chipMatches.length >= 2, `expected at least 2 group chips, got ${chipMatches.length}`);
-      for (const chip of chipMatches) {
+
+      const chips = chipRects(svg);
+      assert.ok(chips.length >= 2, `expected at least 2 group chips, got ${chips.length}`);
+      for (const chip of chips) {
         const fillMatch = chip.match(/fill="([^"]*)"/);
-        assert.ok(fillMatch, `chip should have a fill attribute: ${chip}`);
-        assert.notEqual(fillMatch![1], "none", `group chip must have an opaque background, got fill="${fillMatch![1]}"`);
+        assert.equal(fillMatch?.[1], "none", `group chip must stay transparent, got fill="${fillMatch?.[1]}"`);
+      }
+
+      // vpc border is solid (#a855f7) and must still be broken behind the chip.
+      const borders = borderPaths(svg, "#a855f7");
+      assert.ok(borders.length >= 2, `expected at least 2 group border paths, got ${borders.length}`);
+      for (const border of borders) {
+        const d = border.match(/d="([^"]*)"/)![1];
+        const subpaths = d.match(/M[\d.]+,[\d.]+ /g) ?? [];
+        assert.ok(subpaths.length >= 2, `top edge should be split into two segments around the chip gap, got: ${d}`);
+      }
+    });
+
+    test("a nested group's chip stays transparent (no colour notch over the parent)", async () => {
+      const { svg, warnings } = await renderYaml(`
+version: '1'
+theme: clean-light
+direction: right
+nodes:
+  - id: a
+    label: "Service A"
+    group: az1
+  - id: b
+    label: "Service B"
+    group: az2
+groups:
+  - id: vpc1
+    label: "VPC"
+    style: vpc
+  - id: az1
+    label: "AZ One"
+    style: az
+    parent: vpc1
+  - id: az2
+    label: "AZ Two"
+    style: az
+    parent: vpc1
+edges: []
+`);
+      assert.deepEqual(warnings, []);
+
+      // The az chips sit on the VPC's lavender interior; they must stay
+      // transparent so the parent fill shows through (no green notch).
+      const chips = chipRects(svg);
+      assert.ok(chips.length >= 3, `expected at least 3 group chips (vpc + 2 az), got ${chips.length}`);
+      for (const chip of chips) {
+        const fillMatch = chip.match(/fill="([^"]*)"/);
+        assert.equal(fillMatch?.[1], "none", `group chip must stay transparent, got fill="${fillMatch?.[1]}"`);
       }
     });
   });
