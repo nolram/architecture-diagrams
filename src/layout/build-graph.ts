@@ -97,7 +97,7 @@ export function buildElkGraph(spec: DiagramSpec): BuiltGraph {
       : spec.nodes.filter((n) => !n.group).map((n) => n.id);
     for (const nodeId of nodeIds) {
       const node = nodesById.get(nodeId)!;
-      const size = estimateNodeSize(node);
+      const size = estimateNodeSize(node, spec.wrap.maxLines);
       children.push({ id: node.id, width: size.width, height: size.height });
     }
 

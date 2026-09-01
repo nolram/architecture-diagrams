@@ -9,6 +9,8 @@ version: '1'                 # required, always the string '1'
 title: Diagram title         # optional
 theme: clean-light           # optional: clean-light (default) | midnight-dark
 direction: auto               # optional: auto (default) | right (left→right) | down (top→bottom)
+wrap:                      # optional, see "wrap" below
+  maxLines: 6               #   optional: 1..16 (default 6) -- max wrapped sublabel lines before folding
 nodes: [ ... ]                # required, at least 1
 groups: [ ... ]                # optional
 edges: [ ... ]                # optional
@@ -52,6 +54,22 @@ Rules:
 - Only `.svg`, resolved relative to the directory where the `.yaml` spec is saved (not the directory the command is run from).
 - The file is validated before being embedded: it must be under 200KB, contain a valid `<svg>...</svg>` tag, and **must not** contain `<script>`, event handlers (`on*=`), `javascript:`, `<foreignObject>`, or `<iframe>`/`<embed>`/`<object>`. If any of these appear, the entire file is rejected (no partial sanitization attempted) and the node falls back to the fallback badge -- same as a catalog key that isn't found, with the specific reason in the warning.
 - The original `viewBox` is preserved; the color is not altered (unlike `generic:*` icons, which inherit the category's color).
+
+## `wrap`
+
+A node's `sublabel` wraps onto as many lines as it needs (growing the card's height) instead of being cut off with an ellipsis -- the same behavior the C4 family gives its descriptions. The card's width is still capped, so a very long sublabel wraps rather than widening the card.
+
+`wrap` only caps how many lines that wrapping may use:
+
+```yaml
+wrap:
+  maxLines: 6     # optional: 1..16 (default 6)
+```
+
+- Text is wrapped on word boundaries to the card's text width. `maxLines` is the maximum number of lines; anything beyond it is folded into the last line with a trailing ellipsis.
+- The label (the main text) always stays on a single line -- only the sublabel wraps.
+- `maxLines: 1` reproduces the old single-line, truncated behavior.
+- The layout reserves space for the wrapped lines, so cards grow taller to fit them.
 
 ## `groups`
 

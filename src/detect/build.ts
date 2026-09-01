@@ -1,4 +1,5 @@
 import type { DiagramSpec, DiagramNode, DiagramGroup, DiagramEdge } from "../spec/schema.js";
+import { DEFAULT_WRAP_MAX_LINES } from "../util/text.js";
 import type { IconCategory } from "../icons/catalog.js";
 import type { NodeShape } from "./types.js";
 import type { ComposeInfo, K8sInfo, K8sManifest, DockerfileInfo, CIInfo } from "./manifests.js";
@@ -310,6 +311,7 @@ export function buildSpec(input: BuildInput): DiagramSpec {
     title: "Detected architecture",
     theme: "clean-light",
     direction: "auto",
+    wrap: { maxLines: DEFAULT_WRAP_MAX_LINES },
     nodes,
     groups,
     edges,

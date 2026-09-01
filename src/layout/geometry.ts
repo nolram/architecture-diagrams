@@ -1,4 +1,5 @@
 import type { DiagramNode } from "../spec/schema.js";
+import { wrapText, DEFAULT_WRAP_MAX_LINES } from "../util/text.js";
 
 export const GROUP_PADDING = { top: 52, left: 28, bottom: 28, right: 28 };
 const MIN_NODE_WIDTH = 190;
@@ -6,6 +7,12 @@ const MAX_NODE_WIDTH = 320;
 const BASE_WIDTH = 96;
 const NODE_HEIGHT_SIMPLE = 78;
 const NODE_HEIGHT_WITH_SUBLABEL = 100;
+/** vertical spacing between wrapped sublabel lines */
+export const NODE_SUBLABEL_LINE_HEIGHT = 18;
+/** icon badge geometry (shared by layout and render so the two always agree) */
+export const NODE_BADGE_SIZE = 40;
+export const NODE_BADGE_MARGIN = 14;
+export const NODE_ICON_TEXT_GAP = 12;
 /** extra height reserved for the database shape's elliptical "caps" (top + bottom) */
 const CYLINDER_CAP_EXTRA = 24;
 
@@ -38,13 +45,16 @@ export interface NodeSize {
   height: number;
 }
 
-export function estimateNodeSize(node: DiagramNode): NodeSize {
+export function estimateNodeSize(node: DiagramNode, maxLines = DEFAULT_WRAP_MAX_LINES): NodeSize {
   if (node.shape === "actor") {
     const width = Math.min(
       ACTOR_MAX_WIDTH,
       Math.max(ACTOR_MIN_WIDTH, ACTOR_BASE_WIDTH + node.label.length * ACTOR_LABEL_CHAR_WIDTH),
     );
-    const height = node.sublabel ? ACTOR_HEIGHT_WITH_SUBLABEL : ACTOR_HEIGHT_SIMPLE;
+    const actorTextMaxWidth = width;
+    const sublabelLines = node.sublabel ? wrapText(node.sublabel, actorTextMaxWidth, ACTOR_SUBLABEL_CHAR_WIDTH, maxLines).length : 0;
+    const baseHeight = node.sublabel ? ACTOR_HEIGHT_WITH_SUBLABEL : ACTOR_HEIGHT_SIMPLE;
+    const height = baseHeight + (sublabelLines > 1 ? (sublabelLines - 1) * NODE_SUBLABEL_LINE_HEIGHT : 0);
     return { width, height };
   }
 
@@ -55,8 +65,10 @@ export function estimateNodeSize(node: DiagramNode): NodeSize {
   const labelWidth = node.label.length * NODE_LABEL_CHAR_WIDTH;
   const sublabelWidth = (node.sublabel?.length ?? 0) * NODE_SUBLABEL_CHAR_WIDTH;
   const width = Math.min(MAX_NODE_WIDTH, Math.max(MIN_NODE_WIDTH, BASE_WIDTH + Math.max(labelWidth, sublabelWidth)));
+  const textMaxWidth = width - (NODE_BADGE_MARGIN + NODE_BADGE_SIZE + NODE_ICON_TEXT_GAP) - NODE_BADGE_MARGIN;
+  const sublabelLines = node.sublabel ? wrapText(node.sublabel, textMaxWidth, NODE_SUBLABEL_CHAR_WIDTH, maxLines).length : 0;
   const baseHeight = node.sublabel ? NODE_HEIGHT_WITH_SUBLABEL : NODE_HEIGHT_SIMPLE;
-  const height = node.shape === "database" ? baseHeight + CYLINDER_CAP_EXTRA : baseHeight;
+  const height = (node.shape === "database" ? baseHeight + CYLINDER_CAP_EXTRA : baseHeight) + (sublabelLines > 1 ? (sublabelLines - 1) * NODE_SUBLABEL_LINE_HEIGHT : 0);
   return { width, height };
 }
 

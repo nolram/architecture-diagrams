@@ -1,4 +1,5 @@
 import type { DiagramSpec, DiagramNode, DiagramGroup, DiagramEdge } from "../spec/schema.js";
+import { DEFAULT_WRAP_MAX_LINES } from "../util/text.js";
 import { parseMermaid, MermaidError } from "./parser.js";
 import type { MermaidModel, MermaidShape } from "./parser.js";
 
@@ -110,6 +111,7 @@ export function convertModel(model: MermaidModel): ImportMermaidResult {
       title: "Imported from Mermaid",
       theme: "clean-light",
       direction,
+      wrap: { maxLines: DEFAULT_WRAP_MAX_LINES },
       nodes,
       groups,
       edges,

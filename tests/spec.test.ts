@@ -24,6 +24,28 @@ describe("spec validation", () => {
     assert.deepEqual(result.spec.edges, []);
   });
 
+  test("wrap.maxLines defaults to 6 and accepts the 1..16 integer range", () => {
+    const def = validateSpec({ version: "1", nodes: [{ id: "a", label: "A" }] });
+    assert.equal(def.ok, true);
+    if (!def.ok) return;
+    assert.equal(def.spec.wrap.maxLines, 6);
+
+    const low = validateSpec({ version: "1", nodes: [{ id: "a", label: "A" }], wrap: { maxLines: 1 } });
+    assert.equal(low.ok, true);
+
+    const high = validateSpec({ version: "1", nodes: [{ id: "a", label: "A" }], wrap: { maxLines: 16 } });
+    assert.equal(high.ok, true);
+
+    const tooLow = validateSpec({ version: "1", nodes: [{ id: "a", label: "A" }], wrap: { maxLines: 0 } });
+    assert.equal(tooLow.ok, false);
+
+    const tooHigh = validateSpec({ version: "1", nodes: [{ id: "a", label: "A" }], wrap: { maxLines: 17 } });
+    assert.equal(tooHigh.ok, false);
+
+    const notInteger = validateSpec({ version: "1", nodes: [{ id: "a", label: "A" }], wrap: { maxLines: 2.5 } });
+    assert.equal(notInteger.ok, false);
+  });
+
   test("icon field accepts a catalog key and 'file:<path>.svg'", () => {
     const catalogKey = validateSpec({ version: "1", nodes: [{ id: "a", label: "A", icon: "aws:lambda" }] });
     assert.equal(catalogKey.ok, true);

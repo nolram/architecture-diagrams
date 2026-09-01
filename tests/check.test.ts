@@ -15,6 +15,7 @@ function makeSpec(nodes: DiagramNode[]): DiagramSpec {
     version: "1",
     theme: "clean-light",
     direction: "auto",
+    wrap: { maxLines: 6 },
     nodes,
     groups: [],
     edges: [],
