@@ -4,6 +4,7 @@ import { umlClassEngine } from "./uml-class/index.js";
 import { umlSequenceEngine } from "./uml-sequence/index.js";
 import { c4Engine } from "./c4/index.js";
 import { erEngine } from "./er/index.js";
+import { timelineEngine } from "./timeline/index.js";
 
 const engines: Record<string, DiagramEngine> = {
   architecture: architectureEngine,
@@ -11,6 +12,7 @@ const engines: Record<string, DiagramEngine> = {
   "uml-sequence": umlSequenceEngine,
   c4: c4Engine,
   er: erEngine,
+  timeline: timelineEngine,
 };
 
 export function getEngine(type: string): DiagramEngine | undefined {
@@ -28,5 +30,6 @@ export function engineDescriptions(): Record<string, string> {
     "uml-sequence": "UML sequence diagrams -- participants (objects or actors), synchronous/asynchronous/reply/self messages, activation bars, and alt/loop/opt/par fragments.",
     c4: "System Context / Container / Component diagrams -- people, systems, external systems, containers, and components.",
     er: "Entity-relationship diagrams -- entities with attributes (PK/FK), weak entities, and crow's-foot relationships (one / zero-or-one / many / zero-or-many).",
+    timeline: "Phased execution plans and roadmaps -- phases (gates and regular phases) with bullet items, laid out in a line with flow arrows and optional dependency labels.",
   };
 }

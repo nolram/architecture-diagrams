@@ -1,0 +1,42 @@
+type: timeline
+version: '1'
+title: Platform Execution Plan
+theme: clean-light
+direction: right
+phases:
+  - id: gate0
+    label: "Gate 0 — Security"
+    kind: gate
+    items:
+      - "Remove hardcoded secrets"
+      - "Migrate to vault + rotation"
+      - "Enable audit logging"
+  - id: wave1
+    label: "Wave 1 — MVP"
+    kind: phase
+    items:
+      - "Neutral integration port"
+      - "Primary provider adapter"
+      - "Basic dashboard"
+  - id: wave2
+    label: "Wave 2 — Scale"
+    kind: phase
+    items:
+      - "Multi-provider support"
+      - "Rate limiting + quotas"
+      - "Usage analytics"
+  - id: wave3
+    label: "Wave 3 — Platform"
+    kind: phase
+    items:
+      - "Plugin system"
+      - "SSO / SAML"
+      - "Audit trail export"
+relationships:
+  - from: gate0
+    to: wave1
+    label: "unlocks"
+  - from: wave1
+    to: wave2
+  - from: wave2
+    to: wave3

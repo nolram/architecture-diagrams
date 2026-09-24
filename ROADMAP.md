@@ -344,6 +344,36 @@ reference example in `architecture-diagrams/reference/er.example.yaml`.
   escaping) were verified non-findings. Write-up: `docs/stress-er.md`; tracked in
   `IDEAS.md` ("ER: known gaps").
 
+## v0.14 -- Timeline diagrams
+
+Sixth diagram family on the v0.5 multi-engine foundation: `type: timeline` selects
+the timeline engine, which reuses the shared theme, SVG utils, and PNG/PDF export.
+Unlike the ELK-based engines (architecture, uml-class, c4, er) it uses a hand-rolled
+layout (phases in a line), similar to uml-sequence's custom grid. The format is
+specified in `architecture-diagrams/reference/timeline-spec.md` with a reference
+example in `architecture-diagrams/reference/timeline.example.yaml`.
+
+- [x] **Timeline engine** -- `type: timeline`; phases with `kind: gate` (diamond)
+  or `kind: phase` (rounded card), each carrying a `label` and optional `items`
+  (bullet list). Relationships between phases: consecutive pairs get solid flow
+  arrows, non-consecutive pairs get dashed arrows. Optional `label` on any
+  relationship renders as a pill. Validation: unique phase ids, no self-relationships,
+  endpoints must exist. Hand-rolled layout (phases in a line, `auto` resolves to
+  `right`); registered in the engine registry so CLI/MCP dispatch +
+  `list_diagram_types` pick it up automatically. Done: `src/engines/timeline/`
+  (schema/geometry/layout/render), registered in the engine registry.
+- [x] **Tests** -- 48 new tests: spec validation (defaults, duplicate ids,
+  self-relationships, nonexistent endpoints, invalid kind, both themes, all
+  directions), layout geometry (positions in both directions, sizing, edge routes,
+  non-negative coordinates), and render (phase cards, gate diamonds, bullet items,
+  flow arrows, relationship labels, dashed non-consecutive arrows, XML escaping,
+  both themes).
+- [x] **Examples** -- runnable examples in `examples/timeline/` (roadmap light +
+  dark theme) plus the reference example
+  `architecture-diagrams/reference/timeline.example.yaml`.
+- [x] **Docs** -- `architecture-diagrams/reference/timeline-spec.md` +
+  `timeline.example.yaml`; README, SKILL.md updated with the timeline family.
+
 ## Backlog (larger scope -- re-evaluate after the phases above)
 - [ ] **Export to draw.io/Excalidraw** -- manually editable output (the approach used by competing tools like diagrams.so). Entirely new output format, larger scope than the items above.
 - [ ] **SVG accessibility** -- `<title>`/`<desc>` for screen readers on each node/edge, and color-contrast checking across themes.
