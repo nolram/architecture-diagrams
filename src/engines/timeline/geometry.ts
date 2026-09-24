@@ -23,6 +23,8 @@ export const TIMELINE_MIN_WIDTH = 140;
 export const TIMELINE_BULLET_EXTRA = 16;
 
 export const GATE_DIAMOND_HEIGHT = 56;
+// Usable fraction of the diamond width at the label's vertical extent (the diamond tapers).
+export const GATE_LABEL_TAPER = 0.7;
 
 export interface TimelinePhaseSize {
   width: number;
@@ -42,7 +44,7 @@ export function gateLabelCompartmentHeight(): number {
 }
 
 export function estimatePhaseSize(phase: TimelinePhase): TimelinePhaseSize {
-  const labelW = phase.label.length * TIMELINE_LABEL_CHAR_WIDTH;
+  const labelW = phase.label.length * TIMELINE_LABEL_CHAR_WIDTH * (phase.kind === "gate" ? 1 / GATE_LABEL_TAPER : 1);
   let maxItemW = 0;
   for (const item of phase.items ?? []) {
     maxItemW = Math.max(maxItemW, item.length * TIMELINE_ITEM_CHAR_WIDTH);

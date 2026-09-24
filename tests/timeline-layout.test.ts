@@ -1,6 +1,6 @@
 import { describe, test } from "node:test";
 import assert from "node:assert/strict";
-import { validateTimelineSpec, layoutTimeline, estimatePhaseSize } from "../src/engines/timeline/index.js";
+import { validateTimelineSpec, layoutTimeline, estimatePhaseSize, GATE_LABEL_TAPER, TIMELINE_LABEL_CHAR_WIDTH, TIMELINE_BOX_PAD_X, TIMELINE_MIN_WIDTH } from "../src/engines/timeline/index.js";
 import type { TimelineSpec } from "../src/engines/timeline/index.js";
 
 function specOrThrow(raw: unknown): TimelineSpec {
@@ -291,5 +291,14 @@ describe("timeline layout", () => {
     const gate = estimatePhaseSize({ id: "g", label: "Gate", kind: "gate", items: [] });
     const phase = estimatePhaseSize({ id: "p", label: "Gate", kind: "phase", items: [] });
     assert.ok(gate.height > phase.height, `gate height ${gate.height} should exceed phase height ${phase.height}`);
+  });
+
+  test("a gate's long label is widened for the diamond taper (label fits at its vertical extent)", () => {
+    const label = "MMMMMMMMMMMMMMMMMMMM"; // 20 chars
+    const gate = estimatePhaseSize({ id: "g", label, kind: "gate", items: [] });
+    const required = (20 * TIMELINE_LABEL_CHAR_WIDTH) / GATE_LABEL_TAPER + 2 * TIMELINE_BOX_PAD_X;
+    assert.ok(gate.width >= required, `gate width ${gate.width} should be >= ${required}`);
+    const phase = estimatePhaseSize({ id: "p", label, kind: "phase", items: [] });
+    assert.equal(phase.width, Math.max(TIMELINE_MIN_WIDTH, 20 * TIMELINE_LABEL_CHAR_WIDTH + 2 * TIMELINE_BOX_PAD_X));
   });
 });

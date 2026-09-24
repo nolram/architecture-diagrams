@@ -59,6 +59,11 @@ positions in the `phases` list, not on a field:
   phase) renders as a **dashed arrow** routed above/beside the line -- a dependency
   or "unlocks" link that jumps across the timeline.
 
+For a **consecutive** pair the relationship is direction-agnostic: the solid flow
+arrow always follows the `phases` list order, so `from`/`to` only contribute the
+label. `from` → `to` sets the arrow direction only for **non-consecutive** (dashed)
+relationships.
+
 ```yaml
 relationships:
   - from: gate0             # required, id of an existing phase
