@@ -113,7 +113,7 @@ export function buildTimelineLayout(spec: TimelineSpec): LayoutResult {
     return { width, height, direction, nodes, groups: new Map(), edges };
   }
 
-  const anchors = spec.phases.map((p, i) => (p.kind === "gate" ? GATE_DIAMOND_HEIGHT / 2 : sizes[i].width / 2));
+  const anchors = sizes.map((s) => s.width / 2);
   const maxAnchor = Math.max(...anchors);
 
   const nonConsec = nonConsecutiveRelationships(spec);

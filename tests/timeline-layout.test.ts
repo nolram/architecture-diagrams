@@ -236,6 +236,23 @@ describe("timeline layout", () => {
     assert.ok(flowY < gate.y + 56, "flow line should be inside the diamond, not the items panel below it");
   });
 
+  test("flow line passes through the gate diamond center (direction: down)", async () => {
+    const spec = specOrThrow({
+      type: "timeline",
+      version: "1",
+      direction: "down",
+      phases: [
+        { id: "gate0", label: "Gate 0 — Security", kind: "gate", items: ["a", "b"] },
+        { id: "wave1", label: "Wave 1 — MVP", kind: "phase", items: ["x"] },
+      ],
+    });
+    const layout = await layoutTimeline(spec);
+    const gate = layout.nodes.get("gate0")!;
+    const flow = layout.edges.get("flow_0")!;
+    const flowX = flow.points[0].x;
+    assert.ok(Math.abs(flowX - (gate.x + gate.width / 2)) < 0.01, `flow line x=${flowX} should equal the gate center x=${gate.x + gate.width / 2}`);
+  });
+
   test("down-direction dependency labels are not clipped off the left edge", async () => {
     const spec = specOrThrow({
       type: "timeline",
